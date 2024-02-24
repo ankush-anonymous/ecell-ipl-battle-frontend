@@ -137,6 +137,7 @@ const ParticipantDashboard = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "10px",
+              backgroundColor: "#070F2B",
             }}
           >
             <Grid
@@ -614,7 +615,7 @@ const ParticipantDashboard = () => {
             sx={{
               height: "100%",
               width: "90%", // Adjusted width to 90%
-              border: "1px solid white",
+              //   border: "1px solid white",
               margin: "auto", // Centered along x-axis
               display: "flex-col",
               justifyContent: "center",
@@ -647,6 +648,7 @@ const ParticipantDashboard = () => {
             <Box
               sx={{
                 border: "1px solid white",
+                backgroundColor: "#070F2B",
                 height: "300px",
                 width: "90%",
                 margin: "auto",
@@ -660,13 +662,406 @@ const ParticipantDashboard = () => {
                 gap: "20px",
               }}
             >
+              {/* Keeper  */}
               <Box
                 sx={{
-                  border: "1px solid white",
-                  height: "100px",
+                  //   border: "1px solid white",
+                  height: "100%",
                   width: "100px",
                 }}
-              ></Box>
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Keeper
+                  </Typography>
+                </Box>
+                <Box sx={{ marginBottom: "5px", marginBottom: "15px" }}>
+                  <img src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708760000/keeper-removebg-preview_zhx5jk.png" />
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
+              {/* Batsman  */}
+              <Box
+                sx={{
+                  //   border: "1px solid white",
+                  height: "100%",
+                  width: "100px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Batsman
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: "70px",
+                    width: "70px",
+                    margin: "auto",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <img src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png" />
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
+              {/* Bowler  */}
+              <Box
+                sx={{
+                  //   border: "1px solid white",
+                  height: "100%",
+                  width: "100px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Bowler
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: "70px",
+                    width: "70px",
+                    margin: "auto",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <img src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708636258/ball_wzyum5.png" />
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
+              {/* AllRounder  */}
+              <Box
+                sx={{
+                  //   border: "1px solid white",
+                  height: "100%",
+                  width: "100px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    All-Rounder
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: "70px",
+                    width: "70px",
+                    margin: "auto",
+                    // backgroundColor: "lightblue",
+                    // borderRadius: "20%",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <img src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708776917/allrounder-removebg-preview_sp9hhl.png" />
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
+              {/* FoeignPlayers */}
+              <Box
+                sx={{
+                  //   border: "1px solid white",
+                  height: "100%",
+                  width: "100px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Overseas
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: "70px",
+                    width: "70px",
+                    margin: "auto",
+                    // backgroundColor: "lightblue",
+                    // borderRadius: "20%",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <img src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png" />
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
+              {/* StarPlayers */}
+              <Box
+                sx={{
+                  //   border: "1px solid white",
+                  height: "100%",
+                  width: "100px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Star
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: "70px",
+                    width: "70px",
+                    margin: "auto",
+                    marginBottom: "15px",
+
+                    // backgroundColor: "lightblue",
+                    // borderRadius: "20%",
+                  }}
+                >
+                  <img
+                    src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
+                    alt="Star Icon"
+                  />{" "}
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
+              {/* Indian  */}
+              <Box
+                sx={{
+                  //   border: "1px solid white",
+                  height: "100%",
+                  width: "100px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "orange",
+                      fontFamily: "Protest Guerrilla",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Indian
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    height: "70px",
+                    width: "70px",
+                    margin: "auto",
+                    // backgroundColor: "lightblue",
+                    borderRadius: "50%",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Indian_flag.png"
+                    alt="Indian flag Icon"
+                  />{" "}
+                </Box>
+                <Box
+                  sx={{
+                    borderRadius: "50%",
+                    border: "1px solid red",
+                    height: "50px",
+                    width: "50px",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: "18px",
+                      color: "white",
+                    }}
+                  >
+                    2
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </section>

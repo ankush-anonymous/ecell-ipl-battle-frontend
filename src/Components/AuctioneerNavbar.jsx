@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 
-const ParticipantNavbar = () => {
+const AuctioneerNavbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [value, setValue] = useState(0);
   const location = useLocation(); // Get the current location from react-router-dom
@@ -29,6 +29,7 @@ const ParticipantNavbar = () => {
     { label: "rules", link: "/rules" },
 
     { label: "Login", link: "/login" },
+    { label: "Teams", link: "/teams" },
   ];
 
   const socialMediaLinks = [
@@ -50,7 +51,6 @@ const ParticipantNavbar = () => {
   const handleTabsChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <React.Fragment>
       {/* Container to center content vertically */}
@@ -219,4 +219,4 @@ const ParticipantNavbar = () => {
   );
 };
 
-export default ParticipantNavbar;
+export default AuctioneerNavbar;
