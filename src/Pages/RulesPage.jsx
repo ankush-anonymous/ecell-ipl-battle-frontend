@@ -1,5 +1,6 @@
 import ParticipantNavbar from "../Components/ParticipantNavbar";
 import ParticipantDashboard from "./ParticipantDashboard";
+import ParticipantFooter from "../Components/ParticipantFooter";
 
 const RulesPage = () => {
   return (
@@ -129,6 +130,8 @@ const RulesPage = () => {
           </ul>
         </div>
       </div>
+      <ParticipantFooter/>
+
     </>
   );
 };

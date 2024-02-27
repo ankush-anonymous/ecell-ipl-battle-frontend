@@ -1,4 +1,5 @@
 import React from 'react';
+import ParticipantFooter from "../Components/ParticipantFooter";
 import {
   Box,
   Table,
@@ -169,6 +170,7 @@ const ParticipantStatsPage = () => {
             </Table>
           </TableContainer>
         </Box>
+        <ParticipantFooter/>
       </ThemeProvider>
     );
   };
