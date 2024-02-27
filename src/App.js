@@ -8,6 +8,9 @@ import ParticipantStatsPage from "./Pages/ParticipantStatsPage";
 import ParticipantDashboard from "./Pages/ParticipantDashboard";
 import RulesPage from "./Pages/RulesPage";
 import AuctioneerTeamsPage from "./Pages/AuctioneerTeamsPage";
+import AuctionerSingleTeamPage from "./Pages/AuctionerSingleTeamPage";
+import AuctioneerBiddingPage from "./Pages/AuctioneerBiddingPage";
+import AuctioneerParticipantsPlayersPage from "./Pages/AuctioneerParticipantsPlayersPage";
 
 function App() {
   return (
@@ -18,9 +21,18 @@ function App() {
             path="/participant/dashboard"
             element={<ParticipantDashboard />}
           />
+          <Route path="/auctioneer/teams/" element={<AuctioneerTeamsPage />} />
           <Route
             path="/auctioneer/teams/stats"
-            element={<AuctioneerTeamsPage />}
+            element={<AuctionerSingleTeamPage />}
+          />
+          <Route
+            path="/auctioneer/bidding"
+            element={<AuctioneerBiddingPage />}
+          />
+          <Route
+            path="/auctioneer/participants/team"
+            element={<AuctioneerParticipantsPlayersPage />}
           />
 
           <Route path="/rules" element={<RulesPage />} />

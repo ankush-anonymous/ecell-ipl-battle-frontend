@@ -29,7 +29,7 @@ const AuctioneerNavbar = () => {
     { label: "rules", link: "/rules" },
 
     { label: "Login", link: "/login" },
-    { label: "Teams", link: "/teams" },
+    { label: "Teams", link: "/auctioneer/teams" },
   ];
 
   const socialMediaLinks = [
