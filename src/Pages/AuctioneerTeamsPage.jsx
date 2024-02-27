@@ -1,6 +1,9 @@
 import React from "react";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import { Box, Grid, TextField, Typography } from "@mui/material";
+import ParticipantDashboard from "./ParticipantDashboard";
+import ParticipantFooter from "../Components/ParticipantFooter";
+
 
 const AuctioneerTeamsPage = () => {
   return (
@@ -74,6 +77,7 @@ const AuctioneerTeamsPage = () => {
             </Box>
           </Box>
         </section>
+        <ParticipantFooter/>
       </Box>
     </>
   );

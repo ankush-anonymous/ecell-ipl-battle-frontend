@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
-
+import ParticipantFooter from "../Components/ParticipantFooter";
 const currentPlayer = {
   image:
     "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
@@ -409,20 +409,23 @@ const ParticipantDashboard = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        // marginTop: "20px",
+                        marginTop: "-60px",
                         borderRadius: "10px",
-                        padding: "20px",
+                        // padding: "20px",
+                        
                       }}
                     >
-                      <Grid container spacing={5}>
+                      <Grid container spacing={5} alignItems="flex-start"  >
                         <Grid item xs={12} md={6}>
-                          <Box sx={{ marginBottom: "20px" }}>
+                          
+                          <Box sx={{ marginBottom: "0px", }}>
                             <Typography
                               variant="body"
                               sx={{
                                 fontFamily: "Protest Guerrilla",
                                 color: "yellow",
                                 fontSize: "24px",
+                                // display: "inline",
                               }}
                             >
                               Country :
@@ -433,16 +436,19 @@ const ParticipantDashboard = () => {
                                 fontFamily: "Protest Strike",
                                 color: "white",
                                 fontSize: "28px",
+                                margin: 0, // Remove margin
+                                padding: 0, // Remove padding
                               }}
                             >
                               {" "}
                               {currentPlayer.country}
                             </Typography>
+                          
                           </Box>
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box
                               variant={"span"}
-                              sx={{ height: "50px", width: "50px" }}
+                              sx={{ height: "50px", width: "50px",}}
                             >
                               <img
                                 src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
@@ -455,6 +461,8 @@ const ParticipantDashboard = () => {
                                 fontFamily: "Protest Strike",
                                 color: "orange",
                                 fontSize: "28px",
+                                margin: 0, // Remove margin
+                                padding: 0, // Remove padding
                               }}
                             >
                               : {currentPlayer.BattingStyle}
@@ -1306,7 +1314,9 @@ const ParticipantDashboard = () => {
             </Box>
           </Box>
         </section>
+        <ParticipantFooter/>
       </Box>
+      
     </>
   );
 };
