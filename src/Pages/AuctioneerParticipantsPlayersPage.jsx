@@ -163,6 +163,7 @@ const AuctioneerParticipantsPlayers = () => {
               <Grid item md={2}>
                 <Typography
                   align="center"
+                  k
                   sx={{
                     fontFamily: "Protest Riot",
                     color: "yellow",
