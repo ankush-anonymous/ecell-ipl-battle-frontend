@@ -1,5 +1,6 @@
 import React from "react";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
+import ParticipantFooter from "../Components/ParticipantFooter";
 import {
   Box,
   Button,
@@ -895,6 +896,7 @@ const AuctionerSingleTeamPage = () => {
             </Grid>
           </Box>
         </section>
+        <ParticipantFooter/>
       </Box>
     </>
   );

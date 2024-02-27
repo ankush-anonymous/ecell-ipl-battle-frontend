@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
-
+import ParticipantFooter from "../Components/ParticipantFooter";
 const currentPlayer = {
   image:
     "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
@@ -493,7 +493,10 @@ const AuctioneerBiddingPage = () => {
               </Box>
             </Box>
           </Box>
+          
+
         </section>
+        <ParticipantFooter/>
       </Box>
     </>
   );
