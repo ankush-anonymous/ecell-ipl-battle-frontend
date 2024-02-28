@@ -1,9 +1,10 @@
 import logo from "./logo.svg";
 
 import "./App.css";
+import axios from "axios";
 import React, { useState } from "react";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
-import Roomstats from "./Pages/Roomstats";
+import SuperUserDashboard from "./Pages/SuperUserDashboard";
 import ParticipantStatsPage from "./Pages/ParticipantStatsPage";
 import ParticipantDashboard from "./Pages/ParticipantDashboard";
 import RulesPage from "./Pages/RulesPage";
@@ -11,7 +12,11 @@ import AuctioneerTeamsPage from "./Pages/AuctioneerTeamsPage";
 import AuctionerSingleTeamPage from "./Pages/AuctionerSingleTeamPage";
 import AuctioneerBiddingPage from "./Pages/AuctioneerBiddingPage";
 import AuctioneerParticipantsPlayersPage from "./Pages/AuctioneerParticipantsPlayersPage";
-import LoginPage from "./Pages/LoginPage";
+import SuperUserLoginPage from "./Pages/SuperUserLoginPage";
+import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
+import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
+
+axios.defaults.baseURL = " http://localhost:5000";
 
 function App() {
   return (
@@ -35,8 +40,13 @@ function App() {
             path="/auctioneer/participants/team"
             element={<AuctioneerParticipantsPlayersPage />}
           />
-          <Route path="/superuser/rooms" element={<Roomstats />} />
-          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
+          <Route path="/superUser/Login" element={<SuperUserLoginPage />} />
+          <Route path="/Login/Auctioneer" element={<LoginAuctioneerPage />} />
+          <Route
+            path="/Login/Participants"
+            element={<LoginParticipantsPage />}
+          />
 
           <Route path="/rules" element={<RulesPage />} />
         </Routes>

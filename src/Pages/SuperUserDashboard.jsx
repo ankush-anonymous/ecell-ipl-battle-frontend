@@ -1,229 +1,7 @@
-// import React, { useState } from "react";
-// import AuctioneerNavbar from "../Components/AuctioneerNavbar";
-// import ParticipantFooter from "../Components/ParticipantFooter";
-
-// import {
-//   Box,
-//   Button,
-//   Grid,
-//   MenuItem,
-//   Select,
-//   TextField,
-//   Typography,
-// } from "@mui/material";
-// import InfoIcon from "@mui/icons-material/Info";
-
-// const listOfTeams = [
-//   {
-//     auctionerID: 1,
-//     teamLeaderName: "John Doe",
-//     teamname: "rcb",
-//     teamlogo:
-//       "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-//     username: "abc",
-//     password: "xyz",
-//     score: 120,
-//     balanceAmount: 125000,
-//     PlayerCount: 18,
-//     Batsmancount: 9,
-//     Bowlercount: 5,
-//     Wicketkeepercount: 1,
-//     Allroundercount: 2,
-//   },
-//   {
-//     auctionerID: 1,
-//     teamLeaderName: "John Doe",
-//     teamname: "rcb",
-//     teamlogo:
-//       "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-//     username: "abc",
-//     password: "xyz",
-//     score: 120,
-//     balanceAmount: 125000,
-//     PlayerCount: 18,
-//     Batsmancount: 9,
-//     Bowlercount: 5,
-//     Wicketkeepercount: 1,
-//     Allroundercount: 2,
-//   },
-//   {
-//     auctionerID: 1,
-//     teamLeaderName: "John Doe",
-//     teamname: "rcb",
-//     teamlogo:
-//       "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-//     username: "abc",
-//     password: "xyz",
-//     score: 120,
-//     balanceAmount: 125000,
-//     PlayerCount: 18,
-//     Batsmancount: 9,
-//     Bowlercount: 5,
-//     Wicketkeepercount: 1,
-//     Allroundercount: 2,
-//   },
-//   {
-//     auctionerID: 1,
-//     teamLeaderName: "John Doe",
-//     teamname: "rcb",
-//     teamlogo:
-//       "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-//     username: "abc",
-//     password: "xyz",
-//     score: 120,
-//     balanceAmount: 125000,
-//     PlayerCount: 18,
-//     Batsmancount: 9,
-//     Bowlercount: 5,
-//     Wicketkeepercount: 1,
-//     Allroundercount: 2,
-//   },
-// ];
-
-// const AuctioneerTeamsPage = () => {
-//   const [teamLeader, setTeamLeader] = useState("");
-//   const [teamAssigned, setTeamAssigned] = useState("");
-
-//   const handleCreateTeam = () => {
-//     // Your logic to create the team
-//     console.log("Team Leader:", teamLeader);
-//     console.log("Team Assigned:", teamAssigned);
-//   };
-//   return (
-//     <>
-//       <AuctioneerNavbar />
-//       <Box>
-//         {/* Create Team Section */}
-//         <section className="my-32">
-//           <Box
-//             sx={{
-//               height: "100%",
-//               width: "90%", // Adjusted width to 90%
-//               // border: "1px solid white",
-//               margin: "auto", // Centered along x-axis
-//               display: "flex-col",
-//               justifyContent: "center",
-//               alignItems: "center",
-//               borderRadius: "10px",
-//               padding: "30px",
-//               backgroundColor: "#070F2B",
-//             }}
-//           >
-//             {/* section title  */}
-//             <Box
-//               sx={{
-//                 height: "100px",
-//                 width: "90%", // Adjusted width to 90%
-//                 // border: "1px solid white",
-//                 margin: "auto", // Centered along x-axis
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 borderRadius: "10px",
-//                 marginBottom: "20px",
-//               }}
-//             >
-//               <Typography
-//                 variant="h3"
-//                 sx={{ fontFamily: "Protest Revolution", color: "white" }}
-//               >
-//                 Auctioner Name
-//               </Typography>
-//             </Box>
-
-//             {/* input section  */}
-//             <Box
-//               sx={{
-//                 height: "100%",
-//                 width: "90%",
-//                 border: "1px solid white",
-//                 margin: "auto",
-//                 display: "flex",
-//                 flexDirection: "column",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 borderRadius: "10px",
-//                 backgroundColor: "#11161B",
-//                 padding: "20px",
-//               }}
-//             >
-//               <Grid container spacing={5} alignItems={"center"}>
-//                 <Grid item xs={12} md={6}>
-//                   <TextField
-//                     label="Auction Book"
-//                     value={teamLeader}
-//                     onChange={(e) => setTeamLeader(e.target.value)}
-//                     variant="outlined"
-//                     sx={{
-//                       mb: 2,
-//                       backgroundColor: "white",
-//                       borderRadius: "5px",
-//                       width: "100%",
-//                     }}
-//                   />
-//                 </Grid>
-//                 <Grid item xs={12} md={6}>
-//                   <Select
-//                     value={teamAssigned}
-//                     onChange={(e) => setTeamAssigned(e.target.value)}
-//                     displayEmpty
-//                     variant="outlined"
-//                     sx={{
-//                       mb: 2,
-//                       width: "100%",
-//                       backgroundColor: "white",
-//                       borderRadius: "5px",
-//                     }}
-//                     inputProps={{ style: { borderRadius: "5px" } }}
-//                   >
-//                     <MenuItem value="" disabled>
-//                       Room Assigned
-//                     </MenuItem>
-//                     <MenuItem value="Team A">Team A</MenuItem>
-//                     <MenuItem value="Team B">Team B</MenuItem>
-//                     <MenuItem value="Team C">Team C</MenuItem>
-//                   </Select>
-//                 </Grid>
-//                 <Grid item xs={12} md={6}>
-//                   <Box
-//                     sx={{
-//                       border: "white 1px solid",
-//                       borderColor: "white",
-//                       height: "150px",
-//                       width: "100%px",
-//                     }}
-//                   ></Box>
-//                 </Grid>
-//                 <Grid
-//                   item
-//                   xs={12}
-//                   md={6}
-//                   sx={{ display: "flex", justifyContent: "flex-end" }}
-//                 >
-//                   <Button
-//                     variant="contained"
-//                     size="large" // Increase the button size
-//                     onClick={handleCreateTeam}
-//                   >
-//                     Create Team
-//                   </Button>
-//                 </Grid>
-//               </Grid>
-//             </Box>
-//           </Box>
-//         </section>
-//         </Box>
-//         <ParticipantFooter/>
-      
-//    </>
-//    );
-//  };
- 
-//  export default AuctioneerTeamsPage;
- 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
+import axios from "axios";
 
 import {
   Box,
@@ -235,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import SuperUserNavbar from "../Components/SuperUserNavbar";
 
 const listOfTeams = [
   {
@@ -252,11 +31,10 @@ const listOfTeams = [
     Bowlercount: 5,
     Wicketkeepercount: 1,
     Allroundercount: 2,
-    Auctionername:"xyz",
-    Auctionerphone:63922,
-    Roomno:1,
-    Currentplayercount:1,
-
+    Auctionername: "xyz",
+    Auctionerphone: 63922,
+    Roomno: 1,
+    Currentplayercount: 1,
   },
   {
     auctionerID: 1,
@@ -273,10 +51,10 @@ const listOfTeams = [
     Bowlercount: 5,
     Wicketkeepercount: 1,
     Allroundercount: 2,
-    Auctionername:"xyz",
-    Auctionerphone:63922,
-    Roomno:1,
-    Currentplayercount:1,
+    Auctionername: "xyz",
+    Auctionerphone: 63922,
+    Roomno: 1,
+    Currentplayercount: 1,
   },
   {
     auctionerID: 1,
@@ -293,10 +71,10 @@ const listOfTeams = [
     Bowlercount: 5,
     Wicketkeepercount: 1,
     Allroundercount: 2,
-    Auctionername:"xyz",
-    Auctionerphone:63922,
-    Roomno:1,
-    Currentplayercount:1,
+    Auctionername: "xyz",
+    Auctionerphone: 63922,
+    Roomno: 1,
+    Currentplayercount: 1,
   },
   {
     auctionerID: 1,
@@ -313,26 +91,61 @@ const listOfTeams = [
     Bowlercount: 5,
     Wicketkeepercount: 1,
     Allroundercount: 2,
-    Auctionername:"xyz",
-    Auctionerphone:63922,
-    Roomno:1,
-    Currentplayercount:1,
+    Auctionername: "xyz",
+    Auctionerphone: 63922,
+    Roomno: 1,
+    Currentplayercount: 1,
   },
 ];
 
-const Roomstats= () => {
-  const [teamLeader, setTeamLeader] = useState("");
-  
-  const [teamAssigned, setTeamAssigned] = useState("");
+const SuperUserDashboard = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [auctioneerName, setAuctioneerName] = useState("");
+  const [coAuctioneerPhoneNo, setCoAuctioneerPhoneNo] = useState("");
+  const [auctioneerPhone, setAuctioneerPhone] = useState("");
+  const [roomNo, setRoomNo] = useState("");
+  const [currentPlayerCount, setCurrentPlayerCount] = useState(0);
+  const [isRoomCreated, setIsRoomCreated] = useState(false);
 
-  const handleCreateTeam = () => {
-    // Your logic to create the team
-    console.log("Team Leader:", teamLeader);
-    console.log("Team Assigned:", teamAssigned);
+  const [listOfRooms, setListOfRooms] = useState([]);
+
+  //function to create room
+  const handleCreateRoom = async () => {
+    const postData = {
+      auctioneerName: auctioneerName,
+      auctioneerPhone: auctioneerPhone,
+      coAuctioneerPhone: coAuctioneerPhoneNo,
+      roomNo: roomNo,
+    };
+
+    const result = await axios.post(
+      "/api/v1/auctioneers/createAuctioners",
+      postData
+    );
+    console.log(result);
+    if (result) {
+      setIsRoomCreated(true);
+    }
+    console.log(result.data);
+
+    setUsername(result.data.data.username);
+    setPassword(result.data.data.password);
   };
+
+  const getAllRoomInfo = async () => {
+    const result = await axios.get("/api/v1/auctioneers/getAllAuctioners");
+    console.log(result.data.auctioners);
+    setListOfRooms(result.data.auctioners);
+  };
+
+  useEffect(() => {
+    getAllRoomInfo();
+  }, []);
+
   return (
     <>
-      <AuctioneerNavbar />
+      <SuperUserNavbar />
       <Box>
         {/* Create Team Section */}
         <section className="my-32">
@@ -368,7 +181,7 @@ const Roomstats= () => {
                 variant="h3"
                 sx={{ fontFamily: "Protest Revolution", color: "white" }}
               >
-                Create Team
+                Create Room
               </Typography>
             </Box>
 
@@ -391,9 +204,9 @@ const Roomstats= () => {
               <Grid container spacing={5} alignItems={"center"}>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    label="Auctioner's name"
-                    value={teamLeader}
-                    onChange={(e) => setTeamLeader(e.target.value)}
+                    label="Auctioneer's name"
+                    value={auctioneerName}
+                    onChange={(e) => setAuctioneerName(e.target.value)}
                     variant="outlined"
                     sx={{
                       mb: 2,
@@ -404,10 +217,10 @@ const Roomstats= () => {
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                <TextField
-                    label="Auctioner's Phone Number"
-                    value={teamAssigned}
-                    onChange={(e) => setTeamAssigned(e.target.value)}
+                  <TextField
+                    label="Auctioneer's Phone Number"
+                    value={auctioneerPhone}
+                    onChange={(e) => setAuctioneerPhone(e.target.value)}
                     variant="outlined"
                     sx={{
                       mb: 2,
@@ -418,15 +231,88 @@ const Roomstats= () => {
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Box
+                  <TextField
+                    label="Co-Auctioneer's Phone Number"
+                    value={coAuctioneerPhoneNo}
+                    onChange={(e) => setCoAuctioneerPhoneNo(e.target.value)}
+                    variant="outlined"
                     sx={{
-                      border: "white 1px solid",
-                      borderColor: "white",
-                      height: "150px",
-                      width: "100%px",
+                      mb: 2,
+                      backgroundColor: "white",
+                      borderRadius: "5px",
+                      width: "100%",
                     }}
-                  ></Box>
+                  />
                 </Grid>
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    label="Room Number"
+                    value={roomNo}
+                    onChange={(e) => setRoomNo(e.target.value)}
+                    variant="outlined"
+                    sx={{
+                      mb: 2,
+                      backgroundColor: "white",
+                      borderRadius: "5px",
+                      width: "100%",
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  {isRoomCreated && (
+                    <Box
+                      sx={{
+                        border: "white 1px solid",
+                        borderColor: "white",
+                        height: "150px",
+                        width: "100%px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex-col",
+                      }}
+                    >
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontFamily: "Protest Riot",
+                          color: "white",
+                          fontSize: "28px",
+                        }}
+                      >
+                        UserName:
+                        <span
+                          style={{
+                            fontFamily: "Protest Strike",
+                            color: "yellow",
+                            fontSize: "28px",
+                          }}
+                        >
+                          {username}
+                        </span>
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontFamily: "Protest Riot",
+                          color: "white",
+                          fontSize: "28px",
+                        }}
+                      >
+                        Password:
+                        <span
+                          style={{
+                            fontFamily: "Protest Strike",
+                            color: "yellow",
+                            fontSize: "28px",
+                          }}
+                        >
+                          {password}
+                        </span>
+                      </Typography>
+                    </Box>
+                  )}
+                </Grid>
+
                 <Grid
                   item
                   xs={12}
@@ -436,7 +322,7 @@ const Roomstats= () => {
                   <Button
                     variant="contained"
                     size="large" // Increase the button size
-                    onClick={handleCreateTeam}
+                    onClick={handleCreateRoom}
                   >
                     Generate
                   </Button>
@@ -479,7 +365,7 @@ const Roomstats= () => {
                 variant="h3"
                 sx={{ fontFamily: "Protest Revolution", color: "white" }}
               >
-               Room stats
+                Room stats
               </Typography>
             </Box>
             <Box
@@ -521,21 +407,10 @@ const Roomstats= () => {
                       fontSize: "20px",
                     }}
                   >
-                    Auctioner Name
+                    Auctioneer Name
                   </Typography>
                 </Grid>
-                {/* <Grid item md={2}>
-                  <Typography
-                    align="center"
-                    sx={{
-                      fontFamily: "Protest Riot",
-                      color: "yellow",
-                      fontSize: "20px",
-                    }}
-                  >
-                    Leader Name
-                  </Typography>
-                </Grid> */}
+
                 <Grid item md={3}>
                   <Typography
                     align="center"
@@ -586,14 +461,14 @@ const Roomstats= () => {
                 </Grid>
 
                 {/* Table Body - Map the array */}
-                {listOfTeams.map((item, index) => (
+                {listOfRooms.map((item, index) => (
                   <React.Fragment key={index}>
                     <Grid item md={1}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.slno}
+                        {index + 1}
                       </Typography>
                     </Grid>
                     {/* <Grid item md={2}>
@@ -604,7 +479,7 @@ const Roomstats= () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.Auctionername}
+                        {item.auctioneerName}
                       </Typography>
                     </Grid>
                     <Grid item md={3}>
@@ -612,7 +487,7 @@ const Roomstats= () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.Auctionerphone}
+                        {item.auctioneerPhone}
                       </Typography>
                     </Grid>
                     <Grid item md={2}>
@@ -620,7 +495,7 @@ const Roomstats= () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.Roomno}
+                        {item.roomNo}
                       </Typography>
                     </Grid>
                     <Grid item md={2}>
@@ -628,7 +503,7 @@ const Roomstats= () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.Currentplayercount}
+                        {item.currentPlayerCount}
                       </Typography>
                     </Grid>
                     <Grid item md={1}>
@@ -647,10 +522,10 @@ const Roomstats= () => {
             </Box>
           </Box>
         </section>
-        <ParticipantFooter/>
+        <ParticipantFooter />
       </Box>
     </>
   );
 };
 
-export default Roomstats;
+export default SuperUserDashboard;
