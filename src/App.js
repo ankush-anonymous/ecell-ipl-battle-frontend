@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
-import Roomstats from "./Pages/Roomstats";
+import RoomStats from "./Pages/RoomStats";
 import ParticipantStatsPage from "./Pages/ParticipantStatsPage";
 import ParticipantDashboard from "./Pages/ParticipantDashboard";
 import RulesPage from "./Pages/RulesPage";
@@ -37,7 +37,7 @@ function App() {
           />
           <Route
             path="/superuser/rooms"
-            element={<Roomstats/>}
+            element={<RoomStats/>}
           />
            <Route
             path="/Login"
