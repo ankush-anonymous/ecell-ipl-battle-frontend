@@ -12,6 +12,8 @@ import AuctionerSingleTeamPage from "./Pages/AuctionerSingleTeamPage";
 import AuctioneerBiddingPage from "./Pages/AuctioneerBiddingPage";
 import AuctioneerParticipantsPlayersPage from "./Pages/AuctioneerParticipantsPlayersPage";
 import LoginPage from "./Pages/LoginPage";
+import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
+import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
 
 function App() {
   return (
@@ -42,6 +44,14 @@ function App() {
            <Route
             path="/Login"
             element={<LoginPage/>}
+          />
+          <Route
+            path="/Login/Auctioneer"
+            element={<LoginAuctioneerPage/>}
+          />
+          <Route
+            path="/Login/Participants"
+            element={<LoginParticipantsPage/>}
           />
 
           <Route path="/rules" element={<RulesPage />} />

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button, Box } from '@mui/material';
 
-const LoginPage = () => {
-  const [phoneNumber, setPhoneNumber] = useState('');
+const LoginAuctioneerPage = () => {
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
 
-  const handlePhoneNumberChange = (e) => {
-    setPhoneNumber(e.target.value);
+  const handleUserIdChange = (e) => {
+    setUserId(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -16,7 +16,7 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
    
-    console.log('Phone Number:', phoneNumber);
+    console.log('User ID:', userId);
     console.log('Password:', password);
   };
 
@@ -44,13 +44,13 @@ const LoginPage = () => {
             margin="normal"
             required
             fullWidth
-            id="phoneNumber"
-            label="Phone Number"
-            name="phoneNumber"
-            autoComplete="tel"
+            id="userId"
+            label="User ID" 
+            name="userId"
+            autoComplete="username" 
             autoFocus
-            value={phoneNumber}
-            onChange={handlePhoneNumberChange}
+            value={userId}
+            onChange={handleUserIdChange}
           />
           <TextField
             variant="outlined"
@@ -81,4 +81,5 @@ const LoginPage = () => {
 };
 
 
-export default LoginPage;
+export default LoginAuctioneerPage;
+
