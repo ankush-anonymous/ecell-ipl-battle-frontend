@@ -35,14 +35,8 @@ function App() {
             path="/auctioneer/participants/team"
             element={<AuctioneerParticipantsPlayersPage />}
           />
-          <Route
-            path="/superuser/rooms"
-            element={<Roomstats/>}
-          />
-           <Route
-            path="/Login"
-            element={<LoginPage/>}
-          />
+          <Route path="/superuser/rooms" element={<Roomstats />} />
+          <Route path="/Login" element={<LoginPage />} />
 
           <Route path="/rules" element={<RulesPage />} />
         </Routes>

@@ -412,13 +412,11 @@ const ParticipantDashboard = () => {
                         marginTop: "-60px",
                         borderRadius: "10px",
                         // padding: "20px",
-                        
                       }}
                     >
-                      <Grid container spacing={5} alignItems="flex-start"  >
+                      <Grid container spacing={5} alignItems="flex-start">
                         <Grid item xs={12} md={6}>
-                          
-                          <Box sx={{ marginBottom: "0px", }}>
+                          <Box sx={{ marginBottom: "0px" }}>
                             <Typography
                               variant="body"
                               sx={{
@@ -443,12 +441,11 @@ const ParticipantDashboard = () => {
                               {" "}
                               {currentPlayer.country}
                             </Typography>
-                          
                           </Box>
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box
                               variant={"span"}
-                              sx={{ height: "50px", width: "50px",}}
+                              sx={{ height: "50px", width: "50px" }}
                             >
                               <img
                                 src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
@@ -1314,9 +1311,8 @@ const ParticipantDashboard = () => {
             </Box>
           </Box>
         </section>
-        <ParticipantFooter/>
+        <ParticipantFooter />
       </Box>
-      
     </>
   );
 };
