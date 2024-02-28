@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
 import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
-
+import Roomstats from "./Pages/Roomstats";
 import ParticipantStatsPage from "./Pages/ParticipantStatsPage";
 import ParticipantDashboard from "./Pages/ParticipantDashboard";
 import RulesPage from "./Pages/RulesPage";
@@ -11,6 +11,7 @@ import AuctioneerTeamsPage from "./Pages/AuctioneerTeamsPage";
 import AuctionerSingleTeamPage from "./Pages/AuctionerSingleTeamPage";
 import AuctioneerBiddingPage from "./Pages/AuctioneerBiddingPage";
 import AuctioneerParticipantsPlayersPage from "./Pages/AuctioneerParticipantsPlayersPage";
+import LoginPage from "./Pages/LoginPage";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
           <Route
             path="/auctioneer/participants/team"
             element={<AuctioneerParticipantsPlayersPage />}
+          />
+          <Route
+            path="/superuser/rooms"
+            element={<Roomstats/>}
+          />
+           <Route
+            path="/Login"
+            element={<LoginPage/>}
           />
 
           <Route path="/rules" element={<RulesPage />} />
