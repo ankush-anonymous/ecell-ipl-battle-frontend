@@ -4,7 +4,7 @@ import { Container, Typography, TextField, Button, Box } from "@mui/material";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginSuperUserPage = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState();
   const [password, setPassword] = useState("");
@@ -97,4 +97,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginSuperUserPage;
