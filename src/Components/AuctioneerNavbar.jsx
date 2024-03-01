@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
@@ -28,8 +28,8 @@ const AuctioneerNavbar = () => {
     { label: "dashboard", link: "/participant/dashboard" },
     { label: "rules", link: "/rules" },
 
-    { label: "Login", link: "/login" },
     { label: "Teams", link: "/auctioneer/teams" },
+    { label: "Logout", link: "/" },
   ];
 
   const socialMediaLinks = [
@@ -50,6 +50,15 @@ const AuctioneerNavbar = () => {
 
   const handleTabsChange = (event, newValue) => {
     setValue(newValue);
+
+    // Check if the selected tab is a "Logout" tab
+    const selectedTab = tabs[newValue];
+    if (selectedTab.label.toUpperCase() === "LOGOUT") {
+      // Clear the LocalStorage
+      localStorage.clear();
+      // Navigate to "/"
+      Navigate("/");
+    }
   };
   return (
     <React.Fragment>

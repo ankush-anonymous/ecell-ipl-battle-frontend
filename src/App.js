@@ -12,7 +12,7 @@ import AuctioneerTeamsPage from "./Pages/AuctioneerTeamsPage";
 import AuctionerSingleTeamPage from "./Pages/AuctionerSingleTeamPage";
 import AuctioneerBiddingPage from "./Pages/AuctioneerBiddingPage";
 import AuctioneerParticipantsPlayersPage from "./Pages/AuctioneerParticipantsPlayersPage";
-import SuperUserLoginPage from "./Pages/SuperUserLoginPage";
+import LoginSuperUserPage from "./Pages/LoginSuperUserPage";
 import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
 import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
 
@@ -41,8 +41,8 @@ function App() {
             element={<AuctioneerParticipantsPlayersPage />}
           />
           <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
-          <Route path="/superUser/Login" element={<SuperUserLoginPage />} />
-          <Route path="/Login/Auctioneer" element={<LoginAuctioneerPage />} />
+          <Route path="/superUser/Login" element={<LoginSuperUserPage />} />
+          <Route path="/auctioneer/login" element={<LoginAuctioneerPage />} />
           <Route
             path="/Login/Participants"
             element={<LoginParticipantsPage />}

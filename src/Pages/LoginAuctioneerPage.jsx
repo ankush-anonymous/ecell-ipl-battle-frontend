@@ -1,4 +1,7 @@
 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 import React, { useState } from 'react';
 import { Container, Typography, TextField, Button, Box, InputAdornment } from '@mui/material';
@@ -44,22 +47,39 @@ const theme = createTheme({
 });
 
 const LoginAuctioneerPage = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [userId, setUserId] = useState('');
-  const [password, setPassword] = useState('');
+  
   const [logoUrl, setLogoUrl] = useState('https://via.placeholder.com/150');
 
-  const handleUserIdChange = (e) => {
-    setUserId(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('User ID:', userId);
-    console.log('Password:', password);
+    const postData = {
+      username: username,
+      password: password,
+    };
+    const result = await axios.post(
+      "/api/v1/auctioneers/loginAuctioneer",
+      postData
+    );
+    console.log(result);
+    localStorage.setItem("token", result.data.token);
+    localStorage.setItem("userName", result.data.user.userName);
+    localStorage.setItem("roomNo", result.data.user.roomNo);
+    localStorage.setItem("_id", result.data.user._id);
+
+    setPassword("");
+
+    navigate("/auctioneer/teams/");
   };
 
   // Function to change the logo dynamically
@@ -104,7 +124,7 @@ const LoginAuctioneerPage = () => {
                 autoComplete="username"
                 autoFocus
                 value={userId}
-                onChange={handleUserIdChange}
+                onChange={handleUsernameChange}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

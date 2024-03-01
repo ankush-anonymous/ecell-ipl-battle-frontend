@@ -15,89 +15,6 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import SuperUserNavbar from "../Components/SuperUserNavbar";
 
-const listOfTeams = [
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-    Auctionername: "xyz",
-    Auctionerphone: 63922,
-    Roomno: 1,
-    Currentplayercount: 1,
-  },
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-    Auctionername: "xyz",
-    Auctionerphone: 63922,
-    Roomno: 1,
-    Currentplayercount: 1,
-  },
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-    Auctionername: "xyz",
-    Auctionerphone: 63922,
-    Roomno: 1,
-    Currentplayercount: 1,
-  },
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-    Auctionername: "xyz",
-    Auctionerphone: 63922,
-    Roomno: 1,
-    Currentplayercount: 1,
-  },
-];
-
 const SuperUserDashboard = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -127,7 +44,6 @@ const SuperUserDashboard = () => {
     if (result) {
       setIsRoomCreated(true);
     }
-    console.log(result.data);
 
     setUsername(result.data.data.username);
     setPassword(result.data.data.password);
@@ -398,7 +314,7 @@ const SuperUserDashboard = () => {
                     SlNo.
                   </Typography>
                 </Grid>
-                <Grid item md={3}>
+                <Grid item md={2}>
                   <Typography
                     align="center"
                     sx={{
@@ -411,7 +327,7 @@ const SuperUserDashboard = () => {
                   </Typography>
                 </Grid>
 
-                <Grid item md={3}>
+                <Grid item md={2}>
                   <Typography
                     align="center"
                     sx={{
@@ -423,7 +339,7 @@ const SuperUserDashboard = () => {
                     Auctioneer's Phone Number
                   </Typography>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -435,7 +351,7 @@ const SuperUserDashboard = () => {
                     Room Number
                   </Typography>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -445,6 +361,30 @@ const SuperUserDashboard = () => {
                     }}
                   >
                     Current PLayer Count
+                  </Typography>
+                </Grid>
+                <Grid item md={2}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
+                    UserName
+                  </Typography>
+                </Grid>
+                <Grid item md={2}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Password
                   </Typography>
                 </Grid>
                 <Grid item md={1}>
@@ -474,7 +414,7 @@ const SuperUserDashboard = () => {
                     {/* <Grid item md={2}>
                       <img src={item.teamlogo} alt={item.Name} />
                     </Grid> */}
-                    <Grid item md={3}>
+                    <Grid item md={2}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
@@ -482,7 +422,7 @@ const SuperUserDashboard = () => {
                         {item.auctioneerName}
                       </Typography>
                     </Grid>
-                    <Grid item md={3}>
+                    <Grid item md={2}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
@@ -490,7 +430,7 @@ const SuperUserDashboard = () => {
                         {item.auctioneerPhone}
                       </Typography>
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
@@ -498,7 +438,7 @@ const SuperUserDashboard = () => {
                         {item.roomNo}
                       </Typography>
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
@@ -506,6 +446,23 @@ const SuperUserDashboard = () => {
                         {item.currentPlayerCount}
                       </Typography>
                     </Grid>
+                    <Grid item md={2}>
+                      <Typography
+                        align="center"
+                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
+                      >
+                        {item.username}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={2}>
+                      <Typography
+                        align="center"
+                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
+                      >
+                        {item.password}
+                      </Typography>
+                    </Grid>
+
                     <Grid item md={1}>
                       <Typography
                         align="center"

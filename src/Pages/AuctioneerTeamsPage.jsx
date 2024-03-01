@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
+import axios from "axios";
 
 import {
   Box,
@@ -13,82 +14,53 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 
-const listOfTeams = [
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-  },
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-  },
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-  },
-  {
-    auctionerID: 1,
-    teamLeaderName: "John Doe",
-    teamname: "rcb",
-    teamlogo:
-      "https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png",
-    username: "abc",
-    password: "xyz",
-    score: 120,
-    balanceAmount: 125000,
-    PlayerCount: 18,
-    Batsmancount: 9,
-    Bowlercount: 5,
-    Wicketkeepercount: 1,
-    Allroundercount: 2,
-  },
-];
+import { teams } from "../data/iplTeams";
 
 const AuctioneerTeamsPage = () => {
-  const [teamLeader, setTeamLeader] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isTeamCreated, setIsTeamCreated] = useState(false);
+  const [teamName, setTeamName] = useState("");
   const [teamAssigned, setTeamAssigned] = useState("");
+  const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
+  const [listOfTeams, setListOfTeams] = useState([]);
 
-  const handleCreateTeam = () => {
-    // Your logic to create the team
-    console.log("Team Leader:", teamLeader);
-    console.log("Team Assigned:", teamAssigned);
+  const auctioneerID = localStorage.getItem("_id");
+
+  const handleCreateTeam = async () => {
+    console.log(teamName);
+    console.log(teamAssigned);
+    const postData = {
+      teamname: teamName,
+      iplTeamName: teamAssigned,
+      iplTeamLogo: assignedTeamLogo,
+      auctioneerID: localStorage.getItem("_id"),
+    };
+    console.log(postData);
+    const result = await axios.post(
+      "/api/v1/participants/createParticipant",
+      postData
+    );
+    if (result) {
+      setIsTeamCreated(true);
+    }
+    setUsername(result.data.data.username);
+    setPassword(result.data.data.password);
   };
+
+  const fetchTeamsOfRoom = async () => {
+    const result = await axios.get(
+      `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerID}`
+    );
+    setListOfTeams(result.data.participants);
+    console.log(result.data.participants);
+  };
+
+  useEffect(() => {
+    const auctioneerID = localStorage.getItem("_id");
+
+    fetchTeamsOfRoom();
+  }, []);
   return (
     <>
       <AuctioneerNavbar />
@@ -150,9 +122,9 @@ const AuctioneerTeamsPage = () => {
               <Grid container spacing={5} alignItems={"center"}>
                 <Grid item xs={12} md={6}>
                   <TextField
-                    label="Team Leader's Name"
-                    value={teamLeader}
-                    onChange={(e) => setTeamLeader(e.target.value)}
+                    label="Team's Name"
+                    value={teamName}
+                    onChange={(e) => setTeamName(e.target.value)}
                     variant="outlined"
                     sx={{
                       mb: 2,
@@ -165,7 +137,13 @@ const AuctioneerTeamsPage = () => {
                 <Grid item xs={12} md={6}>
                   <Select
                     value={teamAssigned}
-                    onChange={(e) => setTeamAssigned(e.target.value)}
+                    onChange={(e) => {
+                      const selectedTeam = teams.find(
+                        (team) => team.name === e.target.value
+                      );
+                      setTeamAssigned(e.target.value);
+                      setAssignedTeamLogo(selectedTeam.logo);
+                    }}
                     displayEmpty
                     variant="outlined"
                     sx={{
@@ -179,20 +157,73 @@ const AuctioneerTeamsPage = () => {
                     <MenuItem value="" disabled>
                       Select Team Assigned
                     </MenuItem>
-                    <MenuItem value="Team A">Team A</MenuItem>
-                    <MenuItem value="Team B">Team B</MenuItem>
-                    <MenuItem value="Team C">Team C</MenuItem>
+                    {teams.map((team, key) => (
+                      <MenuItem key={key} value={team.name}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <img
+                            src={team.logo}
+                            alt={team.name}
+                            style={{ width: 24, marginRight: 8 }}
+                          />
+                          {team.name}
+                        </div>
+                      </MenuItem>
+                    ))}
                   </Select>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Box
-                    sx={{
-                      border: "white 1px solid",
-                      borderColor: "white",
-                      height: "150px",
-                      width: "100%px",
-                    }}
-                  ></Box>
+                  {isTeamCreated && (
+                    <Box
+                      sx={{
+                        border: "white 1px solid",
+                        borderColor: "white",
+                        height: "150px",
+                        width: "100%px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex-col",
+                      }}
+                    >
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontFamily: "Protest Riot",
+                          color: "white",
+                          fontSize: "28px",
+                        }}
+                      >
+                        UserName:
+                        <span
+                          style={{
+                            fontFamily: "Protest Strike",
+                            color: "yellow",
+                            fontSize: "28px",
+                          }}
+                        >
+                          {username}
+                        </span>
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontFamily: "Protest Riot",
+                          color: "white",
+                          fontSize: "28px",
+                        }}
+                      >
+                        Password:
+                        <span
+                          style={{
+                            fontFamily: "Protest Strike",
+                            color: "yellow",
+                            fontSize: "28px",
+                          }}
+                        >
+                          {password}
+                        </span>
+                      </Typography>
+                    </Box>
+                  )}
                 </Grid>
                 <Grid
                   item
@@ -300,7 +331,7 @@ const AuctioneerTeamsPage = () => {
                       fontSize: "20px",
                     }}
                   >
-                    Leader Name
+                    Team Name
                   </Typography>
                 </Grid>
                 <Grid item md={2}>
@@ -360,18 +391,18 @@ const AuctioneerTeamsPage = () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.SlNo}
+                        {index + 1}
                       </Typography>
                     </Grid>
                     <Grid item md={2}>
-                      <img src={item.teamlogo} alt={item.Name} />
+                      <img src={item.iplTeamLogo} alt={item.Name} />
                     </Grid>
                     <Grid item md={2}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.teamLeaderName}
+                        {item.teamname}
                       </Typography>
                     </Grid>
                     <Grid item md={2}>
@@ -414,7 +445,7 @@ const AuctioneerTeamsPage = () => {
             </Box>
           </Box>
         </section>
-        <ParticipantFooter/>
+        <ParticipantFooter />
       </Box>
     </>
   );
