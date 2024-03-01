@@ -1,3 +1,5 @@
+
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -7,38 +9,56 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
-const currentPlayer = {
-  image:
-    "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-  firstname: "Mahendra Singh ",
-  surname: "Dhoni ",
-  country: "India",
-  DOB: "1981-07-07",
-  Age: 35,
-  Specialism: "cover drive",
-  BattingStyle: "RHB",
-  BowlingStyle: "right arm medium",
-  testcaps: 269,
-  odicaps: 175,
-  t20caps: 31,
-  iplrating: 1,
-  overseasflag: "false",
-  soldby: "rcb",
-  bidwonby: "rcb",
-};
+
+const players = [
+  {
+    image:
+      "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
+    firstname: "Mahendra Singh ",
+    surname: "Dhoni ",
+    country: "India",
+    DOB: "1981-07-07",
+    Age: 35,
+    Specialism: "cover drive",
+    BattingStyle: "RHB",
+    BowlingStyle: "right arm medium",
+    testcaps: 269,
+    odicaps: 175,
+    t20caps: 31,
+    iplrating: 1,
+    overseasflag: "false",
+    soldby: "rcb",
+    bidwonby: "rcb",
+  }
+];
 
 const AuctioneerBiddingPage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [teamLeader, setTeamLeader] = useState("");
   const [teamAssigned, setTeamAssigned] = useState("");
+
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? players.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === players.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const currentPlayer = players[currentIndex];
 
   const handleCreateTeam = () => {
     // Your logic to create the team
     console.log("Team Leader:", teamLeader);
     console.log("Team Assigned:", teamAssigned);
   };
+
   return (
     <>
       <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
@@ -52,6 +72,7 @@ const AuctioneerBiddingPage = () => {
               width: "90%", // Adjusted width to 90%
               //   border: "1px solid white",
               margin: "auto", // Centered along x-axis
+              
               display: "flex-col",
               justifyContent: "center",
               alignItems: "center",
@@ -68,6 +89,7 @@ const AuctioneerBiddingPage = () => {
                 width: "90%", // Adjusted width to 90%
                 // border: "1px solid white",
                 margin: "auto", // Centered along x-axis
+                
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -113,7 +135,7 @@ const AuctioneerBiddingPage = () => {
                         borderRadius: "10px",
                       }}
                     >
-                      <img src={currentPlayer.image} />
+                      <img src={currentPlayer.image} alt="Player" />
                     </Box>
                     <Box
                       sx={{
@@ -150,6 +172,7 @@ const AuctioneerBiddingPage = () => {
                       height: "100%",
                       width: "90%", // Adjusted width to 90%
                       //   border: "1px solid white",
+                      
                       margin: "auto", // Centered along x-axis
                       marginLeft: "30px",
                       display: "flex-col",
@@ -491,12 +514,20 @@ const AuctioneerBiddingPage = () => {
                   </Grid>
                 </Grid>
               </Box>
+              <Box sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+                <Button variant="contained" color="primary" onClick={handlePrevious}>
+                  Previous
+                </Button>
+                <Box sx={{ marginLeft: "700px" }}>
+                <Button variant="contained" color="primary" onClick={handleNext} sx={{ marginLeft: "10px" }}>
+                  Next
+                </Button>
+                </Box>
+              </Box>
             </Box>
           </Box>
-          
-
         </section>
-        <ParticipantFooter/>
+        <ParticipantFooter />
       </Box>
     </>
   );
