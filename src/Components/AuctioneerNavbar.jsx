@@ -25,8 +25,8 @@ const AuctioneerNavbar = () => {
   }, [location.pathname]); // Update the effect when the pathname changes
 
   const tabs = [
-    { label: "dashboard", link: "/participant/dashboard" },
-    { label: "rules", link: "/rules" },
+    { label: "biddingPage", link: "/auctioneer/bidding" },
+    // { label: "rules", link: "/rules" },
 
     { label: "Teams", link: "/auctioneer/teams" },
     { label: "Logout", link: "/" },

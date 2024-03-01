@@ -31,7 +31,7 @@ const LoginSuperUserPage = () => {
     setPassword("");
     setPhoneNumber();
 
-    navigate("/superuser/rooms");
+    navigate("/superuser/dashboard");
   };
 
   return (

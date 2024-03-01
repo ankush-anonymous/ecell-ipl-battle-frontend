@@ -34,10 +34,11 @@ const SuperUserDashboard = () => {
       auctioneerPhone: auctioneerPhone,
       coAuctioneerPhone: coAuctioneerPhoneNo,
       roomNo: roomNo,
+      currentPlayerCount: 1,
     };
 
     const result = await axios.post(
-      "/api/v1/auctioneers/createAuctioners",
+      "/api/v1/auctioneers/createAuctioneer",
       postData
     );
     console.log(result);
@@ -50,9 +51,9 @@ const SuperUserDashboard = () => {
   };
 
   const getAllRoomInfo = async () => {
-    const result = await axios.get("/api/v1/auctioneers/getAllAuctioners");
-    console.log(result.data.auctioners);
-    setListOfRooms(result.data.auctioners);
+    const result = await axios.get("/api/v1/auctioneers/getAllAuctioneer");
+    console.log(result.data.result);
+    setListOfRooms(result.data.result);
   };
 
   useEffect(() => {
@@ -401,80 +402,115 @@ const SuperUserDashboard = () => {
                 </Grid>
 
                 {/* Table Body - Map the array */}
-                {listOfRooms.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <Grid item md={1}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {index + 1}
-                      </Typography>
-                    </Grid>
-                    {/* <Grid item md={2}>
+                {listOfRooms.length === 0 ? (
+                  <Grid item xs={12}>
+                    <Typography
+                      align="center"
+                      sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
+                    >
+                      No Auctioneers created
+                    </Typography>
+                  </Grid>
+                ) : (
+                  listOfRooms.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <Grid item md={1}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {index + 1}
+                        </Typography>
+                      </Grid>
+                      {/* <Grid item md={2}>
                       <img src={item.teamlogo} alt={item.Name} />
                     </Grid> */}
-                    <Grid item md={2}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {item.auctioneerName}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={2}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {item.auctioneerPhone}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={1}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {item.roomNo}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={1}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {item.currentPlayerCount}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={2}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {item.username}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={2}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        {item.password}
-                      </Typography>
-                    </Grid>
+                      <Grid item md={2}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.auctioneerName}
+                        </Typography>
+                      </Grid>
+                      <Grid item md={2}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.auctioneerPhone}
+                        </Typography>
+                      </Grid>
+                      <Grid item md={1}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.roomNo}
+                        </Typography>
+                      </Grid>
+                      <Grid item md={1}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.currentPlayerCount}
+                        </Typography>
+                      </Grid>
+                      <Grid item md={2}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.username}
+                        </Typography>
+                      </Grid>
+                      <Grid item md={2}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.password}
+                        </Typography>
+                      </Grid>
 
-                    <Grid item md={1}>
-                      <Typography
-                        align="center"
-                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
-                      >
-                        <Button>
-                          <InfoIcon />
-                        </Button>
-                      </Typography>
-                    </Grid>
-                  </React.Fragment>
-                ))}
+                      <Grid item md={1}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          <Button>
+                            <InfoIcon />
+                          </Button>
+                        </Typography>
+                      </Grid>
+                    </React.Fragment>
+                  ))
+                )}
               </Grid>
             </Box>
           </Box>

@@ -7,42 +7,63 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
-const currentPlayer = {
-  image:
-    "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-  firstname: "Mahendra Singh ",
-  surname: "Dhoni ",
-  country: "India",
-  DOB: "1981-07-07",
-  Age: 35,
-  Specialism: "cover drive",
-  BattingStyle: "RHB",
-  BowlingStyle: "right arm medium",
-  testcaps: 269,
-  odicaps: 175,
-  t20caps: 31,
-  iplrating: 1,
-  overseasflag: "false",
-  soldby: "rcb",
-  bidwonby: "rcb",
-};
+import AuctioneerNavbar from "../Components/AuctioneerNavbar";
+import axios from "axios";
+// const currentPlayer = {
+//   image:
+//     "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
+//   firstname: "Mahendra Singh ",
+//   surname: "Dhoni ",
+//   country: "India",
+//   DOB: "1981-07-07",
+//   Age: 35,
+//   Specialism: "cover drive",
+//   BattingStyle: "RHB",
+//   BowlingStyle: "right arm medium",
+//   testcaps: 269,
+//   odicaps: 175,
+//   t20caps: 31,
+//   iplrating: 1,
+//   overseasflag: "false",
+//   soldby: "rcb",
+//   bidwonby: "rcb",
+// };
 
 const AuctioneerBiddingPage = () => {
   const [teamLeader, setTeamLeader] = useState("");
   const [teamAssigned, setTeamAssigned] = useState("");
+  const [currentPlayer, setCurrentPlayer] = useState({});
 
-  const handleCreateTeam = () => {
+  const fetchCurrentPlayer = async () => {
+    const roomId = localStorage.getItem("_id");
+    const room = await axios.get(
+      `/api/v1/auctioneers/getAuctioneerById/${roomId}`
+    );
+    const playerCount = room.data.data.currentPlayerCount;
+    const currentPlayer = await axios.get(
+      `/api/v1/players/getAllPlayers?playerNo=${playerCount}`
+    );
+
+    // console.log(currentPlayer.data.players[0]);
+    setCurrentPlayer(currentPlayer.data.players[0]);
+  };
+
+  const handleBid = () => {
     // Your logic to create the team
     console.log("Team Leader:", teamLeader);
     console.log("Team Assigned:", teamAssigned);
   };
+
+  useEffect(() => {
+    fetchCurrentPlayer();
+  }, []);
   return (
     <>
       <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
-        <ParticipantNavbar />
+        <AuctioneerNavbar />
 
         {/* Bidding section  */}
         <section className="my-32">
@@ -232,7 +253,7 @@ const AuctioneerBiddingPage = () => {
                             fontFamily: "Protest Revolution",
                           }}
                         >
-                          {currentPlayer.iplrating}
+                          {currentPlayer.iplRating}
                         </Typography>
                       </Box>
                     </Box>
@@ -433,7 +454,8 @@ const AuctioneerBiddingPage = () => {
                               }}
                             >
                               {" "}
-                              {currentPlayer.Specialism.toUpperCase()}
+                              {currentPlayer.Specialism}
+                              {/* {currentPlayer.Specialism.toUpperCase()} */}
                             </Typography>
                           </Box>
                         </Grid>
@@ -483,9 +505,10 @@ const AuctioneerBiddingPage = () => {
                       <Button
                         variant="contained"
                         size="large" // Increase the button size
-                        onClick={handleCreateTeam}
+                        onClick={handleBid}
+                        sx={{ backgroundColor: "#E8AA42" }}
                       >
-                        Create Team
+                        Bid
                       </Button>
                     </Box>
                   </Grid>
@@ -493,10 +516,8 @@ const AuctioneerBiddingPage = () => {
               </Box>
             </Box>
           </Box>
-          
-
         </section>
-        <ParticipantFooter/>
+        <ParticipantFooter />
       </Box>
     </>
   );
