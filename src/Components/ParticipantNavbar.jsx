@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
@@ -17,6 +17,7 @@ const ParticipantNavbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [value, setValue] = useState(0);
   const location = useLocation(); // Get the current location from react-router-dom
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Find the index of the tab whose link matches the current pathname
@@ -28,7 +29,7 @@ const ParticipantNavbar = () => {
     { label: "dashboard", link: "/participant/dashboard" },
     { label: "rules", link: "/rules" },
 
-    { label: "Login", link: "/login" },
+    { label: "Logout", link: "/" },
   ];
 
   const socialMediaLinks = [
@@ -49,6 +50,15 @@ const ParticipantNavbar = () => {
 
   const handleTabsChange = (event, newValue) => {
     setValue(newValue);
+
+    // Check if the selected tab is a "Logout" tab
+    const selectedTab = tabs[newValue];
+    if (selectedTab.label.toUpperCase() === "LOGOUT") {
+      // Clear the LocalStorage
+      localStorage.clear();
+      // Navigate to "/"
+      navigate("/");
+    }
   };
 
   return (

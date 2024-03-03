@@ -41,10 +41,10 @@ function App() {
             element={<AuctioneerParticipantsPlayersPage />}
           />
           <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
-          <Route path="/superUser/Login" element={<LoginSuperUserPage />} />
-          <Route path="/auctioneer/login" element={<LoginAuctioneerPage />} />
+          <Route path="/Login/superUser" element={<LoginSuperUserPage />} />
+          <Route path="/login/auctioneer" element={<LoginAuctioneerPage />} />
           <Route
-            path="/Login/Participants"
+            path="/login/participant"
             element={<LoginParticipantsPage />}
           />
 

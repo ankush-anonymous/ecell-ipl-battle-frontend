@@ -1,7 +1,8 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
+import axios from "axios";
 const currentPlayer = {
   image:
     "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
@@ -121,6 +122,79 @@ const listOfPlayers = [
 ];
 
 const ParticipantDashboard = () => {
+  const [currentPlayer, setCurrentPlayer] = useState({});
+  const [iplTeamLogo, setIplTeamLogo] = useState("");
+  const [auctioneerID, setAuctioneerID] = useState("");
+  const [participantID, setParticipantID] = useState("");
+  const [teamName, setTeamName] = useState("");
+  const [playerCount, setPlayerCount] = useState();
+  const [listOfPlayers, setListOfPlayers] = useState([]);
+
+  const fetchParticipantDetails = async () => {
+    setIplTeamLogo(localStorage.getItem("iplTeamLogo"));
+    setAuctioneerID(localStorage.getItem("auctioneerId"));
+    setParticipantID(localStorage.getItem("_id"));
+    setTeamName(localStorage.getItem("teamname"));
+  };
+
+  const fetchMyPlayers = async () => {
+    try {
+      const result = await axios.get(
+        `/api/v1/bid/getAllBiddingTransit?participantID=${participantID}`
+      );
+
+      const listOfPlayers = [];
+
+      // Iterate over each object in the result array
+      for (const item of result.data.result) {
+        // Extract the iplPlayerID from the current object
+        const { iplPlayerID, biddingAmount } = item;
+
+        // Make a request to fetch player details by ID
+        const playerDetails = await axios.get(
+          `/api/v1/players/getPlayerById/${iplPlayerID}`
+        );
+
+        const playerWithBiddingAmount = {
+          ...playerDetails.data.data,
+          biddingAmount: biddingAmount,
+        };
+        console.log(playerWithBiddingAmount);
+        // Push the player details to the listOfPlayers array
+        listOfPlayers.push(playerWithBiddingAmount);
+      }
+      setListOfPlayers(listOfPlayers);
+
+      // Now listOfPlayers contains details of all players
+      console.log(listOfPlayers);
+      return listOfPlayers;
+    } catch (error) {
+      console.error("Error fetching players:", error.message);
+      return []; // Return an empty array in case of an error
+    }
+  };
+
+  const fetchCurrentPlayer = async () => {
+    const roomId = localStorage.getItem("auctioneerId");
+    const room = await axios.get(
+      `/api/v1/auctioneers/getAuctioneerById/${roomId}`
+    );
+    const playerCount = room.data.data.currentPlayerCount;
+    // setPlayerCount(playerCount);
+    const currentPlayer = await axios.get(
+      `/api/v1/players/getAllPlayers?playerNo=${playerCount}`
+    );
+
+    // console.log("current:", currentPlayer.data.players[0]);
+    setCurrentPlayer(currentPlayer.data.players[0]);
+  };
+
+  useEffect(() => {
+    fetchParticipantDetails();
+    fetchCurrentPlayer();
+    fetchMyPlayers();
+  }, []);
+
   return (
     <>
       <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
@@ -157,7 +231,7 @@ const ParticipantDashboard = () => {
                   }}
                 >
                   <Box sx={{ height: "200px", width: "200px" }}>
-                    <img src="https://i.pinimg.com/originals/24/4f/99/244f99af4ce1b95c2dd5871a9a8161bc.png" />
+                    <img src={iplTeamLogo} />
                   </Box>
                   <Typography
                     variant="body1"
@@ -299,8 +373,7 @@ const ParticipantDashboard = () => {
                           textAlign: "center",
                         }}
                       >
-                        {currentPlayer.firstname}
-                        {currentPlayer.surname}
+                        {currentPlayer.firstname} {currentPlayer.surname}
                       </Typography>
                     </Box>
                   </Box>
@@ -395,7 +468,7 @@ const ParticipantDashboard = () => {
                             fontFamily: "Protest Revolution",
                           }}
                         >
-                          {currentPlayer.iplrating}
+                          {currentPlayer.iplRating}
                         </Typography>
                       </Box>
                     </Box>
@@ -601,7 +674,7 @@ const ParticipantDashboard = () => {
                               }}
                             >
                               {" "}
-                              {currentPlayer.Specialism.toUpperCase()}
+                              {currentPlayer.Specialism}
                             </Typography>
                           </Box>
                         </Grid>
@@ -1243,7 +1316,7 @@ const ParticipantDashboard = () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.SlNo}
+                        {index + 1}
                       </Typography>
                     </Grid>
                     <Grid item md={2}>
@@ -1294,7 +1367,7 @@ const ParticipantDashboard = () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.iplrating}
+                        {item.iplRating}
                       </Typography>
                     </Grid>
                     <Grid item md={1}>
@@ -1302,8 +1375,9 @@ const ParticipantDashboard = () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.SoldPrice}
+                        {item.biddingAmount}
                       </Typography>
+                      k
                     </Grid>
                   </React.Fragment>
                 ))}

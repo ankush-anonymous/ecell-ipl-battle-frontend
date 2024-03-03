@@ -1,12 +1,63 @@
-import React, { useState } from "react";
-import { Container, Typography, TextField, Button, Box } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  InputAdornment,
+} from "@mui/material";
+import { AccountCircle, LockRounded } from "@mui/icons-material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { purple } from "@mui/material/colors";
+
+// Create a theme instance.
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: purple[500],
+    },
+  },
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        InputProps: {
+          style: {
+            color: "#fff",
+          },
+        },
+        InputLabelProps: {
+          style: {
+            color: "#adadad",
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          margin: "20px 0px",
+          backgroundColor: "#403E6A",
+          "&:hover": {
+            backgroundColor: "#322F53",
+          },
+        },
+      },
+    },
+  },
+});
 
 const LoginAuctioneerPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+
+  const [logoUrl, setLogoUrl] = useState("https://via.placeholder.com/150");
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -15,7 +66,6 @@ const LoginAuctioneerPage = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = {
@@ -37,66 +87,115 @@ const LoginAuctioneerPage = () => {
     navigate("/auctioneer/teams/");
   };
 
+  // Function to change the logo dynamically
+  const changeLogo = () => {
+    // Example of changing the logo dynamically
+    const newLogoUrl = "https://example.com/newlogo.png";
+    setLogoUrl(newLogoUrl);
+  };
+
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
+    <ThemeProvider theme={theme}>
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(45deg, #333, #5a5a5a)",
           display: "flex",
-          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          border: "1px solid #ccc",
-          padding: "20px",
-          borderRadius: "5px",
-          backgroundColor: "#f9f9f9",
-          height: "400px", // Adjust the height here
         }}
       >
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form
-          onSubmit={handleSubmit}
-          style={{ width: "100%", marginTop: "20px" }}
-        >
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="User ID"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            value={username}
-            onChange={handleUsernameChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={{ marginTop: "20px" }}
+        <Container component="main" maxWidth="xs">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "20px",
+              borderRadius: "5px",
+              backgroundColor: "#232329",
+              boxShadow: "0 0 20px rgba(0, 0, 0, 0.7)",
+            }}
           >
-            Sign In
-          </Button>
-        </form>
-      </Box>
-    </Container>
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{ color: "#fff", marginBottom: "20px" }}
+            >
+              Sign in
+            </Typography>
+            <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+              {/* Displaying the logo */}
+              <div
+                style={{
+                  textAlign: "center",
+                  margin: "20px 0",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  src={logoUrl}
+                  alt="Logo"
+                  style={{ maxWidth: "100px", maxHeight: "100px" }}
+                />
+              </div>
+              {/* User ID and Password fields */}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="userId"
+                label="User ID"
+                name="userId"
+                autoComplete="username"
+                autoFocus
+                value={username}
+                onChange={handleUsernameChange}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle style={{ color: "#adadad" }} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={handlePasswordChange}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockRounded style={{ color: "#adadad" }} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {/* Sign In Button */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={changeLogo}
+              >
+                Sign In
+              </Button>
+            </form>
+          </Box>
+        </Container>
+      </div>
+    </ThemeProvider>
   );
 };
 

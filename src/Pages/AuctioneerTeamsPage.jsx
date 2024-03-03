@@ -28,8 +28,6 @@ const AuctioneerTeamsPage = () => {
   const auctioneerID = localStorage.getItem("_id");
 
   const handleCreateTeam = async () => {
-    console.log(teamName);
-    console.log(teamAssigned);
     const postData = {
       teamname: teamName,
       iplTeamName: teamAssigned,
@@ -334,7 +332,7 @@ const AuctioneerTeamsPage = () => {
                     Team Name
                   </Typography>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -367,7 +365,19 @@ const AuctioneerTeamsPage = () => {
                       fontSize: "20px",
                     }}
                   >
-                    Players
+                    UserName
+                  </Typography>
+                </Grid>
+                <Grid item md={1}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Password
                   </Typography>
                 </Grid>
                 <Grid item md={1}>
@@ -405,7 +415,7 @@ const AuctioneerTeamsPage = () => {
                         {item.teamname}
                       </Typography>
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
@@ -426,7 +436,15 @@ const AuctioneerTeamsPage = () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        {item.PlayerCount}
+                        {item.username}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={1}>
+                      <Typography
+                        align="center"
+                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
+                      >
+                        {item.password}
                       </Typography>
                     </Grid>
                     <Grid item md={1}>

@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 import {
   Box,
   Button,
@@ -7,35 +9,63 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import axios from "axios";
-// const currentPlayer = {
-//   image:
-//     "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-//   firstname: "Mahendra Singh ",
-//   surname: "Dhoni ",
-//   country: "India",
-//   DOB: "1981-07-07",
-//   Age: 35,
-//   Specialism: "cover drive",
-//   BattingStyle: "RHB",
-//   BowlingStyle: "right arm medium",
-//   testcaps: 269,
-//   odicaps: 175,
-//   t20caps: 31,
-//   iplrating: 1,
-//   overseasflag: "false",
-//   soldby: "rcb",
-//   bidwonby: "rcb",
-// };
-
+import { teams } from "../data/iplTeams";
 const AuctioneerBiddingPage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [bidAmount, setBidAmount] = useState();
   const [teamLeader, setTeamLeader] = useState("");
   const [teamAssigned, setTeamAssigned] = useState("");
+  const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
+  const [assignedTeamId, setAssignedTeamId] = useState("");
+  const [playerCount, setPlayerCount] = useState();
+  const roomId = localStorage.getItem("_id");
+  const [teams, setTeams] = useState([]);
+  const [listOfTeams, setListOfTeams] = useState([]);
+  const [isBidded, setIsBidded] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState({});
+  const [currentPlayerId, setCurrentPlayerId] = useState();
+
+  const fetchTeamsOfRoom = async () => {
+    const result = await axios.get(
+      `/api/v1/participants/getAllParticipants?auctioneerID=${roomId}`
+    );
+    setTeams(result.data.participants);
+    console.log(result.data.participants);
+  };
+
+  const handlePrevious = async () => {
+    setIsBidded(false);
+    const postData = {
+      currentPlayerCount: playerCount - 1,
+    };
+    const updatePlayer = await axios.patch(
+      `api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+      postData
+    );
+    console.log(updatePlayer);
+
+    // Update playerCount state after successful patch request
+    setPlayerCount(playerCount - 1);
+  };
+
+  const handleNext = async () => {
+    setIsBidded(false);
+    const postData = {
+      currentPlayerCount: playerCount + 1,
+    };
+    const updatePlayer = await axios.patch(
+      `api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+      postData
+    );
+    console.log(updatePlayer);
+
+    // Update playerCount state after successful patch request
+    setPlayerCount(playerCount + 1);
+  };
 
   const fetchCurrentPlayer = async () => {
     const roomId = localStorage.getItem("_id");
@@ -43,23 +73,51 @@ const AuctioneerBiddingPage = () => {
       `/api/v1/auctioneers/getAuctioneerById/${roomId}`
     );
     const playerCount = room.data.data.currentPlayerCount;
+    setPlayerCount(playerCount);
     const currentPlayer = await axios.get(
       `/api/v1/players/getAllPlayers?playerNo=${playerCount}`
     );
 
-    // console.log(currentPlayer.data.players[0]);
+    // console.log("current:", currentPlayer.data.players[0]._id);
     setCurrentPlayer(currentPlayer.data.players[0]);
+    setCurrentPlayerId(currentPlayer.data.players[0]._id);
+    checkBiddedPlayer(currentPlayer.data.players[0]._id);
   };
 
-  const handleBid = () => {
-    // Your logic to create the team
-    console.log("Team Leader:", teamLeader);
-    console.log("Team Assigned:", teamAssigned);
+  const handleBid = async () => {
+    const postData = {
+      auctioneerID: roomId,
+      participantID: assignedTeamId,
+      biddingAmount: bidAmount,
+      iplPlayerID: currentPlayerId,
+    };
+    const result = await axios.post(
+      "/api/v1/bid/createBiddingTransit",
+      postData
+    );
+
+    setIsBidded(true);
+    setTeamAssigned("");
+    setBidAmount();
+  };
+
+  const checkBiddedPlayer = async (playerId) => {
+    console.log("id:", playerId);
+    const result = await axios.get(
+      `/api/v1/bid/getAllBiddingTransit?auctioneerID=${roomId}&iplPlayerID=${playerId}`
+    );
+
+    if (result.data.count == 1) {
+      setIsBidded(true);
+    }
   };
 
   useEffect(() => {
     fetchCurrentPlayer();
-  }, []);
+    fetchTeamsOfRoom();
+    const roomId = localStorage.getItem("_id");
+  }, [playerCount]);
+
   return (
     <>
       <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
@@ -73,6 +131,7 @@ const AuctioneerBiddingPage = () => {
               width: "90%", // Adjusted width to 90%
               //   border: "1px solid white",
               margin: "auto", // Centered along x-axis
+
               display: "flex-col",
               justifyContent: "center",
               alignItems: "center",
@@ -89,6 +148,7 @@ const AuctioneerBiddingPage = () => {
                 width: "90%", // Adjusted width to 90%
                 // border: "1px solid white",
                 margin: "auto", // Centered along x-axis
+
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -134,7 +194,7 @@ const AuctioneerBiddingPage = () => {
                         borderRadius: "10px",
                       }}
                     >
-                      <img src={currentPlayer.image} />
+                      <img src={currentPlayer.image} alt="Player" />
                     </Box>
                     <Box
                       sx={{
@@ -171,6 +231,7 @@ const AuctioneerBiddingPage = () => {
                       height: "100%",
                       width: "90%", // Adjusted width to 90%
                       //   border: "1px solid white",
+
                       margin: "auto", // Centered along x-axis
                       marginLeft: "30px",
                       display: "flex-col",
@@ -469,8 +530,8 @@ const AuctioneerBiddingPage = () => {
                   <Grid item xs={12} md={6}>
                     <TextField
                       label="Final Bid Amount"
-                      value={teamLeader}
-                      onChange={(e) => setTeamLeader(e.target.value)}
+                      value={bidAmount}
+                      onChange={(e) => setBidAmount(e.target.value)}
                       variant="outlined"
                       sx={{
                         mb: 2,
@@ -483,7 +544,17 @@ const AuctioneerBiddingPage = () => {
                   <Grid item xs={12} md={6}>
                     <Select
                       value={teamAssigned}
-                      onChange={(e) => setTeamAssigned(e.target.value)}
+                      onChange={(e) => {
+                        const selectedTeam = teams.find(
+                          (team) => team.teamname === e.target.value
+                        );
+                        setTeamAssigned(e.target.value);
+                        setAssignedTeamLogo(
+                          selectedTeam ? selectedTeam.iplTeamLogo : ""
+                        );
+                        setAssignedTeamId(selectedTeam ? selectedTeam._id : "");
+                        console.log(selectedTeam); // Log the selected team here
+                      }}
                       displayEmpty
                       variant="outlined"
                       sx={{
@@ -497,22 +568,61 @@ const AuctioneerBiddingPage = () => {
                       <MenuItem value="" disabled>
                         Select Team Assigned
                       </MenuItem>
-                      <MenuItem value="Team A">Team A</MenuItem>
-                      <MenuItem value="Team B">Team B</MenuItem>
-                      <MenuItem value="Team C">Team C</MenuItem>
+                      {teams.map((team, key) => (
+                        <MenuItem key={key} value={team.teamname}>
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <img
+                              src={team.iplTeamLogo}
+                              alt={team.teamname}
+                              style={{ width: 24, marginRight: 8 }}
+                            />
+                            {team.teamname}
+                          </div>
+                        </MenuItem>
+                      ))}
                     </Select>
+                    {/* {console.log(isBidded)} */}
                     <Box>
-                      <Button
-                        variant="contained"
-                        size="large" // Increase the button size
-                        onClick={handleBid}
-                        sx={{ backgroundColor: "#E8AA42" }}
-                      >
-                        Bid
-                      </Button>
+                      {!isBidded && (
+                        <Button
+                          variant="contained"
+                          size="large" // Increase the button size
+                          onClick={handleBid}
+                          sx={{ backgroundColor: "#E8AA42" }}
+                        >
+                          Bid
+                        </Button>
+                      )}
                     </Box>
                   </Grid>
                 </Grid>
+              </Box>
+              <Box
+                sx={{
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handlePrevious}
+                >
+                  Previous
+                </Button>
+                <Box sx={{ marginLeft: "700px" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    Next
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Box>
