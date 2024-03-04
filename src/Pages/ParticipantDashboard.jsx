@@ -13,15 +13,26 @@ const ParticipantDashboard = () => {
   const [playerCount, setPlayerCount] = useState();
   const [listOfPlayers, setListOfPlayers] = useState([]);
   const [balanceAmount, setBalanceAmount] = useState([]);
+  const [playerStats, setPlayerStats] = useState();
 
+  const [keeperCount, setKeeperCount] = useState();
+  const [batsManCount, setBatsManCount] = useState();
+  const [bowlerCount, setBowlerCount] = useState();
+  const [allRounderCount, setAllRounderCount] = useState();
+  const [overSeasCount, setOverSeasCount] = useState();
+  const [starCount, setStarCount] = useState();
+  const [indianCount, setIndianCount] = useState();
+
+  //fetch participant details on login
   const fetchParticipantDetails = async () => {
     setIplTeamLogo(localStorage.getItem("iplTeamLogo"));
     setAuctioneerID(localStorage.getItem("auctioneerId"));
     setParticipantID(localStorage.getItem("_id"));
     setTeamName(localStorage.getItem("teamname"));
-    setBalanceAmount(localStorage.getItem("balanceAmount"));
+    // setBalanceAmount(localStorage.getItem("balanceAmount"));
   };
 
+  // to fetch player of my team
   const fetchMyPlayers = async () => {
     try {
       const result = await axios.get(
@@ -59,6 +70,7 @@ const ParticipantDashboard = () => {
     }
   };
 
+  // to fetch current player in bid
   const fetchCurrentPlayer = async () => {
     const roomId = localStorage.getItem("auctioneerId");
     const room = await axios.get(
@@ -74,8 +86,30 @@ const ParticipantDashboard = () => {
     setCurrentPlayer(currentPlayer.data.players[0]);
   };
 
+  const fetchMyStats = async () => {
+    try {
+      const myStats = await axios.get(
+        `/api/v1/participants/getParticipantsById/${participantID}`
+      );
+      console.log(myStats.data.data);
+      setPlayerStats(myStats.data.data);
+      const stats = myStats.data.data;
+      setKeeperCount(stats.WicketKeeperCount);
+      setBatsManCount(stats.BatsmanCount);
+      setBowlerCount(stats.BowlerCount);
+      setAllRounderCount(stats.AllRounderCount);
+      setOverSeasCount(stats.OverseasCount);
+      setIndianCount(stats.NonOverSeasCount);
+      setStarCount(stats.StarCount);
+      setBalanceAmount(stats.balanceAmount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchParticipantDetails();
+    fetchMyStats();
     fetchCurrentPlayer();
     fetchMyPlayers();
   }, []);
@@ -573,11 +607,11 @@ const ParticipantDashboard = () => {
                     variant="h6"
                     sx={{
                       textAlign: "center",
-                      fontSize: "18px",
+                      fontSize: "19px",
                       color: "white",
                     }}
                   >
-                    2
+                    {console.log(playerStats)}
                   </Typography>
                 </Box>
               </Box>
@@ -633,7 +667,7 @@ const ParticipantDashboard = () => {
                       color: "white",
                     }}
                   >
-                    2
+                    {batsManCount}
                   </Typography>
                 </Box>
               </Box>
@@ -689,7 +723,7 @@ const ParticipantDashboard = () => {
                       color: "white",
                     }}
                   >
-                    2
+                    {bowlerCount}
                   </Typography>
                 </Box>
               </Box>
@@ -747,7 +781,7 @@ const ParticipantDashboard = () => {
                       color: "white",
                     }}
                   >
-                    2
+                    {allRounderCount}
                   </Typography>
                 </Box>
               </Box>
@@ -805,7 +839,7 @@ const ParticipantDashboard = () => {
                       color: "white",
                     }}
                   >
-                    2
+                    {overSeasCount}
                   </Typography>
                 </Box>
               </Box>
@@ -867,7 +901,7 @@ const ParticipantDashboard = () => {
                       color: "white",
                     }}
                   >
-                    2
+                    {starCount}
                   </Typography>
                 </Box>
               </Box>
@@ -928,7 +962,7 @@ const ParticipantDashboard = () => {
                       color: "white",
                     }}
                   >
-                    2
+                    {indianCount}
                   </Typography>
                 </Box>
               </Box>
