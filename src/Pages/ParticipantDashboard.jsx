@@ -12,12 +12,14 @@ const ParticipantDashboard = () => {
   const [teamName, setTeamName] = useState("");
   const [playerCount, setPlayerCount] = useState();
   const [listOfPlayers, setListOfPlayers] = useState([]);
+  const [balanceAmount, setBalanceAmount] = useState([]);
 
   const fetchParticipantDetails = async () => {
     setIplTeamLogo(localStorage.getItem("iplTeamLogo"));
     setAuctioneerID(localStorage.getItem("auctioneerId"));
     setParticipantID(localStorage.getItem("_id"));
     setTeamName(localStorage.getItem("teamname"));
+    setBalanceAmount(localStorage.getItem("balanceAmount"));
   };
 
   const fetchMyPlayers = async () => {
@@ -113,18 +115,17 @@ const ParticipantDashboard = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Box sx={{ height: "200px", width: "200px" }}>
-                    <img src={iplTeamLogo} />
-                  </Box>
-                  <Typography
-                    variant="body1"
+                  <Box
                     sx={{
-                      color: "orange",
-                      fontSize: "30px",
-                      fontFamily: "Protest Strike",
+                      height: "200px",
+                      width: "200px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                  ></Typography>
-                  <Typography variant="body1">500000 </Typography>
+                  >
+                    <img src={iplTeamLogo} style={{ height: "150px" }} />
+                  </Box>
                 </Box>
               </Grid>
               <Grid item xs={6} md={6}>
@@ -157,7 +158,7 @@ const ParticipantDashboard = () => {
                     }}
                   >
                     {" "}
-                    : 500000{" "}
+                    : {balanceAmount}
                   </Typography>
                 </Box>
               </Grid>
@@ -1260,7 +1261,6 @@ const ParticipantDashboard = () => {
                       >
                         {item.biddingAmount}
                       </Typography>
-                      k
                     </Grid>
                   </React.Fragment>
                 ))}

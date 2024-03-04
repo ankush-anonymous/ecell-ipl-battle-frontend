@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import {
   Box,
@@ -66,6 +66,7 @@ const AuctioneerBiddingPage = () => {
 
     // Update playerCount state after successful patch request
     setPlayerCount(playerCount + 1);
+    window.location.reload(true);
   };
 
   const fetchCurrentPlayer = async () => {
@@ -73,7 +74,7 @@ const AuctioneerBiddingPage = () => {
     const room = await axios.get(
       `/api/v1/auctioneers/getAuctioneerById/${roomId}`
     );
-    console.log(room.data.data);
+    console.log(room.data);
     const playerCount = room.data.data.currentPlayerCount;
     setPlayerCount(playerCount);
     const currentPlayer = await axios.get(
@@ -93,6 +94,8 @@ const AuctioneerBiddingPage = () => {
       biddingAmount: bidAmount,
       iplPlayerID: currentPlayerId,
     };
+
+    const bid = await axios.post("/api/v1/bid/createBiddingTransit", postData);
 
     const participant = await axios.get(
       `/api/v1/participants/getParticipantsById/${assignedTeamId}`
@@ -258,6 +261,7 @@ const AuctioneerBiddingPage = () => {
                         alignContent: "stretch",
                         padding: "10px",
                         gap: "20px",
+                        marginTop: "-50px",
                       }}
                     >
                       <Box
@@ -343,7 +347,7 @@ const AuctioneerBiddingPage = () => {
                               sx={{
                                 fontFamily: "Protest Guerrilla",
                                 color: "yellow",
-                                fontSize: "24px",
+                                fontSize: "28px",
                               }}
                             >
                               Country :
@@ -353,17 +357,43 @@ const AuctioneerBiddingPage = () => {
                               sx={{
                                 fontFamily: "Protest Strike",
                                 color: "white",
-                                fontSize: "28px",
+                                fontSize: "36px",
                               }}
                             >
                               {" "}
                               {currentPlayer.country}
                             </Typography>
                           </Box>
+                          <Box>
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontFamily: "Protest Guerrilla",
+                                color: "#836FFF",
+                                fontSize: "28px",
+                              }}
+                            >
+                              Specialism :
+                            </Typography>
+                            <Typography
+                              variant="body"
+                              sx={{
+                                fontFamily: "Protest Strike",
+                                color: "#FC6736",
+                                fontSize: "36px",
+                                paddingLeft: "20px",
+                              }}
+                            >
+                              {" "}
+                              {currentPlayer.Specialism}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box
                               variant={"span"}
-                              sx={{ height: "50px", width: "50px" }}
+                              sx={{ height: "75px", width: "75px" }}
                             >
                               <img
                                 src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
@@ -375,7 +405,7 @@ const AuctioneerBiddingPage = () => {
                               sx={{
                                 fontFamily: "Protest Strike",
                                 color: "orange",
-                                fontSize: "28px",
+                                fontSize: "32px",
                               }}
                             >
                               : {currentPlayer.BattingStyle}
@@ -384,7 +414,7 @@ const AuctioneerBiddingPage = () => {
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box
                               variant={"span"}
-                              sx={{ height: "50px", width: "50px" }}
+                              sx={{ height: "75px", width: "75px" }}
                             >
                               <img
                                 src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708636258/ball_wzyum5.png"
@@ -396,129 +426,10 @@ const AuctioneerBiddingPage = () => {
                               sx={{
                                 fontFamily: "Protest Strike",
                                 color: "orange",
-                                fontSize: "28px",
+                                fontSize: "32px",
                               }}
                             >
                               : {currentPlayer.BowlingStyle}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <Box>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Guerrilla",
-                                color: "yellow",
-                                fontSize: "25px",
-                              }}
-                            >
-                              Age :
-                            </Typography>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "white",
-                                fontSize: "28px",
-                              }}
-                            >
-                              {" "}
-                              {currentPlayer.Age}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Guerrilla",
-                                color: "#836FFF",
-                                fontSize: "24px",
-                              }}
-                            >
-                              Test :
-                            </Typography>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "white",
-                                fontSize: "28px",
-                              }}
-                            >
-                              {" "}
-                              {currentPlayer.testcaps}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Guerrilla",
-                                color: "#836FFF",
-                                fontSize: "24px",
-                              }}
-                            >
-                              ODI :
-                            </Typography>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "white",
-                                fontSize: "28px",
-                              }}
-                            >
-                              {" "}
-                              {currentPlayer.odicaps}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Guerrilla",
-                                color: "#836FFF",
-                                fontSize: "24px",
-                              }}
-                            >
-                              T20 :
-                            </Typography>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "white",
-                                fontSize: "28px",
-                              }}
-                            >
-                              {" "}
-                              {currentPlayer.t20caps}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              variant="h6"
-                              sx={{
-                                fontFamily: "Protest Guerrilla",
-                                color: "#836FFF",
-                                fontSize: "24px",
-                              }}
-                            >
-                              Specialism :
-                            </Typography>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "#FC6736",
-                                fontSize: "28px",
-                                paddingLeft: "20px",
-                              }}
-                            >
-                              {" "}
-                              {currentPlayer.Specialism}
-                              {/* {currentPlayer.Specialism.toUpperCase()} */}
                             </Typography>
                           </Box>
                         </Grid>
