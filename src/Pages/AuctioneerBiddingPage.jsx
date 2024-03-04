@@ -22,12 +22,13 @@ const AuctioneerBiddingPage = () => {
   const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
   const [assignedTeamId, setAssignedTeamId] = useState("");
   const [playerCount, setPlayerCount] = useState();
-  const roomId = localStorage.getItem("_id");
   const [teams, setTeams] = useState([]);
   const [listOfTeams, setListOfTeams] = useState([]);
   const [isBidded, setIsBidded] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState({});
   const [currentPlayerId, setCurrentPlayerId] = useState();
+
+  const roomId = localStorage.getItem("_id");
 
   const fetchTeamsOfRoom = async () => {
     const result = await axios.get(
@@ -72,13 +73,14 @@ const AuctioneerBiddingPage = () => {
     const room = await axios.get(
       `/api/v1/auctioneers/getAuctioneerById/${roomId}`
     );
+    console.log(room.data.data);
     const playerCount = room.data.data.currentPlayerCount;
     setPlayerCount(playerCount);
     const currentPlayer = await axios.get(
       `/api/v1/players/getAllPlayers?playerNo=${playerCount}`
     );
 
-    // console.log("current:", currentPlayer.data.players[0]._id);
+    // console.log("current:", currentPlayer.data.players[0].Specialism);
     setCurrentPlayer(currentPlayer.data.players[0]);
     setCurrentPlayerId(currentPlayer.data.players[0]._id);
     checkBiddedPlayer(currentPlayer.data.players[0]._id);
@@ -91,9 +93,9 @@ const AuctioneerBiddingPage = () => {
       biddingAmount: bidAmount,
       iplPlayerID: currentPlayerId,
     };
-    const result = await axios.post(
-      "/api/v1/bid/createBiddingTransit",
-      postData
+
+    const participant = await axios.get(
+      `/api/v1/participants/getParticipantsById/${assignedTeamId}`
     );
 
     setIsBidded(true);

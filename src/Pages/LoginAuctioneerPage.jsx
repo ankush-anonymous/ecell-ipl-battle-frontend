@@ -84,7 +84,7 @@ const LoginAuctioneerPage = () => {
 
     setPassword("");
 
-    navigate("/auctioneer/teams/");
+    navigate("/auctioneer/teams");
   };
 
   // Function to change the logo dynamically

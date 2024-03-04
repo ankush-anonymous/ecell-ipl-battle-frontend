@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
 import {
@@ -12,111 +12,78 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Select,
+  // Select,
   Typography,
 } from "@mui/material";
-// import Select from "react-select";
-// import "react-select/dist/react-select.css";
-
-const listOfPlayers = [
-  {
-    image:
-      "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-    firstname: "Mahendra Singh ",
-    surname: "Dhoni ",
-    country: "India",
-    DOB: "1981-07-07",
-    Age: 35,
-    Specialism: "cover drive",
-    BattingStyle: "RHB",
-    BowlingStyle: "right arm medium",
-    testcaps: 269,
-    odicaps: 175,
-    t20caps: 31,
-    iplrating: 1,
-    overseasflag: "false",
-    soldby: "rcb",
-    bidwonby: "rcb",
-  },
-  {
-    image:
-      "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-    firstname: "Mahendra Singh ",
-    surname: "Dhoni ",
-    country: "India",
-    DOB: "1981-07-07",
-    Age: 35,
-    Specialism: "cover drive",
-    BattingStyle: "RHB",
-    BowlingStyle: "right arm medium",
-    testcaps: 269,
-    odicaps: 175,
-    t20caps: 31,
-    iplrating: 1,
-    overseasflag: "false",
-    soldby: "rcb",
-    bidwonby: "rcb",
-  },
-  {
-    image:
-      "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-    firstname: "Mahendra Singh ",
-    surname: "Dhoni ",
-    country: "India",
-    DOB: "1981-07-07",
-    Age: 35,
-    Specialism: "cover drive",
-    BattingStyle: "RHB",
-    BowlingStyle: "right arm medium",
-    testcaps: 269,
-    odicaps: 175,
-    t20caps: 31,
-    iplrating: 1,
-    overseasflag: "false",
-    soldby: "rcb",
-    bidwonby: "rcb",
-  },
-  {
-    image:
-      "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-    firstname: "Mahendra Singh ",
-    surname: "Dhoni ",
-    country: "India",
-    DOB: "1981-07-07",
-    Age: 35,
-    Specialism: "cover drive",
-    BattingStyle: "RHB",
-    BowlingStyle: "right arm medium",
-    testcaps: 269,
-    odicaps: 175,
-    t20caps: 31,
-    iplrating: 1,
-    overseasflag: "false",
-    soldby: "rcb",
-    bidwonby: "rcb",
-  },
-  {
-    image:
-      "https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/IPLHeadshot2023/57.png",
-    firstname: "Mahendra Singh ",
-    surname: "Dhoni ",
-    country: "India",
-    DOB: "1981-07-07",
-    Age: 35,
-    Specialism: "cover drive",
-    BattingStyle: "RHB",
-    BowlingStyle: "right arm medium",
-    testcaps: 269,
-    odicaps: 175,
-    t20caps: 31,
-    iplrating: 1,
-    overseasflag: "false",
-    soldby: "rcb",
-    bidwonby: "rcb",
-  },
-];
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { teams } from "../data/iplTeams";
+import Select from "react-select";
 
 const AuctionerSingleTeamPage = () => {
+  const { participantId } = useParams();
+  const [listOfPlayers, setListOfPlayers] = useState([]);
+  const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
+  const [teamAssigned, setTeamAssigned] = useState("");
+  const [listOfTeams, setListOfTeams] = useState([]);
+
+  //to get players of a single team
+  const fetchMyPlayers = async () => {
+    try {
+      const result = await axios.get(
+        `/api/v1/bid/getAllBiddingTransit?participantID=${participantId}`
+      );
+
+      const listOfPlayers = [];
+
+      // Iterate over each object in the result array
+      for (const item of result.data.result) {
+        // Extract the iplPlayerID from the current object
+        const { iplPlayerID, biddingAmount } = item;
+
+        // Make a request to fetch player details by ID
+        const playerDetails = await axios.get(
+          `/api/v1/players/getPlayerById/${iplPlayerID}`
+        );
+
+        const playerWithBiddingAmount = {
+          ...playerDetails.data.data,
+          biddingAmount: biddingAmount,
+        };
+        console.log(playerWithBiddingAmount);
+        // Push the player details to the listOfPlayers array
+        listOfPlayers.push(playerWithBiddingAmount);
+      }
+      setListOfPlayers(listOfPlayers);
+
+      // Now listOfPlayers contains details of all players
+      console.log(listOfPlayers);
+      return listOfPlayers;
+    } catch (error) {
+      console.error("Error fetching players:", error.message);
+      return []; // Return an empty array in case of an error
+    }
+  };
+
+  const fetchTeamsOfRoom = async (auctioneerID) => {
+    const result = await axios.get(
+      `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerID}`
+    );
+    setListOfTeams(result.data.participants);
+    console.log("part:", result.data.participants);
+  };
+
+  const handleTeamChange = (selectedOption) => {
+    setTeamAssigned(selectedOption);
+    console.log("Selected team:", selectedOption);
+  };
+
+  useEffect(() => {
+    const auctioneerID = localStorage.getItem("_id");
+    fetchTeamsOfRoom(auctioneerID);
+    fetchMyPlayers(participantId);
+  }, []);
+
   return (
     <>
       <AuctioneerNavbar />
@@ -627,6 +594,66 @@ const AuctionerSingleTeamPage = () => {
                       padding: "25px",
                     }}
                   >
+                    {/* New section for buttons */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: "20px",
+                      }}
+                    >
+                      {/* Delete button */}
+                      <Button
+                        variant="contained"
+                        color="error"
+                        // onClick={() => handleDelete(item.id)}
+                        sx={{ marginRight: "10px" }}
+                      >
+                        Delete
+                      </Button>
+
+                      {/* Transfer To  */}
+                      <FormControl sx={{ m: 1, minWidth: "300px" }}>
+                        <InputLabel>Transfer To</InputLabel>
+
+                        <Select
+                          value={teamAssigned}
+                          onChange={handleTeamChange}
+                          className="z-99"
+                          options={listOfTeams.map((team) => ({
+                            value: team.name,
+                            label: (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img
+                                  src={team.iplTeamLogo}
+                                  alt={team.iplTeamName}
+                                  style={{ width: 24, marginRight: 8 }}
+                                />
+                                {team.iplTeamName}
+                              </div>
+                            ),
+                          }))}
+                          placeholder="Select team..."
+                        />
+                      </FormControl>
+
+                      {/* Transfer button */}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        // onClick={() => handleDelete(item.id)}
+                        sx={{ marginRight: "10px" }}
+                      >
+                        Transfer
+                      </Button>
+                    </Box>
                     <Grid container alignItems={"center"}>
                       <Grid item xs={9} md={9}>
                         <CardContent>
@@ -787,7 +814,7 @@ const AuctionerSingleTeamPage = () => {
                                 fontSize: "20px",
                               }}
                             >
-                              {item.iplrating}
+                              {item.iplRating}
                             </Typography>
                           </Box>
                           <Box
@@ -817,7 +844,7 @@ const AuctionerSingleTeamPage = () => {
                                 fontSize: "20px",
                               }}
                             >
-                              {item.SoldPrice}
+                              {item.biddingAmount}
                             </Typography>
                           </Box>
                         </CardContent>
@@ -835,68 +862,13 @@ const AuctionerSingleTeamPage = () => {
                         />
                       </Grid>
                     </Grid>
-                    {/* New section for buttons */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginTop: "20px",
-                      }}
-                    >
-                      {/* Delete button */}
-                      <Button
-                        variant="contained"
-                        color="error"
-                        // onClick={() => handleDelete(item.id)}
-                        sx={{ marginRight: "10px" }}
-                      >
-                        Delete
-                      </Button>
-                      <FormControl sx={{ m: 1, minWidth: 120 }}>
-                        <InputLabel>Transfet To</InputLabel>
-                        <Select
-                          // value={value}
-                          // onChange={handleChange}
-                          label="Transfer To"
-                          sx={{
-                            width: "300px",
-                            backgroundColor: "white",
-                            color: "black",
-                          }}
-                          MenuProps={{
-                            anchorOrigin: {
-                              vertical: "bottom",
-                              horizontal: "left",
-                            },
-                            transformOrigin: {
-                              vertical: "top",
-                              horizontal: "left",
-                            },
-                            getContentAnchorEl: null, // This ensures the menu is not anchored to the DOM
-                            elevation: 0, // This removes the drop shadow
-                            PaperProps: {
-                              style: {
-                                maxHeight: 300,
-                                width: 250,
-                              },
-                            },
-                          }}
-                        >
-                          <MenuItem value="">Transfer to</MenuItem>
-                          <MenuItem value="team1">Team 1</MenuItem>
-                          <MenuItem value="team2">Team 2</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Box>
                   </Card>
                 </Grid>
               ))}
             </Grid>
           </Box>
         </section>
-        <ParticipantFooter/>
+        <ParticipantFooter />
       </Box>
     </>
   );

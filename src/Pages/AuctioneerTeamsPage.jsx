@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
+import { useNavigate } from "react-router-dom";
 
 import { teams } from "../data/iplTeams";
 
@@ -24,6 +25,8 @@ const AuctioneerTeamsPage = () => {
   const [teamAssigned, setTeamAssigned] = useState("");
   const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
   const [listOfTeams, setListOfTeams] = useState([]);
+
+  const navigate = useNavigate();
 
   const auctioneerID = localStorage.getItem("_id");
 
@@ -52,6 +55,11 @@ const AuctioneerTeamsPage = () => {
     );
     setListOfTeams(result.data.participants);
     console.log(result.data.participants);
+  };
+
+  const handleInfoButtonClick = (playerId) => {
+    // Navigate to the route with the player ID appended
+    navigate(`/auctioneer/teams/stats/${playerId}`);
   };
 
   useEffect(() => {
@@ -452,7 +460,7 @@ const AuctioneerTeamsPage = () => {
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
-                        <Button>
+                        <Button onClick={() => handleInfoButtonClick(item._id)}>
                           <InfoIcon />
                         </Button>
                       </Typography>

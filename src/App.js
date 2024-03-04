@@ -23,29 +23,34 @@ function App() {
     <div className="App bg-slate-950 ">
       <BrowserRouter>
         <Routes>
+          {/* SuperUserRoutes */}
+          <Route path="/Login/superUser" element={<LoginSuperUserPage />} />
+          <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
+
+          {/* AuctioneerRoutes  */}
+          <Route path="/login/auctioneer" element={<LoginAuctioneerPage />} />
+          <Route path="/auctioneer/teams" element={<AuctioneerTeamsPage />} />
           <Route
-            path="/participant/dashboard"
-            element={<ParticipantDashboard />}
-          />
-          <Route path="/auctioneer/teams/" element={<AuctioneerTeamsPage />} />
-          <Route
-            path="/auctioneer/teams/stats"
+            path="/auctioneer/teams/stats/:participantId"
             element={<AuctionerSingleTeamPage />}
           />
           <Route
             path="/auctioneer/bidding"
             element={<AuctioneerBiddingPage />}
           />
-          <Route
+          {/* <Route
             path="/auctioneer/participants/team"
             element={<AuctioneerParticipantsPlayersPage />}
-          />
-          <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
-          <Route path="/Login/superUser" element={<LoginSuperUserPage />} />
-          <Route path="/login/auctioneer" element={<LoginAuctioneerPage />} />
+          /> */}
+
+          {/* ParticipantRoutes  */}
           <Route
             path="/login/participant"
             element={<LoginParticipantsPage />}
+          />
+          <Route
+            path="/participant/dashboard"
+            element={<ParticipantDashboard />}
           />
 
           <Route path="/rules" element={<RulesPage />} />
