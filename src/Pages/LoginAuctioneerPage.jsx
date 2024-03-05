@@ -57,7 +57,7 @@ const LoginAuctioneerPage = () => {
   const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
 
-  const [logoUrl, setLogoUrl] = useState("https://via.placeholder.com/150");
+  const [logoUrl, setLogoUrl] = useState("/ecell_logo.png");
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -137,7 +137,7 @@ const LoginAuctioneerPage = () => {
                 <img
                   src={logoUrl}
                   alt="Logo"
-                  style={{ maxWidth: "100px", maxHeight: "100px" }}
+                  style={{ maxWidth: "300px", maxHeight: "100px" }}
                 />
               </div>
               {/* User ID and Password fields */}

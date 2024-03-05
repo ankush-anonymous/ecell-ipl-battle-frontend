@@ -15,6 +15,7 @@ import AuctioneerParticipantsPlayersPage from "./Pages/AuctioneerParticipantsPla
 import LoginSuperUserPage from "./Pages/LoginSuperUserPage";
 import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
 import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
+import HomePage from "./Pages/HomePage";
 
 // axios.defaults.baseURL = "https://ecell-ipl-battle-backend.onrender.com";
 axios.defaults.baseURL = " http://localhost:5000";
@@ -24,6 +25,9 @@ function App() {
     <div className="App bg-slate-950 ">
       <BrowserRouter>
         <Routes>
+          {/* Homepage route  */}
+          <Route path="/" element={<HomePage/>} />
+          
           {/* SuperUserRoutes */}
           <Route path="/Login/superUser" element={<LoginSuperUserPage />} />
           <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
@@ -53,6 +57,7 @@ function App() {
             path="/participant/dashboard"
             element={<ParticipantDashboard />}
           />
+
 
           <Route path="/rules" element={<RulesPage />} />
         </Routes>

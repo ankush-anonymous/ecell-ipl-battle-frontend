@@ -56,7 +56,7 @@ const LoginParticipantsPage = () => {
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [logoUrl, setLogoUrl] = useState("https://via.placeholder.com/150");
+  const [logoUrl, setLogoUrl] = useState("/ecell_logo.png");
 
   const handleUserIdChange = (e) => {
     setUserName(e.target.value);
