@@ -26,7 +26,7 @@ const HomepageNavbar = () => {
   }, [location.pathname]); // Update the effect when the pathname changes
 
   const tabs = [
-    { label: "Home", link: "/participant/dashboard" },
+    { label: "Home", link: "" },
     { label: "rules", link: "/rules" },
 
     { label: "Login", link: "/login/participant" },
