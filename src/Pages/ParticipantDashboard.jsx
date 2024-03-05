@@ -233,148 +233,197 @@ const ParticipantDashboard = () => {
             </Box>
           </section>
 
-          {/* Player Current in Bid  */}
-          <section className="my-32">
-            <Box
-              sx={{
-                height: "100%",
-                width: "90%", // Adjusted width to 90%
-                //   border: "1px solid white",
-                margin: "auto", // Centered along x-axis
-                display: "flex-col",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "10px",
-                padding: "20px",
-                backgroundColor: "#232329",
-                overflow: "hidden",
-              }}
+        {/* Player Currently at the bid  */}
+        <section className="mt-16">
+          <Box
+            sx={{
+              height: "80px",
+              width: "90%", // Adjusted width to 90%
+              margin: "auto", // Centered along x-axis
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              // border: "1px solid white",
+              // marginBottom: "20px",
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{ fontFamily: "Protest Revolution", color: "white" }}
             >
-              {/* section title  */}
-              <Box
+              Player Currently At Bid
+            </Typography>
+          </Box>
+        </section>
+
+
+        <section className="my-8">
+          <Box
+            sx={{
+              height: "600px",
+              width: "90%", // Adjusted width to 90%
+              // border: "1px solid white",
+              margin: "auto", // Centered along x-axis
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              padding: "20px",
+              // backgroundColor: "#232329",
+              overflow: "hidden",
+              backgroundImage: `url('/background.jpeg')`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}
+            // className="border"
+          >
+            {/* Inner Box  */}
+            <Box>
+              <Grid
+                container
+                // spacing={1}
                 sx={{
-                  height: "100px",
-                  width: "90%", // Adjusted width to 90%
-                  // border: "1px solid white",
-                  margin: "auto", // Centered along x-axis
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "10px",
-                  marginBottom: "20px",
+                  // border: "2px solid white",
+                  height: "550px",
                 }}
               >
-                <Typography
-                  variant="h3"
-                  sx={{ fontFamily: "Protest Revolution", color: "white" }}
-                >
-                  Player Currently At Bid
-                </Typography>
-              </Box>
+                {/* Image Box  */}
+                <Grid item xs={12} md={6}>
+                  {/* Image  */}
+                  <Box
+                    sx={{
+                      height: "500px",
+                      width: "100%", // Adjusted width to 90%
+                      // borderLeft: "10px solid white",
+                      // borderBottom: "10px Solid white",Search yes it is
+                      // border: "2px solid #F29F05",
+                      margin: "auto", // Centered along x-axis
+                      display: "flex-col",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      // borderRadius: "10px",
+                    }}
+                  >
+                    {/* <Box className="w-72 h-72  border-r-8 border-t-8 ml-72 absolute"></Box> */}
 
-              <Box>
-                <Grid container spacing={1}>
-                  {/* Image Box  */}
-                  <Grid item xs={12} md={4}>
                     {/* Image  */}
                     <Box
                       sx={{
-                        height: "100%",
+                        height: "90%",
                         width: "90%", // Adjusted width to 90%
-                        //   border: "1px solid white",
+                        // border: "2px solid #F29F05",
+                        boxShadow: "inset 0 0 0 3px #F29F05",
                         margin: "auto", // Centered along x-axis
-                        display: "flex-col",
+                        display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         borderRadius: "10px",
+                        overflow: "hidden",
                       }}
                     >
-                      <Box
-                        sx={{
-                          height: "300px",
-                          width: "90%", // Adjusted width to 90%
-                          // border: "1px solid white",
-                          margin: "auto", // Centered along x-axis
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <img src={currentPlayer.image} />
-                      </Box>
-                      <Box
-                        sx={{
-                          height: "100px",
-                          width: "90%", // Adjusted width to 90%
-                          // border: "1px solid white",
-                          margin: "auto", // Centered along x-axis
-                          display: "flex-col",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "10px",
-                          overflow: "hidden",
-                        }}
-                      >
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            fontFamily: "Protest Riot",
-                            color: "white",
-                            textAlign: "center",
-                          }}
-                        >
-                          {currentPlayer.firstname} {currentPlayer.surname}
-                        </Typography>
-                      </Box>
+                      <img src={currentPlayer.image} />
                     </Box>
-                  </Grid>
 
-                  {/* Portfolio Box  */}
-                  <Grid item xs={12} md={8}>
+                    {/* Intro of player  */}
                     <Box
                       sx={{
-                        height: "100%",
-                        width: "90%", // Adjusted width to 90%
-                        //   border: "1px solid white",
+                        height: "85px",
+                        width: "100%", // Adjusted width to 90%
+                        // border: "1px solid white",
                         margin: "auto", // Centered along x-axis
-                        marginLeft: "30px",
                         display: "flex-col",
                         justifyContent: "center",
                         alignItems: "center",
                         borderRadius: "10px",
-                        padding: "20px",
+                        overflow: "hidden",
                       }}
                     >
-                      {/* Tag Box  */}
-                      <Box
+                      <Typography
+                        variant="h4"
                         sx={{
-                          // border: "1px solid white",
-                          height: "100px",
-                          width: "90%",
-                          margin: "auto",
-                          borderRadius: "10px",
-                          display: "flex",
-                          flexWrap: "wrap",
-                          justifyContent: "flex-end",
-                          alignItems: "center", // Align items vertically
-                          alignContent: "stretch",
-                          padding: "10px",
-                          gap: "20px",
+                          fontFamily: "Protest Riot",
+                          color: "white",
+                          textAlign: "center",
                         }}
                       >
+                        {currentPlayer.firstname} {currentPlayer.surname}
+                      </Typography>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontFamily: "Protest Riot",
+                          color: "Orange",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentPlayer.BowlingStyle}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+
+                {/* Portfolio Box  */}
+                <Grid item xs={12} md={6}>
+                  <Box
+                    sx={{
+                      height: "100%",
+                      width: "90%", // Adjusted width to 90%
+                      //  border: "1px solid white",
+                      margin: "auto", // Centered along x-axis
+                      // marginLeft: "30px",
+                      display: "flex-col",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: "10px",
+                      // padding: "20px",
+                    }}
+                  >
+                    {/* Tag Box  */}
+                    <Box
+                      sx={{
+                        // border: "1px solid white",
+                        height: "100px",
+                        width: "90%",
+                        margin: "auto",
+                        borderRadius: "10px",
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "flex-end",
+                        alignItems: "center", // Align items vertically
+                        alignContent: "stretch",
+                        padding: "10px",
+                        gap: "10px",
+                      }}
+                    >
+                      {/* Player Rating  */}
+                      <Box className="w-full flex items-center justify-center">
                         <Box
                           sx={{
-                            //   border: "1px solid white",
-                            height: "50px",
-                            width: "50px",
+                            border: "2px solid red",
+                            borderRadius: "50%",
+                            height: "100px",
+                            width: "100px",
                           }}
                         >
-                          <img
-                            src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
-                            alt="Star Icon"
-                          />
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "red",
+                              // color: "yellow",
+                              textAlign: "center",
+                              fontSize: "60px",
+                              fontFamily: "Protest Revolution",
+                            }}
+                          >
+                            {currentPlayer.iplRating}
+                          </Typography>
                         </Box>
+                      </Box>
+
+                      {/* Other Icons  */}
+                      <Box className="w-full flex items-center justify-evenly">
                         <Box
                           sx={{
                             //   border: "1px solid white",
@@ -385,6 +434,18 @@ const ParticipantDashboard = () => {
                           <img
                             src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
                             alt="Plane Icon"
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            //   border: "1px solid white",
+                            height: "60px",
+                            width: "60px",
+                          }}
+                        >
+                          <img
+                            src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
+                            alt="Star Icon"
                           />
                         </Box>
                         <Box
@@ -402,149 +463,158 @@ const ParticipantDashboard = () => {
                             alt="Indian flag Icon"
                           />
                         </Box>
-                        <Box
-                          sx={{
-                            border: "1px solid red",
-                            borderRadius: "50%",
-                            height: "80px",
-                            width: "80px",
-                          }}
-                        >
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              color: "red",
-                              textAlign: "center",
-                              fontSize: "50px",
-                              fontFamily: "Protest Revolution",
-                            }}
-                          >
-                            {currentPlayer.iplRating}
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          height: "100%",
-                          width: "90%",
-                          // border: "0.5px solid white",
-                          margin: "auto",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          marginTop: "-60px",
-                          borderRadius: "10px",
-                          // padding: "20px",
-                        }}
-                      >
-                        <Grid container spacing={5} alignItems="flex-start">
-                          <Grid item xs={12} md={6}>
-                            <Box sx={{ marginBottom: "0px" }}>
-                              <Typography
-                                variant="body"
-                                sx={{
-                                  fontFamily: "Protest Guerrilla",
-                                  color: "yellow",
-                                  fontSize: "24px",
-                                  // display: "inline",
-                                }}
-                              >
-                                Country :
-                              </Typography>
-                              <Typography
-                                variant="body"
-                                sx={{
-                                  fontFamily: "Protest Strike",
-                                  color: "white",
-                                  fontSize: "28px",
-                                  margin: 0, // Remove margin
-                                  padding: 0, // Remove padding
-                                }}
-                              >
-                                {" "}
-                                {currentPlayer.country}
-                              </Typography>
-                            </Box>
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
-                              <Box
-                                variant={"span"}
-                                sx={{ height: "50px", width: "50px" }}
-                              >
-                                <img
-                                  src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
-                                  alt=""
-                                />
-                              </Box>
-                              <Typography
-                                variant="body"
-                                sx={{
-                                  fontFamily: "Protest Strike",
-                                  color: "orange",
-                                  fontSize: "28px",
-                                  margin: 0, // Remove margin
-                                  padding: 0, // Remove padding
-                                }}
-                              >
-                                : {currentPlayer.BattingStyle}
-                              </Typography>
-                            </Box>
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
-                              <Box
-                                variant={"span"}
-                                sx={{ height: "50px", width: "50px" }}
-                              >
-                                <img
-                                  src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708636258/ball_wzyum5.png"
-                                  alt=""
-                                />
-                              </Box>
-                              <Typography
-                                variant="body"
-                                sx={{
-                                  fontFamily: "Protest Strike",
-                                  color: "orange",
-                                  fontSize: "28px",
-                                }}
-                              >
-                                : {currentPlayer.BowlingStyle}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <Box>
-                              <Typography
-                                variant="h6"
-                                sx={{
-                                  fontFamily: "Protest Guerrilla",
-                                  color: "#836FFF",
-                                  fontSize: "24px",
-                                }}
-                              >
-                                Specialism :
-                              </Typography>
-                              <Typography
-                                variant="body"
-                                sx={{
-                                  fontFamily: "Protest Strike",
-                                  color: "#FC6736",
-                                  fontSize: "28px",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                {" "}
-                                {currentPlayer.Specialism}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        </Grid>
                       </Box>
                     </Box>
-                  </Grid>
+
+                    {/* Stats  */}
+                    <Box
+                      sx={{
+                        height: "80%",
+                        width: "90%",
+                        // border: "0.5px solid white",
+                        margin: "auto",
+                        marginTop: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: "10px",
+                        padding: "20px",
+                      }}
+                    >
+                      <Grid container spacing={1}>
+                        <Grid item xs={12} md={6}>
+                          <Box
+                            sx={{ marginBottom: "0px", textAlign: "center" }}
+                          >
+                            <Typography
+                              variant="body"
+                              sx={{
+                                fontFamily: "Protest Guerrilla",
+                                color: "yellow",
+                                fontSize: "24px",
+                                textAlign: "center",
+                                // display: "inline",
+                              }}
+                            >
+                              Country
+                            </Typography>
+                            <br />
+                            <Typography
+                              variant="body"
+                              sx={{
+                                fontFamily: "Protest Strike",
+                                color: "white",
+                                fontSize: "28px",
+                                margin: 0, // Remove margin
+                                padding: 0, // Remove padding
+                              }}
+                            >
+                              {" "}
+                              {currentPlayer.country}
+                            </Typography>
+                          </Box>
+                        </Grid>
+
+                        {/* Country and Specialism  */}
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ textAlign: "center" }}>
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontFamily: "Protest Guerrilla",
+                                color: "yellow",
+                                fontSize: "24px",
+                              }}
+                            >
+                              Specialism
+                            </Typography>
+                            <Typography
+                              variant="body"
+                              sx={{
+                                fontFamily: "Protest Strike",
+                                // color: "#FC6736",
+                                color: "white",
+                                fontSize: "28px",
+                                // paddingLeft: "20px",
+                              }}
+                            >
+                              {" "}
+                              {currentPlayer.Specialism}
+                            </Typography>
+                          </Box>
+                        </Grid>
+
+                        {/* Bowling and Batting Styles  */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                            marginTop: "20px",
+                            // border: "1px solid white",
+                          }}
+                        >
+                          <Box
+                            variant={"span"}
+                            sx={{ height: "50px", width: "50px" }}
+                          >
+                            <img
+                              src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
+                              alt="Batting Style"
+                            />
+                          </Box>
+                          <br />
+                          <Typography
+                            variant="body"
+                            sx={{
+                              fontFamily: "Protest Strike",
+                              color: "orange",
+                              fontSize: "28px",
+                              margin: 0, // Remove margin
+                              padding: 0, // Remove padding
+                            }}
+                          >
+                            {currentPlayer.BattingStyle}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <Box
+                            variant={"span"}
+                            sx={{ height: "50px", width: "50px" }}
+                          >
+                            <img
+                              src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708636258/ball_wzyum5.png"
+                              alt=""
+                            />
+                          </Box>
+                          <Typography
+                            variant="body"
+                            sx={{
+                              fontFamily: "Protest Strike",
+                              color: "orange",
+                              fontSize: "28px",
+                            }}
+                          >
+                            : {currentPlayer.BowlingStyle}
+                          </Typography>
+                        </Box>
+                        <Box className="w-full mt-4 border-b-2"></Box>
+                      </Grid>
+                    </Box>
+                  </Box>
                 </Grid>
-              </Box>
+              </Grid>
             </Box>
-          </section>
+          </Box>
+        </section>
 
           {/* Team Stats  */}
           <section className="my-32">

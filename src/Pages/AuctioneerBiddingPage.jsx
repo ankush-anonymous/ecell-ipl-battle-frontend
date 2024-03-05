@@ -186,83 +186,101 @@ const AuctioneerBiddingPage = () => {
       <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
         <AuctioneerNavbar />
 
+        {/* Player Currently at the bid - HEADING  */}
+        <section className="mt-16">
+          <Box
+            sx={{
+              height: "80px",
+              width: "90%", // Adjusted width to 90%
+              margin: "auto", // Centered along x-axis
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              // border: "1px solid white",
+              // marginBottom: "20px",
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{ fontFamily: "Protest Revolution", color: "white" }}
+            >
+              Player Currently At Bid
+            </Typography>
+          </Box>
+        </section>
+
         {/* Bidding section  */}
-        <section className="my-32">
+        <section className="mb-32">
           <Box
             sx={{
               height: "100%",
-              width: "90%", // Adjusted width to 90%
+              width: "100%", // Adjusted width to 90%
               //   border: "1px solid white",
               margin: "auto", // Centered along x-axis
-
               display: "flex-col",
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "10px",
-              padding: "20px",
-              backgroundColor: "#232329",
+              // padding: "20px",
+              // backgroundColor: "#232329",
+              backgroundImage: `url('/background.jpeg')`,
               overflow: "hidden",
             }}
           >
-            {/* section title  */}
-            <Box
-              sx={{
-                height: "100px",
-                width: "90%", // Adjusted width to 90%
-                // border: "1px solid white",
-                margin: "auto", // Centered along x-axis
-
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "10px",
-                marginBottom: "20px",
-              }}
-            >
-              <Typography
-                variant="h3"
-                sx={{ fontFamily: "Protest Revolution", color: "white" }}
-              >
-                Player Currently At Bid
-              </Typography>
-            </Box>
-
             {/* Input section  */}
             <Box>
-              <Grid container spacing={1}>
+              <Grid
+                container
+                // spacing={1}
+                sx={{
+                  // border: "2px solid white",
+                  height: "600px",
+                  padding: "40px",
+                }}
+              >
                 {/* Image Box  */}
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={6}>
                   {/* Image  */}
                   <Box
                     sx={{
-                      height: "100%",
-                      width: "90%", // Adjusted width to 90%
-                      //   border: "1px solid white",
+                      height: "550px",
+                      width: "100%", // Adjusted width to 90%
+                      // borderLeft: "10px solid white",
+                      // borderBottom: "10px Solid white",Search yes it is
+                      // border: "2px solid #F29F05",
                       margin: "auto", // Centered along x-axis
                       display: "flex-col",
                       justifyContent: "center",
                       alignItems: "center",
-                      borderRadius: "10px",
+                      // borderRadius: "10px",
                     }}
                   >
+                    {/* <Box className="w-72 h-72  border-r-8 border-t-8 ml-72 absolute"></Box> */}
+
+                    {/* Image  */}
                     <Box
                       sx={{
-                        height: "300px",
+                        height: "90%",
                         width: "90%", // Adjusted width to 90%
-                        // border: "1px solid white",
+                        // border: "2px solid #F29F05",
+                        boxShadow: "inset 0 0 0 3px #F29F05",
                         margin: "auto", // Centered along x-axis
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         borderRadius: "10px",
+                        overflow: "hidden",
                       }}
                     >
-                      <img src={currentPlayer.image} alt="Player" />
+                      <img src={currentPlayer.image} />
                     </Box>
+
+                    {/* Intro of player  */}
                     <Box
                       sx={{
-                        height: "100px",
-                        width: "90%", // Adjusted width to 90%
+                        height: "85px",
+                        width: "100%", // Adjusted width to 90%
                         // border: "1px solid white",
                         margin: "auto", // Centered along x-axis
                         display: "flex-col",
@@ -280,28 +298,40 @@ const AuctioneerBiddingPage = () => {
                           textAlign: "center",
                         }}
                       >
-                        {currentPlayer.firstname}
-                        {currentPlayer.surname}
+                        {currentPlayer.firstname} {currentPlayer.surname}
+                      </Typography>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontFamily: "Protest Riot",
+                          color: "Orange",
+                          textAlign: "center",
+                        }}
+                      >
+                        {currentPlayer.BattingStyle &&
+                          currentPlayer.BattingStyle}
+
+                        {currentPlayer.BowlingStyle &&
+                          currentPlayer.BowlingStyle}
                       </Typography>
                     </Box>
                   </Box>
                 </Grid>
 
                 {/* Portfolio Box  */}
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={6}>
                   <Box
                     sx={{
                       height: "100%",
                       width: "90%", // Adjusted width to 90%
-                      //   border: "1px solid white",
-
+                      //  border: "1px solid white",
                       margin: "auto", // Centered along x-axis
-                      marginLeft: "30px",
+                      // marginLeft: "30px",
                       display: "flex-col",
                       justifyContent: "center",
                       alignItems: "center",
                       borderRadius: "10px",
-                      padding: "20px",
+                      // padding: "20px",
                     }}
                   >
                     {/* Tag Box  */}
@@ -318,128 +348,148 @@ const AuctioneerBiddingPage = () => {
                         alignItems: "center", // Align items vertically
                         alignContent: "stretch",
                         padding: "10px",
-                        gap: "20px",
-                        marginTop: "-50px",
+                        gap: "10px",
                       }}
                     >
-                      <Box
-                        sx={{
-                          //   border: "1px solid white",
-                          height: "50px",
-                          width: "50px",
-                        }}
-                      >
-                        <img
-                          src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
-                          alt="Star Icon"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          //   border: "1px solid white",
-                          height: "50px",
-                          width: "50px",
-                        }}
-                      >
-                        <img
-                          src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
-                          alt="Plane Icon"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          //   border: "1px solid white",
-                          height: "50px",
-                          width: "50px",
-                          display: "flex",
-                          alignItems: "center", // Center items along the y-axis
-                          justifyContent: "center", // Center items along the x-axis
-                        }}
-                      >
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Indian_flag.png"
-                          alt="Indian flag Icon"
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          border: "1px solid red",
-                          borderRadius: "50%",
-                          height: "80px",
-                          width: "80px",
-                        }}
-                      >
-                        <Typography
-                          variant="h6"
+                      {/* Player Rating  */}
+                      <Box className="w-full flex items-center justify-center">
+                        <Box
                           sx={{
-                            color: "red",
-                            textAlign: "center",
-                            fontSize: "50px",
-                            fontFamily: "Protest Revolution",
+                            border: "2px solid red",
+                            borderRadius: "50%",
+                            height: "100px",
+                            width: "100px",
                           }}
                         >
-                          {currentPlayer.iplRating}
-                        </Typography>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              color: "red",
+                              // color: "yellow",
+                              textAlign: "center",
+                              fontSize: "60px",
+                              fontFamily: "Protest Revolution",
+                            }}
+                          >
+                            {currentPlayer.iplRating}
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      {/* Other Icons  */}
+                      <Box className="w-full flex items-center justify-evenly">
+                        <Box
+                          sx={{
+                            //   border: "1px solid white",
+                            height: "50px",
+                            width: "50px",
+                          }}
+                        >
+                          <img
+                            src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
+                            alt="Plane Icon"
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            //   border: "1px solid white",
+                            height: "60px",
+                            width: "60px",
+                          }}
+                        >
+                          <img
+                            src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
+                            alt="Star Icon"
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            //   border: "1px solid white",
+                            height: "50px",
+                            width: "50px",
+                            display: "flex",
+                            alignItems: "center", // Center items along the y-axis
+                            justifyContent: "center", // Center items along the x-axis
+                          }}
+                        >
+                          <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Indian_flag.png"
+                            alt="Indian flag Icon"
+                          />
+                        </Box>
                       </Box>
                     </Box>
 
+                    {/* Stats  */}
                     <Box
                       sx={{
-                        height: "100%",
+                        height: "80%",
                         width: "90%",
                         // border: "0.5px solid white",
                         margin: "auto",
+                        marginTop: "20px",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        // marginTop: "20px",
                         borderRadius: "10px",
                         padding: "20px",
                       }}
                     >
-                      <Grid container spacing={5}>
+                      <Grid container spacing={1}>
                         <Grid item xs={12} md={6}>
-                          <Box sx={{ marginBottom: "20px" }}>
+                          <Box
+                            sx={{ marginBottom: "0px", textAlign: "center" }}
+                          >
                             <Typography
                               variant="body"
                               sx={{
                                 fontFamily: "Protest Guerrilla",
                                 color: "yellow",
-                                fontSize: "28px",
+                                fontSize: "24px",
+                                textAlign: "center",
+                                // display: "inline",
                               }}
                             >
-                              Country :
+                              Country
                             </Typography>
+                            <br />
                             <Typography
                               variant="body"
                               sx={{
                                 fontFamily: "Protest Strike",
                                 color: "white",
-                                fontSize: "36px",
+                                fontSize: "28px",
+                                margin: 0, // Remove margin
+                                padding: 0, // Remove padding
                               }}
                             >
                               {" "}
                               {currentPlayer.country}
                             </Typography>
                           </Box>
-                          <Box>
+                        </Grid>
+
+                        {/* Country and Specialism  */}
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ textAlign: "center" }}>
                             <Typography
                               variant="h6"
                               sx={{
                                 fontFamily: "Protest Guerrilla",
-                                color: "#836FFF",
-                                fontSize: "28px",
+                                color: "yellow",
+                                fontSize: "24px",
                               }}
                             >
-                              Specialism :
+                              Specialism
                             </Typography>
                             <Typography
                               variant="body"
                               sx={{
                                 fontFamily: "Protest Strike",
-                                color: "#FC6736",
-                                fontSize: "36px",
-                                paddingLeft: "20px",
+                                // color: "#FC6736",
+                                color: "white",
+                                fontSize: "28px",
+                                // paddingLeft: "20px",
                               }}
                             >
                               {" "}
@@ -447,58 +497,85 @@ const AuctioneerBiddingPage = () => {
                             </Typography>
                           </Box>
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box
-                              variant={"span"}
-                              sx={{ height: "75px", width: "75px" }}
-                            >
-                              <img
-                                src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
-                                alt=""
-                              />
-                            </Box>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "orange",
-                                fontSize: "32px",
-                              }}
-                            >
-                              : {currentPlayer.BattingStyle}
-                            </Typography>
+
+                        {/* Bowling and Batting Styles  */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                            marginTop: "20px",
+                            // border: "1px solid white",
+                          }}
+                        >
+                          <Box
+                            variant={"span"}
+                            sx={{ height: "50px", width: "50px" }}
+                          >
+                            <img
+                              src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708635625/batt-removebg-preview_v2woyj.png"
+                              alt="Batting Style"
+                            />
                           </Box>
-                          <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Box
-                              variant={"span"}
-                              sx={{ height: "75px", width: "75px" }}
-                            >
-                              <img
-                                src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708636258/ball_wzyum5.png"
-                                alt=""
-                              />
-                            </Box>
-                            <Typography
-                              variant="body"
-                              sx={{
-                                fontFamily: "Protest Strike",
-                                color: "orange",
-                                fontSize: "32px",
-                              }}
-                            >
-                              : {currentPlayer.BowlingStyle}
-                            </Typography>
+                          <br />
+                          <Typography
+                            variant="body"
+                            sx={{
+                              fontFamily: "Protest Strike",
+                              color: "orange",
+                              fontSize: "28px",
+                              margin: 0, // Remove margin
+                              padding: 0, // Remove padding
+                            }}
+                          >
+                            : {currentPlayer.BattingStyle}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <Box
+                            variant={"span"}
+                            sx={{ height: "50px", width: "50px" }}
+                          >
+                            <img
+                              src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708636258/ball_wzyum5.png"
+                              alt=""
+                            />
                           </Box>
-                        </Grid>
+                          <Typography
+                            variant="body"
+                            sx={{
+                              fontFamily: "Protest Strike",
+                              color: "orange",
+                              fontSize: "28px",
+                            }}
+                          >
+                            :{currentPlayer.BowlingStyle}
+                          </Typography>
+                        </Box>
+                        <Box className="w-full mt-4 border-b-2"></Box>
                       </Grid>
                     </Box>
                   </Box>
                 </Grid>
               </Grid>
 
-              {/* Input for bid  */}
-              <Box sx={{ marginTop: "30px" }}>
+              {/* Control  */}
+              <Box
+                sx={{
+                  marginTop: "30px",
+                  backgroundColor: "#232329",
+                  width: "100%",
+                  padding: "20px",
+                }}
+              >
                 <Grid container spacing={5}>
                   <Grid item xs={12} md={6}>
                     <TextField
@@ -514,6 +591,7 @@ const AuctioneerBiddingPage = () => {
                       }}
                     />
                   </Grid>
+
                   <Grid item xs={12} md={6}>
                     <Select
                       value={teamAssigned}
@@ -571,30 +649,30 @@ const AuctioneerBiddingPage = () => {
                     </Box>
                   </Grid>
                 </Grid>
-              </Box>
-              <Box
-                sx={{
-                  marginTop: "20px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handlePrevious}
+                <Box
+                  sx={{
+                    marginTop: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                 >
-                  Previous
-                </Button>
-                <Box sx={{ marginLeft: "700px" }}>
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
-                    sx={{ marginLeft: "10px" }}
+                    onClick={handlePrevious}
                   >
-                    Next
+                    Previous
                   </Button>
+                  <Box sx={{ marginLeft: "700px" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      sx={{ marginLeft: "10px" }}
+                    >
+                      Next
+                    </Button>
+                  </Box>
                 </Box>
               </Box>
             </Box>
