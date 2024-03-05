@@ -91,7 +91,7 @@ const ParticipantNavbar = () => {
             }}
           >
             <img
-              src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1708386085/happytails_orjwh4.png"
+              src="https://res.cloudinary.com/dsx8eh1hj/image/upload/v1709626743/ecelLogo1_slxslt.png"
               alt="Logo"
               style={{
                 maxWidth: "100%",

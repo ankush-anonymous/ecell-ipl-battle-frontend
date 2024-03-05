@@ -696,12 +696,10 @@ const AuctionerSingleTeamPage = () => {
 
                         {/* Transfer To  */}
                         <FormControl sx={{ m: 1, minWidth: "300px" }}>
-                          <InputLabel>Transfer To</InputLabel>
-
                           <Select
                             value={teamAssigned}
                             onChange={handleTeamChange}
-                            className="z-99"
+                            className="z-99 bg-black"
                             options={listOfTeams.map((team) => ({
                               value: team.name,
                               label: (
@@ -709,6 +707,8 @@ const AuctionerSingleTeamPage = () => {
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
+                                    backgroundColor: "black",
+                                    padding: "10px",
                                   }}
                                 >
                                   <img
