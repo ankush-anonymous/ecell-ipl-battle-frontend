@@ -44,7 +44,7 @@ const AuctioneerBiddingPage = () => {
       currentPlayerCount: playerCount - 1,
     };
     const updatePlayer = await axios.patch(
-      `api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+      `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
       postData
     );
     console.log(updatePlayer);
@@ -59,7 +59,7 @@ const AuctioneerBiddingPage = () => {
       currentPlayerCount: playerCount + 1,
     };
     const updatePlayer = await axios.patch(
-      `api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+      `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
       postData
     );
     console.log(updatePlayer);
@@ -88,22 +88,80 @@ const AuctioneerBiddingPage = () => {
   };
 
   const handleBid = async () => {
-    const postData = {
-      auctioneerID: roomId,
-      participantID: assignedTeamId,
-      biddingAmount: bidAmount,
-      iplPlayerID: currentPlayerId,
-    };
+    try {
+      const postData = {
+        auctioneerID: roomId,
+        participantID: assignedTeamId,
+        biddingAmount: bidAmount,
+        iplPlayerID: currentPlayerId,
+      };
 
-    const bid = await axios.post("/api/v1/bid/createBiddingTransit", postData);
+      const bid = await axios.post(
+        "/api/v1/bid/createBiddingTransit",
+        postData
+      );
 
-    const participant = await axios.get(
-      `/api/v1/participants/getParticipantsById/${assignedTeamId}`
-    );
+      console.log("bidded:", bid);
 
-    setIsBidded(true);
-    setTeamAssigned("");
-    setBidAmount();
+      const participant = await axios.get(
+        `/api/v1/participants/getParticipantsById/${assignedTeamId}`
+      );
+      console.log(participant);
+      const balanceAmount = participant.data.data.balanceAmount;
+      const AllRounderCount = participant.data.data.AllRounderCount;
+      const BatsmanCount = participant.data.data.BatsmanCount;
+      const BowlerCount = participant.data.data.BowlerCount;
+      const NonOverSeasCount = participant.data.data.NonOverSeasCount;
+      const OverSeasCount = participant.data.data.OverSeasCount;
+      const PlayerCount = participant.data.data.PlayerCount;
+      const WicketKeeperCount = participant.data.data.WicketKeeperCount;
+      const StarCount = participant.data.data.StarCount;
+
+      console.log(currentPlayer.Specialism);
+      const updatePlayerStats = {};
+
+      if (currentPlayer.Specialism === "BATSMAN") {
+        updatePlayerStats.BatsmanCount = BatsmanCount + 1;
+      }
+      if (currentPlayer.Specialism === "BOWLER") {
+        updatePlayerStats.BowlerCount = BowlerCount + 1;
+      }
+      if (currentPlayer.Specialism === "ALL-ROUNDER") {
+        updatePlayerStats.AllRounderCount = AllRounderCount + 1;
+      }
+
+      if (currentPlayer.Specialism === "WICKETKEEPER") {
+        updatePlayerStats.WicketKeeperCount = WicketKeeperCount + 1;
+      }
+      if (currentPlayer.overSeasFlag === false) {
+        updatePlayerStats.NonOverSeasCount = NonOverSeasCount + 1;
+      }
+      if (currentPlayer.overSeasFlag === true) {
+        updatePlayerStats.OverSeasCount = OverSeasCount + 1;
+      }
+      if (currentPlayer.isStarPlayer === true) {
+        updatePlayerStats.StarCount = StarCount + 1;
+      }
+
+      updatePlayerStats.PlayerCount = PlayerCount + 1;
+      updatePlayerStats.balanceAmount = balanceAmount - parseInt(bidAmount);
+
+      const updateParticipant = await axios.patch(
+        `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
+        updatePlayerStats
+      );
+      console.log("updated:", updateParticipant);
+
+      if (!updateParticipant) {
+        console.log("participant not updated");
+      }
+
+      setIsBidded(true);
+      setTeamAssigned("");
+      setBidAmount();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const checkBiddedPlayer = async (playerId) => {
