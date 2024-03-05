@@ -43,7 +43,7 @@ function HomePage() {
           </div>
 
           {/* Carousel */}
-          <div className="w-1/2 flex justify-center items-center p-16">
+          <div className="w-1/2 flex justify-center items-center p-24">
             <div
               className=""
               style={{
@@ -88,10 +88,10 @@ function HomePage() {
                     textAlign: "center",
                   }}
                 >
-                  <span className=" text-red-600">30</span> MCQ's <br />
-                  <span className=" text-red-600">30</span> Points
+                  <span className=" text-yellow-500">30</span> MCQ's <br />
+                  <span className=" text-yellow-500">30</span> Points
                   <br />
-                  <span className=" text-red-600">15</span> Minutes
+                  <span className=" text-yellow-500">15</span> Minutes
                   <br />
                 </div>
               </div>
@@ -122,16 +122,15 @@ function HomePage() {
                     <div className="text-2xl text-blue-400 mt-4">
                       Rules of Game
                     </div>
-                    Budget : <span className=" text-red-600">70 Crores</span>
+                    Budget : <span className=" text-yellow-500">70 Crores</span>
                     <br />
-                    Minimum : <span className=" text-red-600">
-                      16 players
-                    </span>{" "}
-                    <br />
-                    Maximum : <span className=" text-red-600">18 players </span>
+                    Minimum :{" "}
+                    <span className=" text-yellow-500">16 players</span> <br />
+                    Maximum :{" "}
+                    <span className=" text-yellow-500">18 players </span>
                     <br />
                     Players are rated out of
-                    <span className=" text-red-600"> 50</span>
+                    <span className=" text-yellow-500"> 50</span>
                     <br />
                     No reauctioning of any player in any case.
                     <br />
@@ -148,15 +147,17 @@ function HomePage() {
                       Qualifying Requirements
                     </div>
                     Batsman:
-                    <span className=" text-red-600">3</span>
+                    <span className=" text-yellow-500">3</span>
                     <br />
-                    Bowlers: <span className=" text-red-600">4</span> <br />
-                    All-rounders: <span className=" text-red-600">3</span>{" "}
+                    Bowlers: <span className=" text-yellow-500">4</span> <br />
+                    All-rounders: <span className=" text-yellow-500">
+                      3
+                    </span>{" "}
                     <br />
-                    Wicket Keepers: <span className=" text-red-600">2</span>
+                    Wicket Keepers: <span className=" text-yellow-500">2</span>
                     <br />
-                    Maximum of <span className=" text-red-600">7</span> foreign
-                    players <br />
+                    Maximum of <span className=" text-yellow-500">7</span>{" "}
+                    foreign players <br />
                     <br />
                   </div>
                 </div>
@@ -190,22 +191,27 @@ function HomePage() {
                     Make your Playing 11 as per below critera:
                   </div>
                   At most{" "}
-                  <span className=" text-red-600">5 foreign players</span>
-                  <br />
-                  At least <span className=" text-red-600">2 all-rounder</span>
+                  <span className=" text-yellow-500">5 foreign players</span>
                   <br />
                   At least{" "}
-                  <span className=" text-red-600">1 Wicket Keeper </span> <br />
-                  At least <span className=" text-red-600">3 Bowlers</span>
+                  <span className=" text-yellow-500">2 all-rounder</span> <br />
+                  At least
+                  <span className=" text-yellow-500">
+                    1 Wicket Keeper{" "}
+                  </span>{" "}
                   <br />
-                  At least <span className=" text-red-600">3 batsmen</span>
+                  At least <span className=" text-yellow-500">3 Bowlers</span>
+                  <br />
+                  At least <span className=" text-yellow-500">3 batsmen</span>
                   <br />
                   <div className="text-3xl text-blue-400 mt-4">
                     Evaluation criteria
                   </div>
-                  1. Sum of 11 players rating out will be considered <br />
-                  2. In case of a tie, the remaining balance will be taken into
-                  consideration
+                  <div className=" text-gray-400">
+                    1. Sum of 11 players rating out will be considered <br />
+                    2. In case of a tie, the remaining balance will be taken
+                    into consideration
+                  </div>
                 </div>
               </div>
 
@@ -233,7 +239,7 @@ function HomePage() {
                 4. Bidding must be carried out in a disciplined manner, with no
                 unnecessary commotion or disruptions. <br />
                 5. Every participant must be a part of ONLY 1 team. Violation of
-                this rule will lead to the disqualification of both teams.{" "}
+                this rule will lead to the disqualification of both teams.
                 <br />
               </div>
             </div>
