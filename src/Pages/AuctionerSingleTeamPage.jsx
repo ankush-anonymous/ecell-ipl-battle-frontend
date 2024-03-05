@@ -8,26 +8,50 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
-  // Select,
+  Select,
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { teams } from "../data/iplTeams";
-import Select from "react-select";
+// import Select from "react-select";
 import CircularProgress from "@mui/material/CircularProgress";
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles((theme) => ({
+  select: {
+    backgroundColor: "black",
+    color: "white",
+    "& .MuiSelect-select": {
+      padding: "10px",
+      borderRadius: "5px",
+    },
+  },
+  option: {
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+  },
+  optionImage: {
+    width: 24,
+    marginRight: 8,
+  },
+}));
 
 const AuctionerSingleTeamPage = () => {
+  const classes = useStyles();
+
   const { participantId } = useParams();
   const [loading, setLoading] = useState(true);
   const [listOfPlayers, setListOfPlayers] = useState([]);
   const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
   const [teamAssigned, setTeamAssigned] = useState("");
   const [listOfTeams, setListOfTeams] = useState([]);
+  const [teams, setTeams] = useState([]);
 
   const [iplTeamLogo, setIplTeamLogo] = useState("");
   const [auctioneerID, setAuctioneerID] = useState("");
@@ -43,6 +67,18 @@ const AuctionerSingleTeamPage = () => {
   const [overSeasCount, setOverSeasCount] = useState();
   const [starCount, setStarCount] = useState();
   const [indianCount, setIndianCount] = useState();
+  const [selectedTeams, setSelectedTeams] = useState({});
+  const [checkedCardId, setCheckedCardId] = useState(null);
+  const [assignedTeamId, setAssignedTeamId] = useState("");
+
+  const handleCheckboxChange = (cardId) => {
+    if (checkedCardId === cardId) {
+      setCheckedCardId(null); // Uncheck if already checked
+    } else {
+      setCheckedCardId(cardId); // Check the clicked card
+      console.log(cardId);
+    }
+  };
 
   //fetch participant details on login
   const fetchParticipantDetails = async () => {
@@ -58,7 +94,6 @@ const AuctionerSingleTeamPage = () => {
 
   const fetchMyStats = async () => {
     try {
-      console.log("participantID:", participantId);
       setLoading(true);
       const myStats = await axios.get(
         `/api/v1/participants/getParticipantsById/${participantId}`
@@ -104,14 +139,12 @@ const AuctionerSingleTeamPage = () => {
           ...playerDetails.data.data,
           biddingAmount: biddingAmount,
         };
-        console.log(playerWithBiddingAmount);
         // Push the player details to the listOfPlayers array
         listOfPlayers.push(playerWithBiddingAmount);
       }
       setListOfPlayers(listOfPlayers);
 
       // Now listOfPlayers contains details of all players
-      console.log(listOfPlayers);
       setLoading(false);
       return listOfPlayers;
     } catch (error) {
@@ -124,13 +157,167 @@ const AuctionerSingleTeamPage = () => {
     const result = await axios.get(
       `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerID}`
     );
-    setListOfTeams(result.data.participants);
+    setTeams(result.data.participants);
     console.log("part:", result.data.participants);
   };
 
-  const handleTeamChange = (selectedOption) => {
-    setTeamAssigned(selectedOption);
-    console.log("Selected team:", selectedOption);
+  //to transfer the player to new participant
+  const upgradeParticipant = async (partId, bidAmount, iplPlayerId) => {
+    try {
+      console.log("upgraded");
+      const playerInfo = await axios.get(
+        `/api/v1/players/getPlayerById/${iplPlayerId}`
+      );
+      console.log(playerInfo.data.data);
+
+      const participant = await axios.get(
+        `/api/v1/participants/getParticipantsById/${partId}`
+      );
+
+      const balanceAmount = participant.data.data.balanceAmount;
+      const AllRounderCount = participant.data.data.AllRounderCount;
+      const BatsmanCount = participant.data.data.BatsmanCount;
+      const BowlerCount = participant.data.data.BowlerCount;
+      const NonOverSeasCount = participant.data.data.NonOverSeasCount;
+      const OverSeasCount = participant.data.data.OverSeasCount;
+      const PlayerCount = participant.data.data.PlayerCount;
+      const WicketKeeperCount = participant.data.data.WicketKeeperCount;
+      const StarCount = participant.data.data.StarCount;
+
+      const currentPlayer = playerInfo.data.data;
+      console.log(currentPlayer.Specialism);
+      const updatePlayerStats = {};
+
+      if (currentPlayer.Specialism === "BATSMAN") {
+        updatePlayerStats.BatsmanCount = BatsmanCount + 1;
+      }
+      if (currentPlayer.Specialism === "BOWLER") {
+        updatePlayerStats.BowlerCount = BowlerCount + 1;
+      }
+      if (currentPlayer.Specialism === "ALL-ROUNDER") {
+        updatePlayerStats.AllRounderCount = AllRounderCount + 1;
+      }
+
+      if (currentPlayer.Specialism === "WICKETKEEPER") {
+        updatePlayerStats.WicketKeeperCount = WicketKeeperCount + 1;
+      }
+      if (currentPlayer.overSeasFlag === false) {
+        updatePlayerStats.NonOverSeasCount = NonOverSeasCount + 1;
+      }
+      if (currentPlayer.overSeasFlag === true) {
+        updatePlayerStats.OverSeasCount = OverSeasCount + 1;
+      }
+      if (currentPlayer.isStarPlayer === true) {
+        updatePlayerStats.StarCount = StarCount + 1;
+      }
+
+      updatePlayerStats.PlayerCount = PlayerCount + 1;
+      updatePlayerStats.balanceAmount = balanceAmount - parseInt(bidAmount);
+
+      console.log(updatePlayerStats);
+      const updateParticipant = await axios.patch(
+        `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
+        updatePlayerStats
+      );
+      console.log("updated:", updateParticipant);
+
+      if (!updateParticipant) {
+        console.log("participant not upgraded");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const downgradeParticipant = async (partId, bidAmount, iplPlayerId) => {
+    try {
+      console.log("upgraded");
+      const playerInfo = await axios.get(
+        `/api/v1/players/getPlayerById/${iplPlayerId}`
+      );
+      console.log(playerInfo.data.data);
+
+      const participant = await axios.get(
+        `/api/v1/participants/getParticipantsById/${partId}`
+      );
+      const balanceAmount = participant.data.data.balanceAmount;
+      const AllRounderCount = participant.data.data.AllRounderCount;
+      const BatsmanCount = participant.data.data.BatsmanCount;
+      const BowlerCount = participant.data.data.BowlerCount;
+      const NonOverSeasCount = participant.data.data.NonOverSeasCount;
+      const OverSeasCount = participant.data.data.OverSeasCount;
+      const PlayerCount = participant.data.data.PlayerCount;
+      const WicketKeeperCount = participant.data.data.WicketKeeperCount;
+      const StarCount = participant.data.data.StarCount;
+
+      const currentPlayer = playerInfo.data.data;
+      console.log(currentPlayer.Specialism);
+      const updatePlayerStats = {};
+      if (currentPlayer.Specialism === "BATSMAN") {
+        updatePlayerStats.BatsmanCount = BatsmanCount - 1;
+      }
+      if (currentPlayer.Specialism === "BOWLER") {
+        updatePlayerStats.BowlerCount = BowlerCount - 1;
+      }
+      if (currentPlayer.Specialism === "ALL-ROUNDER") {
+        updatePlayerStats.AllRounderCount = AllRounderCount - 1;
+      }
+
+      if (currentPlayer.Specialism === "WICKETKEEPER") {
+        updatePlayerStats.WicketKeeperCount = WicketKeeperCount - 1;
+      }
+      if (currentPlayer.overSeasFlag === false) {
+        updatePlayerStats.NonOverSeasCount = NonOverSeasCount - 1;
+      }
+      if (currentPlayer.overSeasFlag === true) {
+        updatePlayerStats.OverSeasCount = OverSeasCount - 1;
+      }
+      if (currentPlayer.isStarPlayer === true) {
+        updatePlayerStats.StarCount = StarCount - 1;
+      }
+
+      updatePlayerStats.PlayerCount = PlayerCount - 1;
+      updatePlayerStats.balanceAmount = balanceAmount + parseInt(bidAmount);
+
+      console.log(updatePlayerStats);
+      const updateParticipant = await axios.patch(
+        `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
+        updatePlayerStats
+      );
+      console.log("updated:", updateParticipant);
+      if (!updateParticipant) {
+        console.log("participant not downgraded");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleTransfer = async () => {
+    try {
+      //transaction id
+      const roomId = localStorage.getItem("_id");
+      const transaction = await axios.get(
+        `/api/v1/bid/getAllBiddingTransit?auctioneerID=${roomId}&iplPlayerID=${checkedCardId}`
+      );
+      const bidAmount = transaction.data.result[0].biddingAmount;
+      const transactionId = transaction.data.result[0]._id;
+      //new participant
+      upgradeParticipant(assignedTeamId, bidAmount, checkedCardId);
+      downgradeParticipant(participantId, bidAmount, checkedCardId);
+
+      const updateTransactionData = {
+        participantID: assignedTeamId,
+      };
+      const updateTransaction = await axios.patch(
+        `/api/v1/bid/updateBiddingTransit/${transactionId}`,
+        updateTransactionData
+      );
+      console.log(updateTransaction);
+      fetchMyPlayers();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -660,6 +847,61 @@ const AuctionerSingleTeamPage = () => {
                 </Typography>
               </Box>
               <Grid container spacing={3} alignItems={"center"}>
+                <Grid item xs={12} md={12}>
+                  <Box>
+                    <Select
+                      value={teamAssigned}
+                      onChange={(e) => {
+                        const selectedTeam = teams.find(
+                          (team) => team.teamname === e.target.value
+                        );
+                        setTeamAssigned(e.target.value);
+                        setAssignedTeamLogo(
+                          selectedTeam ? selectedTeam.iplTeamLogo : ""
+                        );
+                        setAssignedTeamId(selectedTeam ? selectedTeam._id : "");
+                        console.log(selectedTeam); // Log the selected team here
+                      }}
+                      displayEmpty
+                      variant="outlined"
+                      sx={{
+                        mb: 2,
+                        width: "100%",
+                        backgroundColor: "white",
+                        borderRadius: "5px",
+                      }}
+                      inputProps={{ style: { borderRadius: "5px" } }}
+                    >
+                      <MenuItem value="" disabled>
+                        Select Team Assigned
+                      </MenuItem>
+                      {teams.map((team, key) => (
+                        <MenuItem key={key} value={team.teamname}>
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <img
+                              src={team.iplTeamLogo}
+                              alt={team.teamname}
+                              style={{ width: 24, marginRight: 8 }}
+                            />
+                            {team.teamname}
+                          </div>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+                  <Box>
+                    <Button
+                      variant="contained"
+                      size="large" // Increase the button size
+                      onClick={handleTransfer}
+                      sx={{ backgroundColor: "#E8AA42" }}
+                    >
+                      Transfer
+                    </Button>
+                  </Box>
+                </Grid>
                 {listOfPlayers.map((item, index) => (
                   <Grid item xs={12} sm={6} md={6} key={index}>
                     <Card
@@ -674,66 +916,19 @@ const AuctionerSingleTeamPage = () => {
                         padding: "25px",
                       }}
                     >
-                      {/* New section for buttons */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginTop: "20px",
-                        }}
-                      >
-                        {/* Delete button */}
-                        <Button
-                          variant="contained"
-                          color="error"
-                          // onClick={() => handleDelete(item.id)}
-                          sx={{ marginRight: "10px" }}
-                        >
-                          Delete
-                        </Button>
-
-                        {/* Transfer To  */}
-                        <FormControl sx={{ m: 1, minWidth: "300px" }}>
-                          <Select
-                            value={teamAssigned}
-                            onChange={handleTeamChange}
-                            className="z-99 bg-black"
-                            options={listOfTeams.map((team) => ({
-                              value: team.name,
-                              label: (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    backgroundColor: "black",
-                                    padding: "10px",
-                                  }}
-                                >
-                                  <img
-                                    src={team.iplTeamLogo}
-                                    alt={team.iplTeamName}
-                                    style={{ width: 24, marginRight: 8 }}
-                                  />
-                                  {team.iplTeamName}
-                                </div>
-                              ),
-                            }))}
-                            placeholder="Select team..."
-                          />
-                        </FormControl>
-
-                        {/* Transfer button */}
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          // onClick={() => handleDelete(item.id)}
-                          sx={{ marginRight: "10px" }}
-                        >
-                          Transfer
-                        </Button>
+                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={checkedCardId === item._id}
+                              onChange={() => handleCheckboxChange(item._id)}
+                              color="primary"
+                            />
+                          }
+                          label="Select"
+                        />
                       </Box>
+
                       <Grid container alignItems={"center"}>
                         <Grid item xs={9} md={9}>
                           <CardContent>
