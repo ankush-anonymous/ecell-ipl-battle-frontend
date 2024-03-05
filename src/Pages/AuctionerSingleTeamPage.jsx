@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
+
 import {
   Box,
   Button,
