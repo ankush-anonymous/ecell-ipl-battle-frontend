@@ -22,31 +22,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 // import Select from "react-select";
 import CircularProgress from "@mui/material/CircularProgress";
-import { makeStyles } from "@mui/styles";
-const useStyles = makeStyles((theme) => ({
-  select: {
-    backgroundColor: "black",
-    color: "white",
-    "& .MuiSelect-select": {
-      padding: "10px",
-      borderRadius: "5px",
-    },
-  },
-  option: {
-    display: "flex",
-    alignItems: "center",
-    padding: "10px",
-  },
-  optionImage: {
-    width: 24,
-    marginRight: 8,
-  },
-}));
 
 const AuctionerSingleTeamPage = () => {
-  const classes = useStyles();
-
   const { participantId } = useParams();
+
   const [loading, setLoading] = useState(true);
   const [listOfPlayers, setListOfPlayers] = useState([]);
   const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
