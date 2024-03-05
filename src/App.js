@@ -16,7 +16,8 @@ import LoginSuperUserPage from "./Pages/LoginSuperUserPage";
 import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
 import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
 
-axios.defaults.baseURL = " http://localhost:5000";
+axios.defaults.baseURL =
+  "https://api.render.com/deploy/srv-cnjdg8ed3nmc73e9rfl0?key=EUgg7pSErz8";
 
 function App() {
   return (
