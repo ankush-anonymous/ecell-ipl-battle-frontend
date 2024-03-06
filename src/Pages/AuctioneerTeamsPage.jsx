@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import { teams } from "../data/iplTeams";
 
@@ -26,27 +28,43 @@ const AuctioneerTeamsPage = () => {
   const [assignedTeamLogo, setAssignedTeamLogo] = useState("");
   const [listOfTeams, setListOfTeams] = useState([]);
 
+  const [success, setSuccess] = React.useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [failure, setFailure] = React.useState(false);
+  const [failureMessage, setFailureMessage] = useState("");
+
   const navigate = useNavigate();
 
   const auctioneerID = localStorage.getItem("_id");
 
   const handleCreateTeam = async () => {
-    const postData = {
-      teamname: teamName,
-      iplTeamName: teamAssigned,
-      iplTeamLogo: assignedTeamLogo,
-      auctioneerID: localStorage.getItem("_id"),
-    };
-    console.log(postData);
-    const result = await axios.post(
-      "/api/v1/participants/createParticipant",
-      postData
-    );
-    if (result) {
-      setIsTeamCreated(true);
+    try {
+      const postData = {
+        teamname: teamName,
+        iplTeamName: teamAssigned,
+        iplTeamLogo: assignedTeamLogo,
+        auctioneerID: localStorage.getItem("_id"),
+      };
+      console.log(postData);
+      const result = await axios.post(
+        "/api/v1/participants/createParticipant",
+        postData
+      );
+      if (result) {
+        setIsTeamCreated(true);
+        setSuccess(true);
+        setSuccessMessage("Team Created Successfully");
+      }
+      setUsername(result.data.data.username);
+      setPassword(result.data.data.password);
+      fetchTeamsOfRoom();
+      setTeamAssigned("");
+      setTeamName("");
+    } catch (error) {
+      console.log(error);
+      setFailure(true);
+      setFailureMessage("Team not Created successful");
     }
-    setUsername(result.data.data.username);
-    setPassword(result.data.data.password);
   };
 
   const fetchTeamsOfRoom = async () => {
@@ -60,6 +78,15 @@ const AuctioneerTeamsPage = () => {
   const handleInfoButtonClick = (playerId) => {
     // Navigate to the route with the player ID appended
     navigate(`/auctioneer/teams/stats/${playerId}`);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+    setFailure(false);
   };
 
   useEffect(() => {
@@ -472,6 +499,44 @@ const AuctioneerTeamsPage = () => {
           </Box>
         </section>
         <ParticipantFooter />
+      </Box>
+      {/* Toast  */}
+      <Box>
+        {/* success Toast */}
+        <Box>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            open={success}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {successMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
+        {/* failure Toast */}
+        <Box>
+          <Snackbar
+            open={failure}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {failureMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
       </Box>
     </>
   );

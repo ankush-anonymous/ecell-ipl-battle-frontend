@@ -26,8 +26,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Homepage route  */}
-          <Route path="/" element={<HomePage/>} />
-          
+          <Route path="/" element={<HomePage />} />
+
           {/* SuperUserRoutes */}
           <Route path="/Login/superUser" element={<LoginSuperUserPage />} />
           <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
@@ -57,7 +57,6 @@ function App() {
             path="/participant/dashboard"
             element={<ParticipantDashboard />}
           />
-
 
           <Route path="/rules" element={<RulesPage />} />
         </Routes>
