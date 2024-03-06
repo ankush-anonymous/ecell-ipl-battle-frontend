@@ -301,7 +301,7 @@ const AuctioneerBiddingPage = () => {
                       sx={{
                         height: "90%",
                         width: "90%", // Adjusted width to 90%
-                        // border: "2px solid #F29F05",
+                        // border: "5px solid #F29F05",
                         boxShadow: "inset 0 0 0 3px #F29F05",
                         margin: "auto", // Centered along x-axis
                         display: "flex",
@@ -309,6 +309,8 @@ const AuctioneerBiddingPage = () => {
                         alignItems: "center",
                         borderRadius: "10px",
                         overflow: "hidden",
+                        backdropFilter: "blur(4px)", // Adjust the blur value as needed
+                        padding : "4",
                       }}
                     >
                       <img src={currentPlayer.image} />

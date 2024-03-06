@@ -58,7 +58,9 @@ const LoginParticipantsPage = () => {
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [logoUrl, setLogoUrl] = useState("/ecell_logo.png");
+  const [logoUrl, setLogoUrl] = useState(
+    "https://res.cloudinary.com/drxezxie3/image/upload/v1709746543/ecell_logo_rfyefd.jpg"
+  );
   const [success, setSuccess] = React.useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [failure, setFailure] = React.useState(false);

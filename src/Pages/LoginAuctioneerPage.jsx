@@ -64,7 +64,9 @@ const LoginAuctioneerPage = () => {
   const [failure, setFailure] = React.useState(false);
   const [failureMessage, setFailureMessage] = useState("");
 
-  const [logoUrl, setLogoUrl] = useState("/ecell_logo.png");
+  const [logoUrl, setLogoUrl] = useState(
+    "https://res.cloudinary.com/drxezxie3/image/upload/v1709746543/ecell_logo_rfyefd.jpg"
+  );
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
