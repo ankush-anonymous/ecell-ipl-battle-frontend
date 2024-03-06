@@ -150,11 +150,20 @@ const AuctionerSingleTeamPage = () => {
   };
 
   const fetchTeamsOfRoom = async (auctioneerID) => {
-    const result = await axios.get(
-      `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerID}`
-    );
-    setTeams(result.data.participants);
-    console.log("part:", result.data.participants);
+    try {
+      const result = await axios.get(
+        `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerID}`
+      );
+      const filteredTeams = result.data.participants.filter(
+        (participant) => participant._id !== participantId
+      );
+      setTeams(filteredTeams);
+      console.log("part:", filteredTeams);
+    } catch (error) {
+      console.log(error);
+      setFailure(true);
+      setFailureMessage("error in fetching players of rooms");
+    }
   };
 
   //to transfer the player to new participant

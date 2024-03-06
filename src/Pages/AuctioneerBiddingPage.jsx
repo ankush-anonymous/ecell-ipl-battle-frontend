@@ -49,34 +49,57 @@ const AuctioneerBiddingPage = () => {
   };
 
   const handlePrevious = async () => {
-    setIsBidded(false);
-    const postData = {
-      currentPlayerCount: playerCount - 1,
-    };
-    const updatePlayer = await axios.patch(
-      `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
-      postData
-    );
-    console.log(updatePlayer);
+    try {
+      setIsBidded(false);
+      const postData = {
+        currentPlayerCount: playerCount - 1,
+      };
+      if (playerCount > 1) {
+        const updatePlayer = await axios.patch(
+          `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+          postData
+        );
+        console.log(updatePlayer);
 
-    // Update playerCount state after successful patch request
-    setPlayerCount(playerCount - 1);
+        // Update playerCount state after successful patch request
+        setPlayerCount(playerCount - 1);
+      } else {
+        setFailure(true);
+        setFailureMessage("Its the first player");
+      }
+    } catch (error) {
+      console.log(error);
+      setFailure(true);
+      setFailureMessage("Error in going previous player");
+    }
   };
 
   const handleNext = async () => {
-    setIsBidded(false);
-    const postData = {
-      currentPlayerCount: playerCount + 1,
-    };
-    const updatePlayer = await axios.patch(
-      `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
-      postData
-    );
-    console.log(updatePlayer);
+    try {
+      setIsBidded(false);
+      const postData = {
+        currentPlayerCount: playerCount + 1,
+      };
 
-    // Update playerCount state after successful patch request
-    setPlayerCount(playerCount + 1);
-    window.location.reload(true);
+      if (playerCount < 202) {
+        const updatePlayer = await axios.patch(
+          `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+          postData
+        );
+        console.log(updatePlayer);
+
+        // Update playerCount state after successful patch request
+        setPlayerCount(playerCount + 1);
+        window.location.reload(true);
+      } else {
+        setFailure(true);
+        setFailureMessage("Its the last player");
+      }
+    } catch (error) {
+      console.log(error);
+      setFailure(true);
+      setFailureMessage("Error in going next player");
+    }
   };
 
   const fetchCurrentPlayer = async () => {

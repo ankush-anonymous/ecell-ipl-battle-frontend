@@ -89,6 +89,28 @@ const AuctioneerTeamsPage = () => {
     setFailure(false);
   };
 
+  const handleDelete = async (playerId) => {
+    try {
+      const participant = await axios.get(
+        `/api/v1/participants/getParticipantsById/${playerId}`
+      );
+      const noOfPlayers = participant.data.data.PlayerCount;
+      if (noOfPlayers != 0) {
+        const result = await axios.delete(
+          `/api/v1/participants/deleteParticipantsById/${playerId}`
+        );
+        if (result.data.success === true) {
+          setSuccess(true);
+          setSuccessMessage("Participant team deleted successfully");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setFailure(true);
+      setFailureMessage("error deleting team");
+    }
+  };
+
   useEffect(() => {
     const auctioneerID = localStorage.getItem("_id");
 
@@ -343,7 +365,7 @@ const AuctioneerTeamsPage = () => {
                     SlNo.
                   </Typography>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -379,6 +401,18 @@ const AuctioneerTeamsPage = () => {
                     Points
                   </Typography>
                 </Grid>
+                <Grid item md={1}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Player count
+                  </Typography>
+                </Grid>
                 <Grid item md={2}>
                   <Typography
                     align="center"
@@ -391,7 +425,7 @@ const AuctioneerTeamsPage = () => {
                     Balance
                   </Typography>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -424,6 +458,18 @@ const AuctioneerTeamsPage = () => {
                       fontSize: "20px",
                     }}
                   >
+                    Delete
+                  </Typography>
+                </Grid>
+                <Grid item md={1}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
                     More Info
                   </Typography>
                 </Grid>
@@ -439,8 +485,10 @@ const AuctioneerTeamsPage = () => {
                         {index + 1}
                       </Typography>
                     </Grid>
-                    <Grid item md={2}>
-                      <img src={item.iplTeamLogo} alt={item.Name} />
+                    <Grid item md={1}>
+                      <Box sx={{ margin: "auto" }}>
+                        <img src={item.iplTeamLogo} alt={item.Name} />
+                      </Box>
                     </Grid>
                     <Grid item md={2}>
                       <Typography
@@ -458,6 +506,14 @@ const AuctioneerTeamsPage = () => {
                         {item.score}
                       </Typography>
                     </Grid>
+                    <Grid item md={1}>
+                      <Typography
+                        align="center"
+                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
+                      >
+                        {item.PlayerCount}
+                      </Typography>
+                    </Grid>
                     <Grid item md={2}>
                       <Typography
                         align="center"
@@ -466,7 +522,7 @@ const AuctioneerTeamsPage = () => {
                         {item.balanceAmount}
                       </Typography>
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
                       <Typography
                         align="center"
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
@@ -480,6 +536,20 @@ const AuctioneerTeamsPage = () => {
                         sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
                       >
                         {item.password}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={1}>
+                      <Typography
+                        align="center"
+                        sx={{ fontFamily: "Protest Strike", fontSize: "18px" }}
+                      >
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          onClick={() => handleDelete(item._id)}
+                        >
+                          Delete
+                        </Button>
                       </Typography>
                     </Grid>
                     <Grid item md={1}>
