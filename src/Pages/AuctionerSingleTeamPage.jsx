@@ -22,6 +22,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 // import Select from "react-select";
 import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const AuctionerSingleTeamPage = () => {
   const { participantId } = useParams();
@@ -50,6 +52,10 @@ const AuctionerSingleTeamPage = () => {
   const [selectedTeams, setSelectedTeams] = useState({});
   const [checkedCardId, setCheckedCardId] = useState(null);
   const [assignedTeamId, setAssignedTeamId] = useState("");
+  const [success, setSuccess] = React.useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [failure, setFailure] = React.useState(false);
+  const [failureMessage, setFailureMessage] = useState("");
 
   const handleCheckboxChange = (cardId) => {
     if (checkedCardId === cardId) {
@@ -62,14 +68,20 @@ const AuctionerSingleTeamPage = () => {
 
   //fetch participant details on login
   const fetchParticipantDetails = async () => {
-    setBalanceAmount(localStorage.getItem("balanceAmount"));
-    setAllRounderCount(localStorage.getItem("AllRounderCount"));
-    setBatsManCount(localStorage.getItem("BatsmanCount"));
-    setBowlerCount(localStorage.getItem("BowlerCount"));
-    setKeeperCount(localStorage.getItem("WicketKeeperCount"));
-    setStarCount(localStorage.getItem("StarCount"));
-    setIndianCount(localStorage.getItem("NonOverSeasCount"));
-    setOverSeasCount(localStorage.getItem("OverseasCount"));
+    try {
+      setBalanceAmount(localStorage.getItem("balanceAmount"));
+      setAllRounderCount(localStorage.getItem("AllRounderCount"));
+      setBatsManCount(localStorage.getItem("BatsmanCount"));
+      setBowlerCount(localStorage.getItem("BowlerCount"));
+      setKeeperCount(localStorage.getItem("WicketKeeperCount"));
+      setStarCount(localStorage.getItem("StarCount"));
+      setIndianCount(localStorage.getItem("NonOverSeasCount"));
+      setOverSeasCount(localStorage.getItem("OverseasCount"));
+    } catch (error) {
+      setFailure(true);
+      setFailure("Error fetching participant details");
+      console.log(error);
+    }
   };
 
   const fetchMyStats = async () => {
@@ -91,6 +103,8 @@ const AuctionerSingleTeamPage = () => {
 
       setLoading(false); // Set loading to false after successfully fetching the data
     } catch (error) {
+      setFailure(true);
+      setFailure("Error fetching stats");
       console.error("Error fetching player stats:", error);
       setLoading(false); // Set loading to false in case of error
     }
@@ -129,6 +143,8 @@ const AuctionerSingleTeamPage = () => {
       return listOfPlayers;
     } catch (error) {
       console.error("Error fetching players:", error.message);
+      setFailure(true);
+      setFailure("Error fetching players");
       return []; // Return an empty array in case of an error
     }
   };
@@ -163,6 +179,7 @@ const AuctionerSingleTeamPage = () => {
       const PlayerCount = participant.data.data.PlayerCount;
       const WicketKeeperCount = participant.data.data.WicketKeeperCount;
       const StarCount = participant.data.data.StarCount;
+      const score = participant.data.data.score;
 
       const currentPlayer = playerInfo.data.data;
       console.log(currentPlayer.Specialism);
@@ -189,23 +206,33 @@ const AuctionerSingleTeamPage = () => {
       }
       if (currentPlayer.isStarPlayer === true) {
         updatePlayerStats.StarCount = StarCount + 1;
+        const points = localStorage.getItem("iplRating");
+
+        updatePlayerStats.score = score + parseInt(points) + 5;
+      } else {
+        const points = localStorage.getItem("iplRating");
+
+        updatePlayerStats.score = score + parseInt(points);
       }
 
       updatePlayerStats.PlayerCount = PlayerCount + 1;
       updatePlayerStats.balanceAmount = balanceAmount - parseInt(bidAmount);
 
-      console.log(updatePlayerStats);
       const updateParticipant = await axios.patch(
         `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
         updatePlayerStats
       );
       console.log("updated:", updateParticipant);
 
-      if (!updateParticipant) {
-        console.log("participant not upgraded");
+      if (updateParticipant) {
+        console.log("participant  downgraded");
+        setSuccess(true);
+        setSuccessMessage("Player Upgraded Successfully");
       }
     } catch (error) {
       console.log(error);
+      setFailure(true);
+      setFailure("Player Not Upgraded Successfully");
     }
   };
 
@@ -229,6 +256,7 @@ const AuctionerSingleTeamPage = () => {
       const PlayerCount = participant.data.data.PlayerCount;
       const WicketKeeperCount = participant.data.data.WicketKeeperCount;
       const StarCount = participant.data.data.StarCount;
+      const score = participant.data.data.score;
 
       const currentPlayer = playerInfo.data.data;
       console.log(currentPlayer.Specialism);
@@ -254,6 +282,13 @@ const AuctionerSingleTeamPage = () => {
       }
       if (currentPlayer.isStarPlayer === true) {
         updatePlayerStats.StarCount = StarCount - 1;
+        const points = localStorage.getItem("iplRating");
+
+        updatePlayerStats.score = score - parseInt(points) - 5;
+      } else {
+        const points = localStorage.getItem("iplRating");
+
+        updatePlayerStats.score = score - parseInt(points);
       }
 
       updatePlayerStats.PlayerCount = PlayerCount - 1;
@@ -265,11 +300,15 @@ const AuctionerSingleTeamPage = () => {
         updatePlayerStats
       );
       console.log("updated:", updateParticipant);
-      if (!updateParticipant) {
-        console.log("participant not downgraded");
+      if (updateParticipant) {
+        console.log("participant  downgraded");
+        setSuccess(true);
+        setSuccessMessage("Player Downgraded Successfully");
       }
     } catch (error) {
       console.log(error);
+      setFailure(true);
+      setFailure("Player Not Downgraded Successfully");
     }
   };
 
@@ -294,10 +333,25 @@ const AuctionerSingleTeamPage = () => {
         updateTransactionData
       );
       console.log(updateTransaction);
+      if (updateTransaction) {
+        setSuccess(true);
+        setSuccessMessage("Player Transferred Successfully");
+      }
       fetchMyPlayers();
     } catch (error) {
       console.log(error);
+      setFailure(true);
+      setFailure("Player Not Transferred Successfully");
     }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+    setFailure(false);
   };
 
   useEffect(() => {
@@ -1126,6 +1180,44 @@ const AuctionerSingleTeamPage = () => {
           <ParticipantFooter />
         </Box>
       )}
+      {/* Toast  */}
+      <Box>
+        {/* success Toast */}
+        <Box>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            open={success}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {successMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
+        {/* failure Toast */}
+        <Box>
+          <Snackbar
+            open={failure}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {failureMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
+      </Box>
     </>
   );
 };

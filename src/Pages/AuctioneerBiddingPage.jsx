@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, SyntheticEvent } from "react";
 
 import {
   Box,
@@ -14,6 +14,9 @@ import ParticipantFooter from "../Components/ParticipantFooter";
 import AuctioneerNavbar from "../Components/AuctioneerNavbar";
 import axios from "axios";
 import { teams } from "../data/iplTeams";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 const AuctioneerBiddingPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [bidAmount, setBidAmount] = useState();
@@ -27,6 +30,13 @@ const AuctioneerBiddingPage = () => {
   const [isBidded, setIsBidded] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState({});
   const [currentPlayerId, setCurrentPlayerId] = useState();
+  const [isOverSeas, setIsOverSeas] = useState(false);
+
+  const [success, setSuccess] = React.useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [failure, setFailure] = React.useState(false);
+  const [failureMessage, setFailureMessage] = useState("");
+  const flag = localStorage.getItem("overSeasFlag");
 
   const roomId = localStorage.getItem("_id");
 
@@ -82,6 +92,12 @@ const AuctioneerBiddingPage = () => {
     );
 
     // console.log("current:", currentPlayer.data.players[0].Specialism);
+    localStorage.setItem("iplRating", currentPlayer.data.players[0].iplRating);
+    localStorage.setItem(
+      "overSeasFlag",
+      currentPlayer.data.players[0].overSeasFlag
+    );
+    setIsOverSeas(flag);
     setCurrentPlayer(currentPlayer.data.players[0]);
     setCurrentPlayerId(currentPlayer.data.players[0]._id);
     checkBiddedPlayer(currentPlayer.data.players[0]._id);
@@ -116,6 +132,7 @@ const AuctioneerBiddingPage = () => {
       const PlayerCount = participant.data.data.PlayerCount;
       const WicketKeeperCount = participant.data.data.WicketKeeperCount;
       const StarCount = participant.data.data.StarCount;
+      const score = participant.data.data.score;
 
       console.log(currentPlayer.Specialism);
       const updatePlayerStats = {};
@@ -141,6 +158,13 @@ const AuctioneerBiddingPage = () => {
       }
       if (currentPlayer.isStarPlayer === true) {
         updatePlayerStats.StarCount = StarCount + 1;
+        const points = localStorage.getItem("iplRating");
+
+        updatePlayerStats.score = score + parseInt(points) + 5;
+      } else {
+        const points = localStorage.getItem("iplRating");
+
+        updatePlayerStats.score = score + parseInt(points);
       }
 
       updatePlayerStats.PlayerCount = PlayerCount + 1;
@@ -154,13 +178,19 @@ const AuctioneerBiddingPage = () => {
 
       if (!updateParticipant) {
         console.log("participant not updated");
+        setFailure(true);
+        setFailureMessage("Bid not successful");
+        setTeamAssigned("");
+        setBidAmount();
+        return;
       }
-
+      setSuccess(true);
+      setSuccessMessage("Bid Successful");
       setIsBidded(true);
-      setTeamAssigned("");
-      setBidAmount();
     } catch (error) {
       console.log(error);
+      setFailure(true);
+      setFailureMessage("Bid not successful");
     }
   };
 
@@ -175,17 +205,25 @@ const AuctioneerBiddingPage = () => {
     }
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+    setFailure(false);
+  };
+
   useEffect(() => {
     fetchCurrentPlayer();
     fetchTeamsOfRoom();
     const roomId = localStorage.getItem("_id");
-  }, [playerCount]);
+  }, [playerCount, flag]);
 
   return (
     <>
+      <AuctioneerNavbar />
       <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
-        <AuctioneerNavbar />
-
         {/* Player Currently at the bid - HEADING  */}
         <section className="mt-16">
           <Box
@@ -300,20 +338,6 @@ const AuctioneerBiddingPage = () => {
                       >
                         {currentPlayer.firstname} {currentPlayer.surname}
                       </Typography>
-                      <Typography
-                        variant="h4"
-                        sx={{
-                          fontFamily: "Protest Riot",
-                          color: "Orange",
-                          textAlign: "center",
-                        }}
-                      >
-                        {currentPlayer.BattingStyle &&
-                          currentPlayer.BattingStyle}
-
-                        {currentPlayer.BowlingStyle &&
-                          currentPlayer.BowlingStyle}
-                      </Typography>
                     </Box>
                   </Box>
                 </Grid>
@@ -378,18 +402,24 @@ const AuctioneerBiddingPage = () => {
 
                       {/* Other Icons  */}
                       <Box className="w-full flex items-center justify-evenly">
-                        <Box
-                          sx={{
-                            //   border: "1px solid white",
-                            height: "50px",
-                            width: "50px",
-                          }}
-                        >
-                          <img
-                            src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
-                            alt="Plane Icon"
-                          />
-                        </Box>
+                        {console.log(flag)}
+                        {console.log(isOverSeas)}
+
+                        {flag && (
+                          <Box
+                            sx={{
+                              //   border: "1px solid white",
+                              height: "50px",
+                              width: "50px",
+                            }}
+                          >
+                            <img
+                              src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
+                              alt="Plane Icon"
+                            />
+                          </Box>
+                        )}
+
                         <Box
                           sx={{
                             //   border: "1px solid white",
@@ -400,21 +430,6 @@ const AuctioneerBiddingPage = () => {
                           <img
                             src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
                             alt="Star Icon"
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            //   border: "1px solid white",
-                            height: "50px",
-                            width: "50px",
-                            display: "flex",
-                            alignItems: "center", // Center items along the y-axis
-                            justifyContent: "center", // Center items along the x-axis
-                          }}
-                        >
-                          <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Indian_flag.png"
-                            alt="Indian flag Icon"
                           />
                         </Box>
                       </Box>
@@ -679,6 +694,45 @@ const AuctioneerBiddingPage = () => {
           </Box>
         </section>
         <ParticipantFooter />
+      </Box>
+
+      {/* Toast  */}
+      <Box>
+        {/* success Toast */}
+        <Box>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            open={success}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {successMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
+        {/* failure Toast */}
+        <Box>
+          <Snackbar
+            open={failure}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {failureMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
       </Box>
     </>
   );

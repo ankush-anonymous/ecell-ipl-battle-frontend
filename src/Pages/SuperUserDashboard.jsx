@@ -15,6 +15,9 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import SuperUserNavbar from "../Components/SuperUserNavbar";
 
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 const SuperUserDashboard = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -27,27 +30,40 @@ const SuperUserDashboard = () => {
 
   const [listOfRooms, setListOfRooms] = useState([]);
 
+  const [success, setSuccess] = React.useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [failure, setFailure] = React.useState(false);
+  const [failureMessage, setFailureMessage] = useState("");
+
   //function to create room
   const handleCreateRoom = async () => {
-    const postData = {
-      auctioneerName: auctioneerName,
-      auctioneerPhone: auctioneerPhone,
-      coAuctioneerPhone: coAuctioneerPhoneNo,
-      roomNo: roomNo,
-      currentPlayerCount: 1,
-    };
+    try {
+      const postData = {
+        auctioneerName: auctioneerName,
+        auctioneerPhone: auctioneerPhone,
+        coAuctioneerPhone: coAuctioneerPhoneNo,
+        roomNo: roomNo,
+        currentPlayerCount: 1,
+      };
 
-    const result = await axios.post(
-      "/api/v1/auctioneers/createAuctioneer",
-      postData
-    );
-    console.log(result);
-    if (result) {
-      setIsRoomCreated(true);
+      const result = await axios.post(
+        "/api/v1/auctioneers/createAuctioneer",
+        postData
+      );
+      console.log(result);
+      if (result) {
+        setIsRoomCreated(true);
+      }
+
+      setUsername(result.data.data.username);
+      setPassword(result.data.data.password);
+      getAllRoomInfo();
+      setSuccess(true);
+      setSuccessMessage("Room Created Successfully");
+    } catch (error) {
+      setFailure(true);
+      setFailureMessage("Room not created successfully");
     }
-
-    setUsername(result.data.data.username);
-    setPassword(result.data.data.password);
   };
 
   const getAllRoomInfo = async () => {
@@ -59,6 +75,15 @@ const SuperUserDashboard = () => {
   useEffect(() => {
     getAllRoomInfo();
   }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccess(false);
+    setFailure(false);
+  };
 
   return (
     <>
@@ -516,6 +541,44 @@ const SuperUserDashboard = () => {
           </Box>
         </section>
         <ParticipantFooter />
+      </Box>
+      {/* Toast  */}
+      <Box>
+        {/* success Toast */}
+        <Box>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            open={success}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {successMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
+        {/* failure Toast */}
+        <Box>
+          <Snackbar
+            open={failure}
+            autoHideDuration={6000}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {failureMessage}
+            </Alert>
+          </Snackbar>
+        </Box>
       </Box>
     </>
   );

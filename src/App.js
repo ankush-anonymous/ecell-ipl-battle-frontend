@@ -17,8 +17,8 @@ import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
 import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
 import HomePage from "./Pages/HomePage";
 
-axios.defaults.baseURL = "https://ecell-ipl-battle-backend.onrender.com";
-// axios.defaults.baseURL = " http://localhost:5000";
+// axios.defaults.baseURL = "https://ecell-ipl-battle-backend.onrender.com";
+axios.defaults.baseURL = " http://localhost:5000";
 
 function App() {
   return (

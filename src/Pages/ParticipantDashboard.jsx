@@ -167,7 +167,7 @@ const ParticipantDashboard = () => {
             <Box
               sx={{
                 height: "200px",
-                width: "90%", // Adjusted width to 90%
+                width: "95%", // Adjusted width to 90%
                 border: "1px solid white",
                 margin: "auto", // Centered along x-axis
                 display: "flex",
@@ -185,7 +185,7 @@ const ParticipantDashboard = () => {
                   alignItems: "center",
                 }}
               >
-                <Grid item xs={6} md={6}>
+                <Grid item xs={4} md={4}>
                   <Box
                     sx={{
                       display: "flex",
@@ -206,7 +206,27 @@ const ParticipantDashboard = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={6} md={6}>
+                <Grid item xs={4} md={4}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: "#B2AEFF",
+                        fontFamily: "Protest Strike",
+                        fontSize: "35px",
+                      }}
+                    >
+                      {teamName}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={4} md={4}>
                   <Box
                     sx={{
                       display: "flex",
