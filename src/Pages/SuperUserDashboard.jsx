@@ -17,6 +17,7 @@ import SuperUserNavbar from "../Components/SuperUserNavbar";
 
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 const SuperUserDashboard = () => {
   const [username, setUsername] = useState("");
@@ -34,6 +35,7 @@ const SuperUserDashboard = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [failure, setFailure] = React.useState(false);
   const [failureMessage, setFailureMessage] = useState("");
+  const navigate = useNavigate();
 
   //function to create room
   const handleCreateRoom = async () => {
@@ -70,6 +72,10 @@ const SuperUserDashboard = () => {
     const result = await axios.get("/api/v1/auctioneers/getAllAuctioneer");
     console.log(result.data.result);
     setListOfRooms(result.data.result);
+  };
+
+  const handleRoomInfo = async (roomId) => {
+    navigate(`/auctioneer/teams/${roomId}`);
   };
 
   useEffect(() => {
@@ -528,7 +534,7 @@ const SuperUserDashboard = () => {
                             fontSize: "18px",
                           }}
                         >
-                          <Button>
+                          <Button onClick={() => handleRoomInfo(item._id)}>
                             <InfoIcon />
                           </Button>
                         </Typography>

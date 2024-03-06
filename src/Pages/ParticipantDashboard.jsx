@@ -32,7 +32,7 @@ const ParticipantDashboard = () => {
 
       setIplTeamLogo(localStorage.getItem("iplTeamLogo"));
       setAuctioneerID(localStorage.getItem("auctioneerId"));
-      setParticipantID(localStorage.getItem("_id"));
+      setParticipantID(localStorage.getItem("participantId"));
       setTeamName(localStorage.getItem("teamname"));
 
       setBalanceAmount(localStorage.getItem("balanceAmount"));
@@ -53,7 +53,7 @@ const ParticipantDashboard = () => {
   // to fetch player of my team
   const fetchMyPlayers = async () => {
     try {
-      const partId = localStorage.getItem("_id");
+      const partId = localStorage.getItem("participantId");
       const result = await axios.get(
         `/api/v1/bid/getAllBiddingTransit?participantID=${partId}`
       );
@@ -91,25 +91,45 @@ const ParticipantDashboard = () => {
 
   // to fetch current player in bid
   const fetchCurrentPlayer = async () => {
-    const roomId = localStorage.getItem("auctioneerId");
-    const room = await axios.get(
-      `/api/v1/auctioneers/getAuctioneerById/${roomId}`
-    );
-    console.log("id:", room.data.data);
-    const playerCount = room.data.data.currentPlayerCount;
-    // setPlayerCount(playerCount);
-    const currentPlayer = await axios.get(
-      `/api/v1/players/getAllPlayers?playerNo=${playerCount}`
-    );
+    try {
+      setLoading(true);
 
-    // console.log("current:", currentPlayer.data.players[0]);
-    setCurrentPlayer(currentPlayer.data.players[0]);
+      const roomId = localStorage.getItem("auctioneerId");
+      const room = await axios.get(
+        `/api/v1/auctioneers/getAuctioneerById/${roomId}`
+      );
+      console.log(room.data);
+      const playerCount = room.data.data.currentPlayerCount;
+      setPlayerCount(playerCount);
+      const currentPlayer = await axios.get(
+        `/api/v1/players/getAllPlayers?playerNo=${playerCount}`
+      );
+
+      localStorage.setItem(
+        "iplRating",
+        currentPlayer.data.players[0].iplRating
+      );
+
+      localStorage.setItem(
+        "overSeasFlag",
+        currentPlayer.data.players[0].overSeasFlag
+      );
+      localStorage.setItem(
+        "starPlayerFlag",
+        currentPlayer.data.players[0].isStarPlayer
+      );
+      setCurrentPlayer(currentPlayer.data.players[0]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const fetchMyStats = async () => {
     try {
       setLoading(true);
-      const participantID = localStorage.getItem("_id");
+      const participantID = localStorage.getItem("participantId");
       const myStats = await axios.get(
         `/api/v1/participants/getParticipantsById/${participantID}`
       );
@@ -148,6 +168,7 @@ const ParticipantDashboard = () => {
 
   return (
     <>
+      <ParticipantNavbar />
       {loading ? (
         <Box
           sx={{
@@ -161,7 +182,6 @@ const ParticipantDashboard = () => {
         </Box>
       ) : (
         <Box sx={{ maxWidth: "1280px", margin: "auto" }}>
-          <ParticipantNavbar />
           {/* Account Status Bar */}
           <section className="my-10">
             <Box
@@ -302,7 +322,7 @@ const ParticipantDashboard = () => {
                 padding: "20px",
                 // backgroundColor: "#232329",
                 overflow: "hidden",
-                backgroundImage: `url('/background.jpeg')`,
+                backgroundImage: `url('https://res.cloudinary.com/dsx8eh1hj/image/upload/v1709761405/bg_nmjnpw.jpg')`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -454,45 +474,51 @@ const ParticipantDashboard = () => {
 
                         {/* Other Icons  */}
                         <Box className="w-full flex items-center justify-evenly">
-                          <Box
-                            sx={{
-                              //   border: "1px solid white",
-                              height: "50px",
-                              width: "50px",
-                            }}
-                          >
-                            <img
-                              src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
-                              alt="Plane Icon"
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              //   border: "1px solid white",
-                              height: "60px",
-                              width: "60px",
-                            }}
-                          >
-                            <img
-                              src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
-                              alt="Star Icon"
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              //   border: "1px solid white",
-                              height: "50px",
-                              width: "50px",
-                              display: "flex",
-                              alignItems: "center", // Center items along the y-axis
-                              justifyContent: "center", // Center items along the x-axis
-                            }}
-                          >
-                            <img
-                              src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Indian_flag.png"
-                              alt="Indian flag Icon"
-                            />
-                          </Box>
+                          {localStorage.getItem("overSeasFlag") === "true" ? (
+                            <Box
+                              sx={{
+                                //   border: "1px solid white",
+                                height: "50px",
+                                width: "50px",
+                              }}
+                            >
+                              <img
+                                src="https://images.vexels.com/media/users/3/242810/isolated/preview/faf4f5ad02d6d68cfeafa44e1b57649a-plane-semi-flat.png"
+                                alt="Plane Icon"
+                              />
+                            </Box>
+                          ) : (
+                            <Box
+                              sx={{
+                                //   border: "1px solid white",
+                                height: "50px",
+                                width: "50px",
+                                display: "flex",
+                                alignItems: "center", // Center items along the y-axis
+                                justifyContent: "center", // Center items along the x-axis
+                              }}
+                            >
+                              <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Indian_flag.png"
+                                alt="Indian flag Icon"
+                              />
+                            </Box>
+                          )}
+                          {localStorage.getItem("starPlayerFlag") ===
+                            "true" && (
+                            <Box
+                              sx={{
+                                //   border: "1px solid white",
+                                height: "60px",
+                                width: "60px",
+                              }}
+                            >
+                              <img
+                                src="https://www.freepnglogos.com/uploads/star-png/star-alt-icon-small-flat-iconset-paomedia-13.png"
+                                alt="Star Icon"
+                              />
+                            </Box>
+                          )}
                         </Box>
                       </Box>
 

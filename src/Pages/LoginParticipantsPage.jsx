@@ -89,11 +89,12 @@ const LoginParticipantsPage = () => {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("userName", result.data.user.userName);
       localStorage.setItem("auctioneerId", result.data.user.auctioneerID);
-      localStorage.setItem("_id", result.data.user._id);
+      localStorage.setItem("participantId", result.data.user._id);
       localStorage.setItem("balanceAmount", result.data.user.balanceAmount);
       localStorage.setItem("iplTeamName", result.data.user.iplTeamName);
       localStorage.setItem("teamname", result.data.user.teamname);
       localStorage.setItem("iplTeamLogo", result.data.user.iplTeamLogo);
+      localStorage.setItem("participantAuthorized", true);
 
       setPassword("");
       setUserName("");

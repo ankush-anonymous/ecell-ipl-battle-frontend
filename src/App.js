@@ -17,8 +17,8 @@ import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
 import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
 import HomePage from "./Pages/HomePage";
 
-axios.defaults.baseURL = "https://ecell-ipl-battle-backend-yd2j.onrender.com";
-// axios.defaults.baseURL = " http://localhost:5000";
+// axios.defaults.baseURL = "https://ecell-ipl-battle-backend-yd2j.onrender.com";
+axios.defaults.baseURL = " http://localhost:5000";
 
 function App() {
   return (
@@ -30,19 +30,42 @@ function App() {
 
           {/* SuperUserRoutes */}
           <Route path="/Login/superUser" element={<LoginSuperUserPage />} />
-          <Route path="/superuser/dashboard" element={<SuperUserDashboard />} />
+          <Route
+            path="/superuser/dashboard"
+            element={
+              <ProtectedRouteAuctioneer>
+                <SuperUserDashboard />
+              </ProtectedRouteAuctioneer>
+            }
+          />
 
           {/* AuctioneerRoutes  */}
           <Route path="/login/auctioneer" element={<LoginAuctioneerPage />} />
-          <Route path="/auctioneer/teams" element={<AuctioneerTeamsPage />} />
+          <Route
+            path="/auctioneer/teams/:auctioneerId"
+            element={
+              <ProtectedRouteAuctioneer>
+                <AuctioneerTeamsPage />
+              </ProtectedRouteAuctioneer>
+            }
+          />
           <Route
             path="/auctioneer/teams/stats/:participantId"
-            element={<AuctionerSingleTeamPage />}
+            element={
+              <ProtectedRouteAuctioneer>
+                <AuctionerSingleTeamPage />
+              </ProtectedRouteAuctioneer>
+            }
           />
           <Route
-            path="/auctioneer/bidding"
-            element={<AuctioneerBiddingPage />}
+            path="/auctioneer/bidding/:auctioneerId"
+            element={
+              <ProtectedRouteAuctioneer>
+                <AuctioneerBiddingPage />
+              </ProtectedRouteAuctioneer>
+            }
           />
+
           {/* <Route
             path="/auctioneer/participants/team"
             element={<AuctioneerParticipantsPlayersPage />}
@@ -55,7 +78,11 @@ function App() {
           />
           <Route
             path="/participant/dashboard"
-            element={<ParticipantDashboard />}
+            element={
+              <ProtectedRouteParticipant>
+                <ParticipantDashboard />
+              </ProtectedRouteParticipant>
+            }
           />
 
           <Route path="/rules" element={<RulesPage />} />
@@ -66,3 +93,28 @@ function App() {
 }
 
 export default App;
+
+export const ProtectedRouteAuctioneer = ({ children }) => {
+  const isSuperUserAuthorised =
+    localStorage.getItem("superUserAuthorized") === "true";
+  const isAuctioneerAuthorised =
+    localStorage.getItem("auctioneerAuthorized") === "true";
+
+  if (isSuperUserAuthorised || isAuctioneerAuthorised) {
+    return children;
+  } else {
+    // Redirect to login if not authorized
+    return <Navigate to="/login/participant" />;
+  }
+};
+export const ProtectedRouteParticipant = ({ children }) => {
+  const isParticipantAuthorised =
+    localStorage.getItem("participantAuthorized") === "true";
+
+  if (isParticipantAuthorised) {
+    return children;
+  } else {
+    // Redirect to login if not authorized
+    return <Navigate to="/login/participant" />;
+  }
+};

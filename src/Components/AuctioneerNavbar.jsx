@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 
 const AuctioneerNavbar = () => {
+  const { auctioneerId } = useParams();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [value, setValue] = useState(0);
   const location = useLocation(); // Get the current location from react-router-dom
@@ -26,10 +27,10 @@ const AuctioneerNavbar = () => {
   }, [location.pathname]); // Update the effect when the pathname changes
 
   const tabs = [
-    { label: "biddingPage", link: "/auctioneer/bidding" },
+    { label: "biddingPage", link: `/auctioneer/bidding/${auctioneerId}` },
     // { label: "rules", link: "/rules" },
 
-    { label: "Teams", link: "/auctioneer/teams" },
+    { label: "Teams", link: `/auctioneer/teams/${auctioneerId}` },
     { label: "Logout", link: "/" },
   ];
 

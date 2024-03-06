@@ -149,6 +149,7 @@ const AuctionerSingleTeamPage = () => {
     }
   };
 
+  //to get list of player to transfer
   const fetchTeamsOfRoom = async (auctioneerID) => {
     try {
       const result = await axios.get(
@@ -324,7 +325,7 @@ const AuctionerSingleTeamPage = () => {
   const handleTransfer = async () => {
     try {
       //transaction id
-      const roomId = localStorage.getItem("_id");
+      const roomId = localStorage.getItem("auctioneerId");
       const transaction = await axios.get(
         `/api/v1/bid/getAllBiddingTransit?auctioneerID=${roomId}&iplPlayerID=${checkedCardId}`
       );
@@ -373,7 +374,7 @@ const AuctionerSingleTeamPage = () => {
   }, []);
 
   useEffect(() => {
-    const auctioneerID = localStorage.getItem("_id");
+    const auctioneerID = localStorage.getItem("auctioneerId");
     fetchTeamsOfRoom(auctioneerID);
     fetchMyPlayers(participantId);
     fetchMyStats();

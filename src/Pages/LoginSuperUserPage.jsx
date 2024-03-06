@@ -34,6 +34,7 @@ const LoginSuperUserPage = () => {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("userName", result.data.user.name);
       localStorage.setItem("phoneNumber", result.data.user.phone);
+      localStorage.setItem("superUserAuthorized", true);
       navigate("/superuser/dashboard");
       setPassword("");
       setPhoneNumber();

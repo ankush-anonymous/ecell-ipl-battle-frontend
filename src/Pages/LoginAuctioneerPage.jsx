@@ -90,11 +90,12 @@ const LoginAuctioneerPage = () => {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("userName", result.data.user.userName);
       localStorage.setItem("roomNo", result.data.user.roomNo);
-      localStorage.setItem("_id", result.data.user._id);
+      localStorage.setItem("auctioneerId", result.data.user._id);
+      localStorage.setItem("auctioneerAuthorized", true);
 
       setPassword("");
-
-      navigate("/auctioneer/teams");
+      const auctioneerId = result.data.user._id;
+      navigate(`/auctioneer/teams/${auctioneerId}`);
       setSuccess(true);
       setSuccessMessage("Login Successfully");
     } catch (error) {
