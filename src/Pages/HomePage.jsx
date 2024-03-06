@@ -9,7 +9,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
 function HomePage() {
   return (
-    <div className="w-screen">
+    <div className="w-screen" style={{maxWidth:"1280px"}}>
       <div>
         {/* Navbar */}
         <HomepageNavbar />
