@@ -346,7 +346,7 @@ const SuperUserDashboard = () => {
                     SlNo.
                   </Typography>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -359,7 +359,7 @@ const SuperUserDashboard = () => {
                   </Typography>
                 </Grid>
 
-                <Grid item md={2}>
+                <Grid item md={1}>
                   <Typography
                     align="center"
                     sx={{
@@ -369,6 +369,30 @@ const SuperUserDashboard = () => {
                     }}
                   >
                     Auctioneer's Phone Number
+                  </Typography>
+                </Grid>
+                <Grid item md={1}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Co-Auctioneer's Phone
+                  </Typography>
+                </Grid>
+                <Grid item md={1}>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: "Protest Riot",
+                      color: "yellow",
+                      fontSize: "20px",
+                    }}
+                  >
+                    No of Teams
                   </Typography>
                 </Grid>
                 <Grid item md={1}>
@@ -459,7 +483,7 @@ const SuperUserDashboard = () => {
                       {/* <Grid item md={2}>
                       <img src={item.teamlogo} alt={item.Name} />
                     </Grid> */}
-                      <Grid item md={2}>
+                      <Grid item md={1}>
                         <Typography
                           align="center"
                           sx={{
@@ -470,7 +494,7 @@ const SuperUserDashboard = () => {
                           {item.auctioneerName}
                         </Typography>
                       </Grid>
-                      <Grid item md={2}>
+                      <Grid item md={1}>
                         <Typography
                           align="center"
                           sx={{
@@ -480,6 +504,26 @@ const SuperUserDashboard = () => {
                         >
                           {item.auctioneerPhone}
                         </Typography>
+                      </Grid>
+                      <Grid item md={1}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        >
+                          {item.coAuctioneerPhone}
+                        </Typography>
+                      </Grid>
+                      <Grid item md={1}>
+                        <Typography
+                          align="center"
+                          sx={{
+                            fontFamily: "Protest Strike",
+                            fontSize: "18px",
+                          }}
+                        ></Typography>
                       </Grid>
                       <Grid item md={1}>
                         <Typography

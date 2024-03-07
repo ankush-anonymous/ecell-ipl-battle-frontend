@@ -128,6 +128,7 @@ const AuctioneerTeamsPage = () => {
 
   useEffect(() => {
     fetchTeamsOfRoom();
+    localStorage.setItem("auctioneerId", auctioneerId);
   }, []);
   return (
     <>

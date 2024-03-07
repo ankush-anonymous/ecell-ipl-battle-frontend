@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Modal, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ParticipantNavbar from "../Components/ParticipantNavbar";
 import ParticipantFooter from "../Components/ParticipantFooter";
@@ -205,7 +205,7 @@ const ParticipantDashboard = () => {
                   alignItems: "center",
                 }}
               >
-                <Grid item xs={4} md={4}>
+                <Grid item xs={3} md={3}>
                   <Box
                     sx={{
                       display: "flex",
@@ -226,7 +226,7 @@ const ParticipantDashboard = () => {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={4} md={4}>
+                <Grid item xs={3} md={3}>
                   <Box
                     sx={{
                       display: "flex",
@@ -246,7 +246,7 @@ const ParticipantDashboard = () => {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs={4} md={4}>
+                <Grid item xs={6} md={6}>
                   <Box
                     sx={{
                       display: "flex",
@@ -1398,6 +1398,22 @@ const ParticipantDashboard = () => {
           <ParticipantFooter />
         </Box>
       )}
+      <Box>
+        {/* <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="child-modal-title"
+          aria-describedby="child-modal-description"
+        >
+          <Box sx={{ ...style, width: 200 }}>
+            <h2 id="child-modal-title">Text in a child modal</h2>
+            <p id="child-modal-description">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            </p>
+            <Button onClick={handleClose}>Close Child Modal</Button>
+          </Box>
+        </Modal> */}
+      </Box>
     </>
   );
 };

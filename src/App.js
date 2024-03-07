@@ -50,7 +50,7 @@ function App() {
             }
           />
           <Route
-            path="/auctioneer/teams/stats/:autioneerId/:participantId"
+            path="/auctioneer/teams/stats/:auctioneerId/:participantId"
             element={
               <ProtectedRouteAuctioneer>
                 <AuctionerSingleTeamPage />

@@ -18,14 +18,14 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, withRouter } from "react-router-dom";
 import axios from "axios";
 // import Select from "react-select";
 import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-const AuctionerSingleTeamPage = () => {
+const AuctionerSingleTeamPage = (props) => {
   const { auctioneerId, participantId } = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -153,14 +153,16 @@ const AuctionerSingleTeamPage = () => {
   //to get list of player to transfer
   const fetchTeamsOfRoom = async (auctioneerId) => {
     try {
+      console.log("part:", auctioneerId);
       const result = await axios.get(
-        `/api/v1/participants/getAllParticipants?auctioneerId=${auctioneerId}`
+        `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerId}`
       );
+      console.log(result);
       const filteredTeams = result.data.participants.filter(
         (participant) => participant._id !== participantId
       );
       setTeams(filteredTeams);
-      console.log("part:", filteredTeams);
+      // console.log("part:", filteredTeams);
     } catch (error) {
       console.log(error);
       setFailure(true);
@@ -402,6 +404,7 @@ const AuctionerSingleTeamPage = () => {
   return (
     <>
       <AuctioneerNavbar />
+      {console.log(auctioneerId)}
       {loading ? (
         <Box
           sx={{
