@@ -15,6 +15,7 @@ import XIcon from "@mui/icons-material/X";
 
 const AuctioneerNavbar = () => {
   const { auctioneerId } = useParams();
+  localStorage.setItem("auctioneerId", auctioneerId);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [value, setValue] = useState(0);
   const location = useLocation(); // Get the current location from react-router-dom

@@ -88,7 +88,7 @@ const AuctioneerTeamsPage = () => {
 
   const handleInfoButtonClick = (playerId) => {
     // Navigate to the route with the player ID appended
-    navigate(`/auctioneer/teams/stats/${playerId}`);
+    navigate(`/auctioneer/teams/stats/${auctioneerId}/${playerId}`);
   };
 
   const handleClose = (event, reason) => {

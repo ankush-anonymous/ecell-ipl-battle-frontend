@@ -42,14 +42,14 @@ const AuctioneerBiddingPage = () => {
   const flag = localStorage.getItem("overSeasFlag");
   const [loading, setLoading] = useState(true);
 
-  const roomId = localStorage.getItem("auctioneerId");
+  // const auctioneerId = localStorage.getItem("auctioneerId");
 
   const fetchTeamsOfRoom = async () => {
     try {
       setLoading(true);
 
       const result = await axios.get(
-        `/api/v1/participants/getAllParticipants?auctioneerID=${roomId}`
+        `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerId}`
       );
       setTeams(result.data.participants);
       console.log(result.data.participants);
@@ -69,7 +69,7 @@ const AuctioneerBiddingPage = () => {
       };
       if (playerCount > 1) {
         const updatePlayer = await axios.patch(
-          `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+          `/api/v1/auctioneers/updateAuctioneerById/${auctioneerId}`,
           postData
         );
         console.log(updatePlayer);
@@ -100,7 +100,7 @@ const AuctioneerBiddingPage = () => {
 
       if (playerCount < 202) {
         const updatePlayer = await axios.patch(
-          `/api/v1/auctioneers/updateAuctioneerById/${roomId}`,
+          `/api/v1/auctioneers/updateAuctioneerById/${auctioneerId}`,
           postData
         );
         console.log(updatePlayer);
@@ -125,9 +125,9 @@ const AuctioneerBiddingPage = () => {
     try {
       setLoading(true);
 
-      const roomId = localStorage.getItem("auctioneerId");
+      const auctioneerId = localStorage.getItem("auctioneerId");
       const room = await axios.get(
-        `/api/v1/auctioneers/getAuctioneerById/${roomId}`
+        `/api/v1/auctioneers/getAuctioneerById/${auctioneerId}`
       );
       console.log(room.data);
       const playerCount = room.data.data.currentPlayerCount;
@@ -164,7 +164,7 @@ const AuctioneerBiddingPage = () => {
       setLoading(true);
 
       const postData = {
-        auctioneerID: roomId,
+        auctioneerID: auctioneerId,
         participantID: assignedTeamId,
         biddingAmount: bidAmount,
         iplPlayerID: currentPlayerId,
@@ -183,47 +183,47 @@ const AuctioneerBiddingPage = () => {
       const BatsmanCount = participant.data.data.BatsmanCount;
       const BowlerCount = participant.data.data.BowlerCount;
       const NonOverSeasCount = participant.data.data.NonOverSeasCount;
-      const OverSeasCount = participant.data.data.OverSeasCount;
+      const OverseasCount = participant.data.data.OverseasCount;
       const PlayerCount = participant.data.data.PlayerCount;
       const WicketKeeperCount = participant.data.data.WicketKeeperCount;
       const StarCount = participant.data.data.StarCount;
       const score = participant.data.data.score;
+      // const score = parseInt(participant.data.data.score, 10);
 
       const updatePlayerStats = {};
 
-      if (currentPlayer.Specialism === "BATSMAN") {
+      if (currentPlayer.Specialism.toLowerCase() === "batsman") {
         updatePlayerStats.BatsmanCount = BatsmanCount + 1;
       }
-      if (currentPlayer.Specialism === "BOWLER") {
+      if (currentPlayer.Specialism.toLowerCase() === "bowler") {
         updatePlayerStats.BowlerCount = BowlerCount + 1;
       }
-      if (currentPlayer.Specialism === "ALL-ROUNDER") {
+      if (currentPlayer.Specialism.toLowerCase() === "all-rounder") {
         updatePlayerStats.AllRounderCount = AllRounderCount + 1;
       }
 
-      if (currentPlayer.Specialism === "WICKETKEEPER") {
+      if (currentPlayer.Specialism.toLowerCase() === "wicketkeeper") {
         updatePlayerStats.WicketKeeperCount = WicketKeeperCount + 1;
       }
       if (currentPlayer.overSeasFlag === false) {
         updatePlayerStats.NonOverSeasCount = NonOverSeasCount + 1;
       }
       if (currentPlayer.overSeasFlag === true) {
-        updatePlayerStats.OverSeasCount = OverSeasCount + 1;
+        updatePlayerStats.OverseasCount = OverseasCount + 1;
       }
       if (currentPlayer.isStarPlayer === true) {
         updatePlayerStats.StarCount = StarCount + 1;
         const points = localStorage.getItem("iplRating");
-
-        updatePlayerStats.score = score + parseInt(points) + 5;
+        // updatePlayerStats.score = score + parseInt(points, 10) + 5;
+        updatePlayerStats.score = parseInt(score) + parseInt(points) + 5;
       } else {
         const points = localStorage.getItem("iplRating");
-
-        updatePlayerStats.score = score + parseInt(points);
+        updatePlayerStats.score = parseInt(score) + parseInt(points);
       }
 
       updatePlayerStats.PlayerCount = PlayerCount + 1;
       updatePlayerStats.balanceAmount = balanceAmount - parseInt(bidAmount);
-
+      console.log(updatePlayerStats);
       const updateParticipant = await axios.patch(
         `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
         updatePlayerStats
@@ -253,7 +253,7 @@ const AuctioneerBiddingPage = () => {
       setLoading(true);
 
       const result = await axios.get(
-        `/api/v1/bid/getAllBiddingTransit?auctioneerID=${roomId}&iplPlayerID=${playerId}`
+        `/api/v1/bid/getAllBiddingTransit?auctioneerID=${auctioneerId}&iplPlayerID=${playerId}`
       );
 
       if (result.data.count == 1) {
@@ -278,7 +278,7 @@ const AuctioneerBiddingPage = () => {
   useEffect(() => {
     fetchCurrentPlayer();
     fetchTeamsOfRoom();
-    const roomId = localStorage.getItem("auctioneerId");
+    const auctioneerId = localStorage.getItem("auctioneerId");
   }, [playerCount, flag]);
 
   return (

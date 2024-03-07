@@ -26,7 +26,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 const AuctionerSingleTeamPage = () => {
-  const { participantId } = useParams();
+  const { auctioneerId, participantId } = useParams();
 
   const [loading, setLoading] = useState(true);
   const [listOfPlayers, setListOfPlayers] = useState([]);
@@ -36,7 +36,7 @@ const AuctionerSingleTeamPage = () => {
   const [teams, setTeams] = useState([]);
 
   const [iplTeamLogo, setIplTeamLogo] = useState("");
-  const [auctioneerID, setAuctioneerID] = useState("");
+  // const [auctioneerId, setAuctioneerID] = useState("");
   const [participantID, setParticipantID] = useState("");
   const [teamName, setTeamName] = useState("");
   const [playerCount, setPlayerCount] = useState();
@@ -100,6 +100,7 @@ const AuctionerSingleTeamPage = () => {
       localStorage.setItem("AllRounderCount", stats.AllRounderCount);
       localStorage.setItem("WicketKeeperCount", stats.WicketKeeperCount);
       localStorage.setItem("BowlerCount", stats.BowlerCount);
+      localStorage.setItem("score", stats.score);
 
       setLoading(false); // Set loading to false after successfully fetching the data
     } catch (error) {
@@ -150,10 +151,10 @@ const AuctionerSingleTeamPage = () => {
   };
 
   //to get list of player to transfer
-  const fetchTeamsOfRoom = async (auctioneerID) => {
+  const fetchTeamsOfRoom = async (auctioneerId) => {
     try {
       const result = await axios.get(
-        `/api/v1/participants/getAllParticipants?auctioneerID=${auctioneerID}`
+        `/api/v1/participants/getAllParticipants?auctioneerId=${auctioneerId}`
       );
       const filteredTeams = result.data.participants.filter(
         (participant) => participant._id !== participantId
@@ -170,11 +171,7 @@ const AuctionerSingleTeamPage = () => {
   //to transfer the player to new participant
   const upgradeParticipant = async (partId, bidAmount, iplPlayerId) => {
     try {
-      console.log("upgraded");
-      const playerInfo = await axios.get(
-        `/api/v1/players/getPlayerById/${iplPlayerId}`
-      );
-      console.log(playerInfo.data.data);
+      setLoading(true);
 
       const participant = await axios.get(
         `/api/v1/participants/getParticipantsById/${partId}`
@@ -185,60 +182,72 @@ const AuctionerSingleTeamPage = () => {
       const BatsmanCount = participant.data.data.BatsmanCount;
       const BowlerCount = participant.data.data.BowlerCount;
       const NonOverSeasCount = participant.data.data.NonOverSeasCount;
-      const OverSeasCount = participant.data.data.OverSeasCount;
+      const OverseasCount = participant.data.data.OverseasCount;
       const PlayerCount = participant.data.data.PlayerCount;
       const WicketKeeperCount = participant.data.data.WicketKeeperCount;
       const StarCount = participant.data.data.StarCount;
       const score = participant.data.data.score;
 
+      console.log(balanceAmount);
+      console.log(AllRounderCount);
+      console.log(BatsmanCount);
+      console.log(BowlerCount);
+      console.log(NonOverSeasCount);
+      console.log(OverseasCount);
+      console.log(PlayerCount);
+      console.log(WicketKeeperCount);
+      console.log(StarCount);
+      console.log(score);
+
+      // get ipl player info
+      const playerInfo = await axios.get(
+        `/api/v1/players/getPlayerById/${iplPlayerId}`
+      );
       const currentPlayer = playerInfo.data.data;
-      console.log(currentPlayer.Specialism);
       const updatePlayerStats = {};
 
-      if (currentPlayer.Specialism === "BATSMAN") {
+      if (currentPlayer.Specialism.toLowerCase() === "batsman") {
         updatePlayerStats.BatsmanCount = BatsmanCount + 1;
       }
-      if (currentPlayer.Specialism === "BOWLER") {
+      if (currentPlayer.Specialism.toLowerCase() === "bowler") {
         updatePlayerStats.BowlerCount = BowlerCount + 1;
       }
-      if (currentPlayer.Specialism === "ALL-ROUNDER") {
+      if (currentPlayer.Specialism.toLowerCase() === "all-rounder") {
         updatePlayerStats.AllRounderCount = AllRounderCount + 1;
       }
 
-      if (currentPlayer.Specialism === "WICKETKEEPER") {
+      if (currentPlayer.Specialism.toLowerCase() === "wicketkeeper") {
         updatePlayerStats.WicketKeeperCount = WicketKeeperCount + 1;
       }
       if (currentPlayer.overSeasFlag === false) {
         updatePlayerStats.NonOverSeasCount = NonOverSeasCount + 1;
       }
       if (currentPlayer.overSeasFlag === true) {
-        updatePlayerStats.OverSeasCount = OverSeasCount + 1;
+        updatePlayerStats.OverseasCount = OverseasCount + 1;
       }
       if (currentPlayer.isStarPlayer === true) {
         updatePlayerStats.StarCount = StarCount + 1;
-        const points = localStorage.getItem("iplRating");
-
-        updatePlayerStats.score = score + parseInt(points) + 5;
+        const points = currentPlayer.iplRating;
+        updatePlayerStats.score = parseInt(score) + parseInt(points) + 5;
       } else {
-        const points = localStorage.getItem("iplRating");
-
-        updatePlayerStats.score = score + parseInt(points);
+        const points = currentPlayer.iplRating;
+        updatePlayerStats.score = parseInt(score) + parseInt(points);
       }
 
       updatePlayerStats.PlayerCount = PlayerCount + 1;
       updatePlayerStats.balanceAmount = balanceAmount - parseInt(bidAmount);
-
+      console.log(updatePlayerStats);
       const updateParticipant = await axios.patch(
-        `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
+        `/api/v1/participants/updateParticipantsById/${partId}`,
         updatePlayerStats
       );
-      console.log("updated:", updateParticipant);
 
       if (updateParticipant) {
-        console.log("participant  downgraded");
+        console.log("participant  upgraded");
         setSuccess(true);
         setSuccessMessage("Player Upgraded Successfully");
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setFailure(true);
@@ -248,11 +257,7 @@ const AuctionerSingleTeamPage = () => {
 
   const downgradeParticipant = async (partId, bidAmount, iplPlayerId) => {
     try {
-      console.log("upgraded");
-      const playerInfo = await axios.get(
-        `/api/v1/players/getPlayerById/${iplPlayerId}`
-      );
-      console.log(playerInfo.data.data);
+      setLoading(true);
 
       const participant = await axios.get(
         `/api/v1/participants/getParticipantsById/${partId}`
@@ -262,51 +267,64 @@ const AuctionerSingleTeamPage = () => {
       const BatsmanCount = participant.data.data.BatsmanCount;
       const BowlerCount = participant.data.data.BowlerCount;
       const NonOverSeasCount = participant.data.data.NonOverSeasCount;
-      const OverSeasCount = participant.data.data.OverSeasCount;
+      const OverSeasCount = participant.data.data.OverseasCount;
       const PlayerCount = participant.data.data.PlayerCount;
       const WicketKeeperCount = participant.data.data.WicketKeeperCount;
       const StarCount = participant.data.data.StarCount;
       const score = participant.data.data.score;
 
+      console.log(balanceAmount);
+      console.log(AllRounderCount);
+      console.log(BatsmanCount);
+      console.log(BowlerCount);
+      console.log(NonOverSeasCount);
+      console.log(OverSeasCount);
+      console.log(PlayerCount);
+      console.log(WicketKeeperCount);
+      console.log(StarCount);
+      console.log(score);
+
+      const playerInfo = await axios.get(
+        `/api/v1/players/getPlayerById/${iplPlayerId}`
+      );
       const currentPlayer = playerInfo.data.data;
-      console.log(currentPlayer.Specialism);
       const updatePlayerStats = {};
-      if (currentPlayer.Specialism === "BATSMAN") {
+
+      if (currentPlayer.Specialism.toLowerCase() === "batsman") {
         updatePlayerStats.BatsmanCount = BatsmanCount - 1;
       }
-      if (currentPlayer.Specialism === "BOWLER") {
+      if (currentPlayer.Specialism.toLowerCase() === "bowler") {
         updatePlayerStats.BowlerCount = BowlerCount - 1;
       }
-      if (currentPlayer.Specialism === "ALL-ROUNDER") {
+      if (currentPlayer.Specialism.toLowerCase() === "all-rounder") {
         updatePlayerStats.AllRounderCount = AllRounderCount - 1;
       }
 
-      if (currentPlayer.Specialism === "WICKETKEEPER") {
+      if (currentPlayer.Specialism.toLowerCase() === "wicketkeeper") {
         updatePlayerStats.WicketKeeperCount = WicketKeeperCount - 1;
       }
       if (currentPlayer.overSeasFlag === false) {
         updatePlayerStats.NonOverSeasCount = NonOverSeasCount - 1;
       }
       if (currentPlayer.overSeasFlag === true) {
-        updatePlayerStats.OverSeasCount = OverSeasCount - 1;
+        updatePlayerStats.OverseasCount = OverSeasCount - 1;
       }
       if (currentPlayer.isStarPlayer === true) {
         updatePlayerStats.StarCount = StarCount - 1;
-        const points = localStorage.getItem("iplRating");
-
-        updatePlayerStats.score = score - parseInt(points) - 5;
+        const points = currentPlayer.iplRating;
+        updatePlayerStats.score = parseInt(score) - parseInt(points) - 5;
       } else {
-        const points = localStorage.getItem("iplRating");
-
-        updatePlayerStats.score = score - parseInt(points);
+        const points = currentPlayer.iplRating;
+        updatePlayerStats.score = parseInt(score) - parseInt(points);
       }
 
       updatePlayerStats.PlayerCount = PlayerCount - 1;
       updatePlayerStats.balanceAmount = balanceAmount + parseInt(bidAmount);
 
       console.log(updatePlayerStats);
+
       const updateParticipant = await axios.patch(
-        `/api/v1/participants/updateParticipantsById/${assignedTeamId}`,
+        `/api/v1/participants/updateParticipantsById/${partId}`,
         updatePlayerStats
       );
       console.log("updated:", updateParticipant);
@@ -325,14 +343,15 @@ const AuctionerSingleTeamPage = () => {
   const handleTransfer = async () => {
     try {
       //transaction id
-      const roomId = localStorage.getItem("auctioneerId");
       const transaction = await axios.get(
-        `/api/v1/bid/getAllBiddingTransit?auctioneerID=${roomId}&iplPlayerID=${checkedCardId}`
+        `/api/v1/bid/getAllBiddingTransit?auctioneerId=${auctioneerId}&iplPlayerID=${checkedCardId}`
       );
       const bidAmount = transaction.data.result[0].biddingAmount;
       const transactionId = transaction.data.result[0]._id;
-      //new participant
+
+      // new participant
       upgradeParticipant(assignedTeamId, bidAmount, checkedCardId);
+
       downgradeParticipant(participantId, bidAmount, checkedCardId);
 
       const updateTransactionData = {
@@ -342,7 +361,6 @@ const AuctionerSingleTeamPage = () => {
         `/api/v1/bid/updateBiddingTransit/${transactionId}`,
         updateTransactionData
       );
-      console.log(updateTransaction);
       if (updateTransaction) {
         setSuccess(true);
         setSuccessMessage("Player Transferred Successfully");
@@ -374,8 +392,8 @@ const AuctionerSingleTeamPage = () => {
   }, []);
 
   useEffect(() => {
-    const auctioneerID = localStorage.getItem("auctioneerId");
-    fetchTeamsOfRoom(auctioneerID);
+    const auctioneerId = localStorage.getItem("auctioneerId");
+    fetchTeamsOfRoom(auctioneerId);
     fetchMyPlayers(participantId);
     fetchMyStats();
     fetchParticipantDetails();

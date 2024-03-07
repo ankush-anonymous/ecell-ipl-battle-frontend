@@ -17,8 +17,8 @@ import LoginAuctioneerPage from "./Pages/LoginAuctioneerPage";
 import LoginParticipantsPage from "./Pages/LoginParticipantsPage";
 import HomePage from "./Pages/HomePage";
 
-axios.defaults.baseURL = "https://ecell-ipl-battle-backend-yd2j.onrender.com";
-// axios.defaults.baseURL = " http://localhost:5000";
+// axios.defaults.baseURL = "https://ecell-ipl-battle-backend-yd2j.onrender.com";
+axios.defaults.baseURL = " http://localhost:5000";
 
 function App() {
   return (
@@ -50,7 +50,7 @@ function App() {
             }
           />
           <Route
-            path="/auctioneer/teams/stats/:participantId"
+            path="/auctioneer/teams/stats/:autioneerId/:participantId"
             element={
               <ProtectedRouteAuctioneer>
                 <AuctionerSingleTeamPage />
